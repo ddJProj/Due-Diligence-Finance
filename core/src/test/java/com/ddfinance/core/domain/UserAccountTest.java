@@ -46,7 +46,18 @@ class UserAccountTest {
     void testSetEmail() {
         fail("Not implemented yet");
     }
-    @AfterEach
+
+    @Test
+    void testSetGetRole() {
+
+        Role expectedRole = Role.guest;
+        userAccount.setRole(expectedRole);
+
+        assertEquals(expectedRole, userAccount.getRole());
+    }
+
+
+        @AfterEach
     void tearDown() {
     }
 }
