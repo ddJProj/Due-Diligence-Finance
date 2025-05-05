@@ -2,6 +2,25 @@ package com.ddfinance.core.domain;
 
 import com.ddfinance.core.domain.enums.Role;
 
+/**
+ * Use the following format commit msgs for TDD cycle.
+ *
+
+ * Red
+ Test-Class: affected attribute/methods/class test added
+
+ * Green:
+ Impl-Class: affected attribute/methods/class implementation added
+
+ * Refactor:
+ Refactor-Class: affected attribute/methods/class impl improved
+
+ *
+ *
+ */
+
+
+
 public class UserAccount {
 
     private String email = "";

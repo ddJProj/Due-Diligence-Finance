@@ -37,6 +37,7 @@ class UserAccountTest {
     }
 
 
+
     @Test
     void testMethod() {
         fail("Not implemented yet");
@@ -45,7 +46,10 @@ class UserAccountTest {
     // TODO :  test then implement each piece of the feature
     @Test
     void testSetEmail() {
-        fail("Not implemented yet");
+       String email = "email@test.com";
+       userAccount.setEmail(email);
+
+       assertEquals(email, userAccount.getEmail());
     }
 
     @Test
