@@ -1,12 +1,14 @@
 package com.ddfinance.core.domain;
 
+import com.ddfinance.core.domain.enums.Role;
+
 public class UserAccount {
 
     private String email = "";
     private String password = "";
     private String firstName = "";
     private String lastName = "";
-
+    private Role userRole;
 
     /**
      * Default UserAccount constructor
@@ -45,9 +47,11 @@ public class UserAccount {
         return this.lastName;
     }
 
-    public void setRole(Role expectedRole) {
+    public void setRole(Role role) {
+        this.userRole = role;
     }
 
     public Object getRole() {
+        return this.userRole;
     }
 }
