@@ -23,23 +23,18 @@ import lombok.Setter;
 
 
 
+@Setter
+@Getter
 public class UserAccount {
 
-    @Setter
-    @Getter
     private String email = "";
 
-    @Getter
     private String password = "";
 
-    @Getter
     private String firstName = "";
 
-    @Getter
     private String lastName = "";
 
-    @Getter
-    @Setter
     private Role userRole;
 
     /**
@@ -50,10 +45,10 @@ public class UserAccount {
     /**
      * parameterized UserAccount constructor
      *
-     * @param email
-     * @param password
-     * @param firstName
-     * @param lastName
+     * @param email - email address for new UserAccount
+     * @param password  - password for new UserAccount
+     * @param firstName - first name of user for new UserAccount
+     * @param lastName - last name of user for new UserAccount
      */
     public UserAccount(String email, String password, String firstName, String lastName) {
         this.email = email;
@@ -66,10 +61,10 @@ public class UserAccount {
     /**
      * parameterized UserAccount constructor with userRole
      *
-     * @param email
-     * @param password
-     * @param firstName
-     * @param lastName
+     * @param email - email address for new UserAccount
+     * @param password  - password for new UserAccount
+     * @param firstName - first name of user for new UserAccount
+     * @param lastName - last name of user for new UserAccount
      */
     public UserAccount(String email, String password, String firstName, String lastName, Role userRole) {
         this.email = email;
@@ -86,4 +81,9 @@ public class UserAccount {
     public void setRole(Role role) {
         this.userRole = role;
     }
+
+
+
+
+
 }

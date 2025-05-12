@@ -18,8 +18,11 @@ class UserAccountTest {
         userAccount = new UserAccount();
     }
 
+    /*
+       FOR INTEGRATION TESTS:
+       ADD TRANSACTIONAL TAG to roll back transactions after tests
 
-
+    */
     @Test
     void testParameterizedConstructor() {
         String email = "email@test.com";
@@ -37,19 +40,35 @@ class UserAccountTest {
     }
 
 
-
-    @Test
-    void testMethod() {
-        fail("Not implemented yet");
-    }
-
-    // TODO :  test then implement each piece of the feature
     @Test
     void testSetEmail() {
        String email = "email@test.com";
        userAccount.setEmail(email);
 
        assertEquals(email, userAccount.getEmail());
+    }
+
+    @Test
+    void testSetPassword() {
+        String password = "testpassword";
+        userAccount.setPassword(password);
+
+        assertEquals(password, userAccount.getPassword());
+    }
+    @Test
+    void testSetFirstName() {
+        String firstName = "firstname";
+        userAccount.setFirstName(firstName);
+
+        assertEquals(firstName, userAccount.getFirstName());
+    }
+
+    @Test
+    void testSetLastName() {
+        String lastName = "lastname";
+        userAccount.setLastName(lastName);
+
+        assertEquals(lastName, userAccount.getLastName());
     }
 
     @Test
@@ -60,6 +79,15 @@ class UserAccountTest {
 
         assertEquals(expectedRole, userAccount.getRole());
     }
+
+
+
+//    // TODO :  test then implement each piece of the feature
+//    @Test
+//    void testMethod() {
+//        fail("Not implemented yet");
+//    }
+//
 
 
         @AfterEach
