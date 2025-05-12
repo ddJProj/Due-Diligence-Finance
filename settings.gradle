@@ -1,1 +1,3 @@
 rootProject.name = 'dd-investment'
+include 'core'
+include 'backend'
