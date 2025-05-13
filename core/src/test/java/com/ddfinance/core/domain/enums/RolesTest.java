@@ -26,7 +26,7 @@ class RolesTest {
     void testGuestUserAccountRole() {
         Role guest = Role.guest;
         userAccount.setRole(guest);
-        assertEquals(, userAccount.getRole());
+        assertEquals(guest, userAccount.getRole());
     }
     @Test
     void testAdminUserAccountRole() {
