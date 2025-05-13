@@ -28,7 +28,7 @@ Click to expand / collapse
 ### Functional requirements:
 
 <details style="margin-left: 20px"> 
-<summary><strong>System Authorization</strong></summary>
+<summary><strong> System Authorization</strong></summary>
 
 - [ ] System will authenticate users using JWT token authentication
 - [ ] User actions within the system will be authorized based on their assigned role's permission list
@@ -52,14 +52,15 @@ Click to expand / collapse
 <details style="margin-left: 40px"> 
 <summary><strong> Shared / General UserAccount requirements</strong></summary>
 
-- [ ] The system will provide support for the following UserAccount role types, Guest, Client, Employee, and Admin. (Ideally using enum values)
-- [ ] A user of the system can create their initial UserAccount if they do not have one. They will use their email address, and provide the system with a password for the new UserAccount.
-- [ ] Relevant password standards will be enforced for all UserAccount passwords
-- [ ] A newly created UserAccount will automatically be set to the guest UserAccount role type.
-- [ ] The system will provide the option for a user to register for a new UserAccount by providing their email, name, and a valid password.
-- [ ] An authenticated user with an active session will be able to update their profile information
-- [ ] The system will provide a mechanism for users to reset their UserAccount password
-- [ ] 
+> - [ ] The system will provide support for the following UserAccount role types, Guest, Client, Employee, and Admin. (Ideally using enum values)
+> - [ ] A user of the system can create their initial UserAccount if they do not have one. They will use their email address, and provide the system with a password for the new UserAccount.
+> - [ ] Relevant password standards will be enforced for all UserAccount passwords
+> - [ ] A newly created UserAccount will automatically be set to the guest UserAccount role type.
+> - [ ] The system will provide the option for a user to register for a new UserAccount by providing their email, name, and a valid password.
+> - [ ] An authenticated user with an active session will be able to update their profile information
+> - [ ] The system will provide a mechanism for users to reset their UserAccount password
+> - [ ] 
+
 </details>
 
 <!-- Comments etc -->
@@ -68,8 +69,8 @@ Click to expand / collapse
 <details style="margin-left: 40px"> 
 <summary><strong> Guest Role UserAccount:</strong></summary>
 
-- [ ] A UserAccount of the role type Guest can request that an admin or employee confirms their account creation and upgrades their UserAccount role from Guest to Client (or admin can directly set the account to employee etc as needed)
-- [ ] 
+> - [ ] A UserAccount of the role type Guest can request that an admin or employee confirms their account creation and upgrades their UserAccount role from Guest to Client (or admin can directly set the account to employee etc as needed)
+> - [ ] 
 
 
 </details>
@@ -80,29 +81,29 @@ Click to expand / collapse
 <details style="margin-left: 40px"> 
 <summary><strong> Client Role UserAccount:</strong></summary>
 
-- [ ] The system will provide the mechanism to assign/pair a Client UserAccount to an Employee UserAccount
-- [ ] The system will provide the ability to sort and search for specific client UserAccounts based on relevant criterias
-- [ ] The system will allow a Client UserAccount's information to be updated in the system
-- [ ] The system will automatically provide a Client ID value to UserAccounts with the Client role
-- [ ] The system will allow the creation of new Client accounts through the upgrade of a Guest account (managed/approved by an Employee or Admin account type)
+> - [ ] The system will provide the mechanism to assign/pair a Client UserAccount to an Employee UserAccount
+> - [ ] The system will provide the ability to sort and search for specific client UserAccounts based on relevant criterias
+> - [ ] The system will allow a Client UserAccount's information to be updated in the system
+> - [ ] The system will automatically provide a Client ID value to UserAccounts with the Client role
+> - [ ] The system will allow the creation of new Client accounts through the upgrade of a Guest account (managed/approved by an Employee or Admin account type)
 
 </details>
 
 <details style="margin-left: 40px"> 
 <summary><strong> Employee Role UserAccount:</strong></summary>
 
-- [ ] A UserAccount of the role type Employee can approve a request submitted by a UserAccount of the Guest role type to have their account's role upgraded to the Client type.
-- [ ] 
+> - [ ] A UserAccount of the role type Employee can approve a request submitted by a UserAccount of the Guest role type to have their account's role upgraded to the Client type.
+> - [ ] 
 
 </details>
 
 <details style="margin-left: 40px"> 
 <summary><strong> Admin Role UserAccount:</strong></summary>
 
-- [ ] A UserAccount of the role type Admin can approve a request submitted by a UserAccount of the Guest role type to have their account's role upgraded to the Client type.
-- [ ] An Admin account will be able to view, update, and delete UserAccounts from the system manually in the dashboard
-- [ ] The system will provide the mechanism for assigning role values to UserAccounts
-- [ ] 
+> - [ ] A UserAccount of the role type Admin can approve a request submitted by a UserAccount of the Guest role type to have their account's role upgraded to the Client type.
+> - [ ] An Admin account will be able to view, update, and delete UserAccounts from the system manually in the dashboard
+> - [ ] The system will provide the mechanism for assigning role values to UserAccounts
+> - [ ] 
 
 </details>
 
@@ -127,7 +128,7 @@ Click to expand / collapse
 
 
 <details style="margin-left: 20px"> 
-<summary><strong>System Usability:</strong></summary>
+<summary><strong> System Usability:</strong></summary>
 
 - [ ] The user interface provided should be intuitive enough to be used without any prior knowledge of the system.
 - [ ] The system should be efficient and usable across multiple platforms
@@ -138,7 +139,7 @@ Click to expand / collapse
 
 
 <details style="margin-left: 20px"> 
-<summary><strong>Reliability: </strong></summary>
+<summary><strong> Reliability: </strong></summary>
 
 - [ ] Handles all errors gracefully (implements custom error handling)
 - [ ] Data persistence properly utilizes transactions for rollbacks in the event of operation failures
@@ -149,7 +150,7 @@ Click to expand / collapse
 ### Technical Requirements
 
 <details style="margin-left: 20px"> 
-<summary><strong>Architecture Requirements:</strong></summary>
+<summary><strong> Architecture Requirements:</strong></summary>
 
 - [ ] Spring Boot
 - [ ] RESTful APIs utilized for communication between layers
@@ -163,7 +164,7 @@ Click to expand / collapse
 
 
 <details style="margin-left: 20px"> 
-<summary><strong>Database & Data Persistence:</strong></summary>
+<summary><strong> Database & Data Persistence:</strong></summary>
 
 - [ ] The system will utilize MySQL / MariaDB for remote data persistence
 - [ ] Data access for the core / backend application implemented using Spring Data JPA
@@ -174,7 +175,7 @@ Click to expand / collapse
 
 
 <details style="margin-left: 20px"> 
-<summary><strong>Testing: </strong></summary>
+<summary><strong> Testing: </strong></summary>
 
 - [ ] All system business logic should include unit tests
 - [ ] All API endpoints should be adequately tested with integration tests
