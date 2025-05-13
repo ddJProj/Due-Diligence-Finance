@@ -26,11 +26,28 @@ class PermissionTest {
 
     @Test
     void testParameterizedConstructor() {
-        Permissions permissionType = Permissions.VIEW_CLIENT_DETAILS;
+        Permissions permissionType = Permissions.VIEW_CLIENT;
         String permissionDescription = "Allows the viewing of Client account details";
 
         Permission parameterizedPermission = new Permission(permissionType, permissionDescription);
 
+    }
+
+
+    @Test
+    void testGetSetPermissionTypeViewClient() {
+        Permissions permissionType = Permissions.VIEW_CLIENT;
+        permission.setPermissionType(permissionType);
+
+        assertEquals(permissionType, permission.getPermissionType());
+    }
+
+    @Test
+    void testGetSetPermissionDescriptionViewClient() {
+        String permissionDescription = "Allows the viewing of Client account details";
+        permission.setDescription(permissionDescription);
+
+        assertEquals(permissionDescription, permission.getDescription());
 
     }
 
