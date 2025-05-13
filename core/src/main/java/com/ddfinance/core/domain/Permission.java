@@ -1,5 +1,6 @@
 package com.ddfinance.core.domain;
 
+import com.ddfinance.core.domain.enums.Permissions;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,5 +18,13 @@ public class Permission {
      * Default constructor
      */
     public Permission() {}
+
+
+    /**
+     * 2 Param constructor added for non-default calls
+     */
+    public Permission(Permissions permissionType, String permissionDescription) {
+
+    }
 
 }
