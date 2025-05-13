@@ -1,6 +1,7 @@
 package com.ddfinance.core.domain;
 
 import com.ddfinance.core.domain.enums.Role;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
