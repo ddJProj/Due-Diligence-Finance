@@ -3,6 +3,7 @@ package com.ddfinance.core.domain;
 import com.ddfinance.core.domain.enums.Permissions;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -13,6 +14,7 @@ import lombok.Setter;
 @Entity
 // use table "permission"
 @Table(name = "permission")
+@NoArgsConstructor
 public class Permission {
 
     // ID value for permission, auto generated, use lombok for access
@@ -29,10 +31,6 @@ public class Permission {
 
     private String description;
 
-    /**
-     * Default constructor
-     */
-    public Permission() {}
 
 
     /**
