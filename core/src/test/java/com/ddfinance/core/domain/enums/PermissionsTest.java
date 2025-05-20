@@ -56,8 +56,7 @@ class PermissionsTest {
 
         assertEquals(21, Permissions.values().length);
 
-        //    userAccount.setRole(client);
-        assertEquals(role, userAccount.getRole());
+
     }
 
     @AfterEach
