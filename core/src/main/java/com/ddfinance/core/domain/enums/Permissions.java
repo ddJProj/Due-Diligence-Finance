@@ -2,6 +2,9 @@ package com.ddfinance.core.domain.enums;
 
 import lombok.Getter;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 @Getter
 public enum Permissions {
 
@@ -58,5 +61,15 @@ public enum Permissions {
 
     Permissions(String description) {
         this.description = description;
+
     }
+
+    /**
+     *
+     * @return
+     */
+    public static Set<Permissions> getAllPermissions() {
+        return EnumSet.allOf(Permissions.class);
+    }
+
 }
