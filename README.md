@@ -243,7 +243,7 @@ Other sections to show by default without expanding.
 
 
 
-### Todo : 
+### To do : 
 - Add functionality and definitions for pulling stock data from public stock api
 - Further define the client account investment feature to allow for the acquisition of whole/partial stocks listed in the data retrieved from public stock api
     - Feature will include ability to sell / purchase additional stocks.
