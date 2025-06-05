@@ -27,14 +27,38 @@ public class Client {
     private Employee assignedEmployeePartner;
 
     // FIXME: Implement a better way to generate clientId (ie, "userAccount.id" + "-" + "client.id")
-    public Client(String clientId, UserAccount userAccount, Employee assignedEmployeePartner) {
-        this.clientId = clientId;
+    public Client(UserAccount userAccount, Employee assignedEmployeePartner) {
         setUserAccount(userAccount);
         setAssignedEmployeePartner(assignedEmployeePartner);
     }
 
+    /**
+     *
+     * @return
+     */
+    public String getClientId() {
+        if (clientId == null) {
+            generateClientId();
+        }
+        return clientId;
+    }
 
+    /**
+     *
+     */
+    private void generateClientId(){
+        if (userAccount != null && userAccount.getId() != null && id != null) {
+            this.clientId = userAccount.getId() + "_" + id;
+        }
+    }
 
+    /**
+     * Persist the auto-generated values
+     */
+    @PostPersist
+    private void postPersist(){
+        generateClientId();
+    }
 
 
 //    private Employee assignedEmployeePair;
