@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class ClientTest {
 
@@ -25,19 +26,35 @@ public class ClientTest {
 
     @Test
     void testParameterizedConstructor() {
-        String clientId = "CLIENT-999";
 
-        Client newClient = new Client(clientId, userAccount, employee);
+        Client newClient = new Client(userAccount, employee);
 
-        assertEquals(clientId, newClient.getClientId());
         assertEquals(userAccount, newClient.getUserAccount());
         assertEquals(employee, newClient.getAssignedEmployeePartner());
+        assertNull(newClient.getClientId());
+    }
+
+
+    @Test
+    void testClientIdGenerationNonNullIds() {
+
+        userAccount.setId(150L);
+        client.setId(175L);
+        client.setUserAccount(userAccount);
+
+        String expectedClientId = userAccount.getId() + "_" + client.getId();
+
+        assertEquals(expectedClientId, client.getClientId());
     }
 
     @Test
-    void testSetAssignedEmployee(){
+    void testSetGetEmployeePartner(){
+        client.setAssignedEmployeePartner(employee);
+        assertEquals(employee, client.getAssignedEmployeePartner());
 
     }
+
+
 
         @AfterEach
     void tearDown() {
