@@ -18,25 +18,25 @@ class RolesTest {
 
     @Test
     void testClientUserAccountRole() {
-        Role client = Role.client;
+        Role client = Role.CLIENT;
         userAccount.setRole(client);
         assertEquals(client, userAccount.getRole());
     }
     @Test
     void testGuestUserAccountRole() {
-        Role guest = Role.guest;
+        Role guest = Role.GUEST;
         userAccount.setRole(guest);
         assertEquals(guest, userAccount.getRole());
     }
     @Test
     void testAdminUserAccountRole() {
-        Role admin = Role.admin;
+        Role admin = Role.ADMIN;
         userAccount.setRole(admin);
         assertEquals(admin, userAccount.getRole());
     }
     @Test
     void testEmployeeUserAccountRole() {
-        Role employee = Role.employee;
+        Role employee = Role.EMPLOYEE;
         userAccount.setRole(employee);
         assertEquals(employee, userAccount.getRole());
     }
