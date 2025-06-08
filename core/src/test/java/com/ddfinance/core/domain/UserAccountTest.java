@@ -75,7 +75,7 @@ class UserAccountTest {
     @Test
     void testSetGetRole() {
 
-        Role expectedRole = Role.client;
+        Role expectedRole = Role.CLIENT;
         userAccount.setRole(expectedRole);
 
         assertEquals(expectedRole, userAccount.getRole());
