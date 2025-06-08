@@ -19,7 +19,7 @@ public class ClientTest {
     @BeforeEach
     void setUp() {
         client = new Client();
-        userAccount = new UserAccount("client@test.com", "testPass", "testFirst", "testLast", Role.client);
+        userAccount = new UserAccount("client@test.com", "testPass", "testFirst", "testLast", Role.CLIENT);
         employee = new Employee();
 
     }
