@@ -1,7 +1,9 @@
 package com.ddfinance.core.domain;
 
 import com.ddfinance.core.domain.enums.Role;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -23,9 +25,17 @@ import lombok.Setter;
 
 
 
-@Setter
 @Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "user_account")
 public class UserAccount {
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private String email = "";
 
@@ -36,11 +46,6 @@ public class UserAccount {
     private String lastName = "";
 
     private Role userRole;
-
-    /**
-     * Default UserAccount constructor
-     */
-    public UserAccount() {}
 
     /**
      * parameterized UserAccount constructor
@@ -55,7 +60,7 @@ public class UserAccount {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userRole = Role.guest; // default value
+        this.userRole = Role.GUEST; // default value
     }
 
     /**
