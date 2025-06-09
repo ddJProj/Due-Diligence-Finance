@@ -40,11 +40,11 @@ class ApplicationExceptionTest {
     void testPasswordHashException(){
         String message = "Exception occurred while hashing password.";
 
-        ApplicationException.PasswardHashException passwardHashException = new ApplicationException.PasswardHashException(message);
+        ApplicationException.PasswordHashException passwordHashException = new ApplicationException.PasswordHashException(message);
 
-        assertEquals(message, passwardHashException.getMessage());
-        assertTrue(passwardHashException instanceof ApplicationException);
-        assertNull(passwardHashException.getCause());
+        assertEquals(message, passwordHashException.getMessage());
+        assertTrue(passwordHashException instanceof ApplicationException);
+        assertNull(passwordHashException.getCause());
     }
 
     @Test
