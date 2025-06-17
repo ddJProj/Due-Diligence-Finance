@@ -22,7 +22,7 @@ Add the description of the project, etc
 
 <details>
 
-    <summary> Click to expand / collapse </summary>
+   <summary> Click to expand / collapse </summary>
 
 ## Functional requirements:
 
