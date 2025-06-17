@@ -1,7 +1,4 @@
 
-
-
-
 <!-- 
 - [x] 
 - [ ]
@@ -14,23 +11,32 @@
 -->
 
 # Due Diligence Finance 
-Financial Investment Management Dashboard
-    Add the description of the project, etc
+    Financial Investment Management Dashboard
+Add the description of the project, etc
 
 
 # System requirements
 
-
 <details>
 
-  <summary> Click to expand / collapse </summary>
+<summary> 
+    Click to expand / collapse
+</summary>
 
-  <h2>Functional requirements:</h2>
-  <details>
-      <summary> Click to expand / collapse </summary>
-      <h3> System Authorization</h3>
+## Functional requirements:
+
 <details>
-<summary> Click to expand / collapse </summary>
+<summary> 
+Click to expand / collapse
+</summary>
+
+> <h3> System Authorization</h3>
+
+<details>
+<summary> 
+Click to expand / collapse
+</summary>
+
 - [ ] System will authenticate users using JWT token authentication
 - [ ] User actions within the system will be authorized based on their assigned role's permission list
 - [ ] The system will automatically log out users after a period of inactivity
@@ -38,61 +44,119 @@ Financial Investment Management Dashboard
 - [ ] The system will provide logs for authentication based actions / events
 - [ ] 
 </details>
-      <h3>  Application Front-end Requirements (React, JS/TS based)</h3>
-      <details>
-          <summary> Click to expand / collapse </summary>
-          - [ ] The web application will provide a login dashboard that can be accessed via the provided web-link once the application is live
-          - [ ] The system will provide the user with a front end dashboard that is customized to display actions appropriate to their specific account's permissions.
-      </details>
-      <h3>  Application Core / Back-end Requirements (Java Spring Boot based)</h3>
-      <details>
-          <summary> Click to expand / collapse </summary>
-          <h4> Shared / General UserAccount requirements</h4>
-          <details>
-              <summary> Click to expand / collapse </summary>
-              - [ ] The system will provide support for the following UserAccount role types, Guest, Client, Employee, and Admin. (Ideally using enum values)
-              - [ ] A user of the system can create their initial UserAccount if they do not have one. They will use their email address, and provide the system with a password for the new UserAccount.
-              - [ ] Relevant password standards will be enforced for all UserAccount passwords
-              - [ ] A newly created UserAccount will automatically be set to the guest UserAccount role type.
-              - [ ] The system will provide the option for a user to register for a new UserAccount by providing their email, name, and a valid password.
-              - [ ] An authenticated user with an active session will be able to update their profile information
-              - [ ] The system will provide a mechanism for users to reset their UserAccount password
-              - [ ] 
-          </details>
-          <!-- Comments etc -->
-          <h4>Guest Role UserAccount:</h4>
-          <details>
-              <summary> Click to expand / collapse </summary>
-              - [ ] A UserAccount of the role type Guest can request that an admin or employee confirms their account creation and upgrades their UserAccount role from Guest to Client (or admin can directly set the account to employee etc as needed)
-              - [ ] 
-          </details>
-          <h4> Client Role UserAccount:</h4>
-          <details> 
-              <summary> Click to expand / collapse </summary>
-              - [ ] The system will provide the mechanism to assign/pair a Client UserAccount to an Employee UserAccount
-              - [ ] The system will provide the ability to sort and search for specific client UserAccounts based on relevant criterias
-              - [ ] The system will allow a Client UserAccount's information to be updated in the system
-              - [ ] The system will automatically provide a Client ID value to UserAccounts with the Client role
-              - [ ] The system will allow the creation of new Client accounts through the upgrade of a Guest account (managed/approved by an Employee or Admin account type)
-          </details>
-          <h4> Employee Role UserAccount:</h4>
-          <details> 
-              <summary> Click to expand / collapse </summary>
-              - [ ] A UserAccount of the role type Employee can approve a request submitted by a UserAccount of the Guest role type to have their account's role upgraded to the Client type.
-              - [ ] 
-          </details>
-          <h4> Admin Role UserAccount:</h4>
-          <details> 
-              <summary> Click to expand / collapse </summary>
-              - [ ] A UserAccount of the role type Admin can approve a request submitted by a UserAccount of the Guest role type to have their account's role upgraded to the Client type.
-              - [ ] An Admin account will be able to view, update, and delete UserAccounts from the system manually in the dashboard
-              - [ ] The system will provide the mechanism for assigning role values to UserAccounts
-              - [ ] 
-          </details>
-      </details>
-  </details>
 
-## Non-Functional Requirements:    
+> <h3>  Application Front-end Requirements (React, JS/TS based)</h3>
+
+<details>
+<summary> 
+Click to expand / collapse
+</summary>
+
+
+- [ ] The web application will provide a login dashboard that can be accessed via the provided web-link once the application is live.
+- [ ] The system will provide the user with a front end dashboard that is customized to display actions appropriate to their specific account's permissions.
+- [ ] 
+</details>
+
+
+
+> <h3>  Application Core / Back-end Requirements (Java Spring Boot based)</h3>
+
+<details>
+<summary> 
+Click to expand / collapse
+</summary>
+
+
+
+
+>> <h4> Shared / General UserAccount requirements</h4>
+
+<details>
+<summary> 
+Click to expand / collapse
+</summary>
+
+
+> - [ ] The system will provide support for the following UserAccount role types, Guest, Client, Employee, and Admin. (Ideally using enum values)
+> - [ ] A user of the system can create their initial UserAccount if they do not have one. They will use their email address, and provide the system with a password for the new UserAccount.
+> - [ ] Relevant password standards will be enforced for all UserAccount passwords
+> - [ ] A newly created UserAccount will automatically be set to the guest UserAccount role type.
+> - [ ] The system will provide the option for a user to register for a new UserAccount by providing their email, name, and a valid password.
+> - [ ] An authenticated user with an active session will be able to update their profile information
+> - [ ] The system will provide a mechanism for users to reset their UserAccount password
+> - [ ] 
+
+</details>
+
+<!-- Comments etc -->
+
+
+>> <h4>Guest Role UserAccount:</h4>
+
+<details>
+<summary> 
+Click to expand / collapse
+</summary>
+
+
+ - [ ] A UserAccount of the role type Guest can request that an admin or employee confirms their account creation and upgrades their UserAccount role from Guest to Client (or admin can directly set the account to employee etc as needed)
+ - [ ] 
+
+
+</details>
+
+
+
+>> <h4> Client Role UserAccount:</h4>
+<details> 
+
+<summary> 
+Click to expand / collapse
+</summary>
+
+- [ ] The system will provide the mechanism to assign/pair a Client UserAccount to an Employee UserAccount
+- [ ] The system will provide the ability to sort and search for specific client UserAccounts based on relevant criterias
+- [ ] The system will allow a Client UserAccount's information to be updated in the system
+- [ ] The system will automatically provide a Client ID value to UserAccounts with the Client role
+- [ ] The system will allow the creation of new Client accounts through the upgrade of a Guest account (managed/approved by an Employee or Admin account type)
+
+</details>
+
+>> <h4> Employee Role UserAccount:</h4>
+<details> 
+
+<summary> 
+Click to expand / collapse
+</summary>
+
+
+- [ ] A UserAccount of the role type Employee can approve a request submitted by a UserAccount of the Guest role type to have their account's role upgraded to the Client type.
+- [ ] 
+
+</details>
+
+
+>> <h4> Admin Role UserAccount:</h4>
+<details> 
+
+<summary> 
+Click to expand / collapse
+</summary>
+
+- [ ] A UserAccount of the role type Admin can approve a request submitted by a UserAccount of the Guest role type to have their account's role upgraded to the Client type.
+- [ ] An Admin account will be able to view, update, and delete UserAccounts from the system manually in the dashboard
+- [ ] The system will provide the mechanism for assigning role values to UserAccounts
+- [ ] 
+
+</details>
+
+
+
+</details>
+</details>
+
+## Non-Functional Requirements:
 
 <details style="margin-left: 20px"> 
 <summary><strong> Maintainability </strong></summary>
