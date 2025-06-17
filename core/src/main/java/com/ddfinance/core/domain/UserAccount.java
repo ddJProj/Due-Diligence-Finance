@@ -1,10 +1,15 @@
 package com.ddfinance.core.domain;
 
+import com.ddfinance.core.domain.enums.Permissions;
+import com.ddfinance.core.domain.Permission;
 import com.ddfinance.core.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Use the following format commit msgs for TDD cycle.
@@ -32,7 +37,7 @@ import lombok.Setter;
 @Table(name = "user_account")
 public class UserAccount {
 
-
+    @Column(name="user_id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -45,7 +50,15 @@ public class UserAccount {
 
     private String lastName = "";
 
-    private Role userRole;
+    private Role role;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_account_permissions",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id")
+    )
+    private Set<Permission> permissions = new HashSet<>();
 
     /**
      * parameterized UserAccount constructor
@@ -60,7 +73,7 @@ public class UserAccount {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userRole = Role.GUEST; // default value
+        this.role = Role.GUEST; // default value
     }
 
     /**
@@ -76,16 +89,9 @@ public class UserAccount {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userRole = userRole;
+        this.role = userRole;
     }
 
-    public Role getRole() {
-        return this.userRole;
-    }
-
-    public void setRole(Role role) {
-        this.userRole = role;
-    }
 
 
 
