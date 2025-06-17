@@ -24,7 +24,7 @@ Add the description of the project, etc
 
    <summary> Click to expand / collapse </summary>
 
-##    Functional requirements:
+   <h2>Functional requirements:</h2>
 
 <details>
 <summary> Click to expand / collapse </summary>
