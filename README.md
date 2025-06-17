@@ -23,21 +23,21 @@ Add the description of the project, etc
 <details>
 
 <summary> 
-    Click to expand / collapse
+Click to expand / collapse
 </summary>
 
 ## Functional requirements:
 
 <details>
 <summary> 
-Click to expand / collapse
+> Click to expand / collapse
 </summary>
 
 > <h3> System Authorization</h3>
 
 <details>
 <summary> 
-Click to expand / collapse
+>> Click to expand / collapse
 </summary>
 
 - [ ] System will authenticate users using JWT token authentication
@@ -52,7 +52,7 @@ Click to expand / collapse
 
 <details>
 <summary> 
-Click to expand / collapse
+>> Click to expand / collapse
 </summary>
 
 
@@ -67,7 +67,7 @@ Click to expand / collapse
 
 <details>
 <summary> 
-Click to expand / collapse
+>> Click to expand / collapse
 </summary>
 
 
@@ -77,7 +77,7 @@ Click to expand / collapse
 
 <details>
 <summary> 
-Click to expand / collapse
+>>> Click to expand / collapse
 </summary>
 
 
