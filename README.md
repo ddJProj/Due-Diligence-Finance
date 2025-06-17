@@ -29,16 +29,14 @@ Click to expand / collapse
 ## Functional requirements:
 
 <details>
-<summary> 
-> Click to expand / collapse
-</summary>
+> <summary> Click to expand / collapse </summary>
+
 
 > <h3> System Authorization</h3>
 
 <details>
-<summary> 
->> Click to expand / collapse
-</summary>
+>> <summary> Click to expand / collapse </summary>
+
 
 - [ ] System will authenticate users using JWT token authentication
 - [ ] User actions within the system will be authorized based on their assigned role's permission list
@@ -50,11 +48,9 @@ Click to expand / collapse
 
 > <h3>  Application Front-end Requirements (React, JS/TS based)</h3>
 
-<details>
-<summary> 
->> Click to expand / collapse
-</summary>
 
+<details>
+>> <summary> Click to expand / collapse </summary>
 
 - [ ] The web application will provide a login dashboard that can be accessed via the provided web-link once the application is live.
 - [ ] The system will provide the user with a front end dashboard that is customized to display actions appropriate to their specific account's permissions.
@@ -66,9 +62,8 @@ Click to expand / collapse
 > <h3>  Application Core / Back-end Requirements (Java Spring Boot based)</h3>
 
 <details>
-<summary> 
->> Click to expand / collapse
-</summary>
+>> <summary> Click to expand / collapse </summary>
+
 
 
 
@@ -76,9 +71,8 @@ Click to expand / collapse
 >> <h4> Shared / General UserAccount requirements</h4>
 
 <details>
-<summary> 
->>> Click to expand / collapse
-</summary>
+>>> <summary> Click to expand / collapse </summary>
+
 
 
 > - [ ] The system will provide support for the following UserAccount role types, Guest, Client, Employee, and Admin. (Ideally using enum values)
@@ -98,9 +92,8 @@ Click to expand / collapse
 >> <h4>Guest Role UserAccount:</h4>
 
 <details>
-<summary> 
-Click to expand / collapse
-</summary>
+>>> <summary> Click to expand / collapse </summary>
+
 
 
  - [ ] A UserAccount of the role type Guest can request that an admin or employee confirms their account creation and upgrades their UserAccount role from Guest to Client (or admin can directly set the account to employee etc as needed)
@@ -114,9 +107,8 @@ Click to expand / collapse
 >> <h4> Client Role UserAccount:</h4>
 <details> 
 
-<summary> 
-Click to expand / collapse
-</summary>
+>>> <summary> Click to expand / collapse </summary>
+
 
 - [ ] The system will provide the mechanism to assign/pair a Client UserAccount to an Employee UserAccount
 - [ ] The system will provide the ability to sort and search for specific client UserAccounts based on relevant criterias
@@ -128,10 +120,8 @@ Click to expand / collapse
 
 >> <h4> Employee Role UserAccount:</h4>
 <details> 
+>>> <summary> Click to expand / collapse </summary>
 
-<summary> 
-Click to expand / collapse
-</summary>
 
 
 - [ ] A UserAccount of the role type Employee can approve a request submitted by a UserAccount of the Guest role type to have their account's role upgraded to the Client type.
@@ -143,9 +133,8 @@ Click to expand / collapse
 >> <h4> Admin Role UserAccount:</h4>
 <details> 
 
-<summary> 
-Click to expand / collapse
-</summary>
+>>> <summary> Click to expand / collapse </summary>
+
 
 - [ ] A UserAccount of the role type Admin can approve a request submitted by a UserAccount of the Guest role type to have their account's role upgraded to the Client type.
 - [ ] An Admin account will be able to view, update, and delete UserAccounts from the system manually in the dashboard
