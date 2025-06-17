@@ -133,7 +133,7 @@ Click to expand / collapse
 >> <h4> Admin Role UserAccount:</h4>
 <details> 
 
-<summary> Click to expand / collapse </summary>
+<summary> &nbsp;&nbsp;&nbsp;&nbsp; Click to expand / collapse </summary>
 
 
 - [ ] A UserAccount of the role type Admin can approve a request submitted by a UserAccount of the Guest role type to have their account's role upgraded to the Client type.
@@ -148,7 +148,7 @@ Click to expand / collapse
 </details>
 </details>
 
-## Non-Functional Requirements:
+## Non-Functional Requirements:    
 
 <details style="margin-left: 20px"> 
 <summary><strong> Maintainability </strong></summary>
