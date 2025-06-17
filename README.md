@@ -29,13 +29,13 @@ Click to expand / collapse
 ## Functional requirements:
 
 <details>
-> <summary> Click to expand / collapse </summary>
+<summary> Click to expand / collapse </summary>
 
 
 > <h3> System Authorization</h3>
 
 <details>
->> <summary> Click to expand / collapse </summary>
+<summary> Click to expand / collapse </summary>
 
 
 - [ ] System will authenticate users using JWT token authentication
@@ -50,7 +50,7 @@ Click to expand / collapse
 
 
 <details>
->> <summary> Click to expand / collapse </summary>
+<summary> Click to expand / collapse </summary>
 
 - [ ] The web application will provide a login dashboard that can be accessed via the provided web-link once the application is live.
 - [ ] The system will provide the user with a front end dashboard that is customized to display actions appropriate to their specific account's permissions.
@@ -62,7 +62,7 @@ Click to expand / collapse
 > <h3>  Application Core / Back-end Requirements (Java Spring Boot based)</h3>
 
 <details>
->> <summary> Click to expand / collapse </summary>
+<summary> Click to expand / collapse </summary>
 
 
 
@@ -71,7 +71,7 @@ Click to expand / collapse
 >> <h4> Shared / General UserAccount requirements</h4>
 
 <details>
->>> <summary> Click to expand / collapse </summary>
+<summary> Click to expand / collapse </summary>
 
 
 
@@ -92,7 +92,7 @@ Click to expand / collapse
 >> <h4>Guest Role UserAccount:</h4>
 
 <details>
->>> <summary> Click to expand / collapse </summary>
+<summary> Click to expand / collapse </summary>
 
 
 
@@ -107,7 +107,7 @@ Click to expand / collapse
 >> <h4> Client Role UserAccount:</h4>
 <details> 
 
->>> <summary> Click to expand / collapse </summary>
+<summary> Click to expand / collapse </summary>
 
 
 - [ ] The system will provide the mechanism to assign/pair a Client UserAccount to an Employee UserAccount
@@ -120,7 +120,7 @@ Click to expand / collapse
 
 >> <h4> Employee Role UserAccount:</h4>
 <details> 
->>> <summary> Click to expand / collapse </summary>
+<summary> Click to expand / collapse </summary>
 
 
 
@@ -133,7 +133,7 @@ Click to expand / collapse
 >> <h4> Admin Role UserAccount:</h4>
 <details> 
 
->>> <summary> Click to expand / collapse </summary>
+<summary> Click to expand / collapse </summary>
 
 
 - [ ] A UserAccount of the role type Admin can approve a request submitted by a UserAccount of the Guest role type to have their account's role upgraded to the Client type.
