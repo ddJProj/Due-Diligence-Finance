@@ -31,7 +31,7 @@ Financial Investment Management Dashboard
       <h3> System Authorization</h3>
       <details>
           <summary> Click to expand / collapse </summary>
-          - [ ] System will authenticate users using JWT token authentication
+- [ ] System will authenticate users using JWT token authentication
           - [ ] User actions within the system will be authorized based on their assigned role's permission list
           - [ ] The system will automatically log out users after a period of inactivity
           - [ ] The system will prevent actions from sources without the proper authorization
