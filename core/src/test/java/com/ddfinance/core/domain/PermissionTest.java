@@ -51,8 +51,40 @@ class PermissionTest {
 
     }
 
+    @Test
+    void testGetSetId() {
+        Long id = 1L;
+        permission.setId(id);
+
+        assertEquals(id, permission.getId());
+    }
+
+    @Test
+    void testPermissionEquality() {
+        Permission permission1 = new Permission(Permissions.VIEW_CLIENT, "Description");
+        Permission permission2 = new Permission(Permissions.VIEW_CLIENT, "Description");
+
+        // Test that permissions with same type and description are considered equal
+        permission1.setId(1L);
+        permission2.setId(1L);
+
+        assertEquals(permission1.getPermissionType(), permission2.getPermissionType());
+        assertEquals(permission1.getDescription(), permission2.getDescription());
+        assertEquals(permission1.getId(), permission2.getId());
+    }
+
+    @Test
+    void testPermissionToString() {
+        Permission permission = new Permission(Permissions.VIEW_CLIENT, "View client details");
+        String expected = "Permission{id=null, permissionType=VIEW_CLIENT, description='View client details'}";
+
+        assertEquals(expected, permission.toString());
+    }
 
     @AfterEach
     void tearDown() {
+        permission = null;
+
     }
+
 }
