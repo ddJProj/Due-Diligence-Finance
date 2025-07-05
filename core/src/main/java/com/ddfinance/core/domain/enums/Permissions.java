@@ -28,6 +28,7 @@ public enum Permissions {
      * Client level:
      */
     VIEW_INVESTMENT("Views the details of a specific investment for this Client account instance."),
+    VIEW_INVESTMENTS("Views all investments for this Client account instance."),
     MESSAGE_PARTNER("Direct message to the Employee that a Client is partnered with at the firm. Used to modify investments, etc."),
 
 
