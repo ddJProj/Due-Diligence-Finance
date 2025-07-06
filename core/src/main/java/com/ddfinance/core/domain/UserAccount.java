@@ -6,6 +6,7 @@ import com.ddfinance.core.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -69,6 +70,29 @@ public class UserAccount {
             inverseJoinColumns = @JoinColumn(name = "permission_id")
     )
     private Set<Permission> permissions = new HashSet<>();
+
+    @Column(name = "phone_number", length = 20)
+    private String phoneNumber;
+
+    @Column(length = 500)
+    private String address;
+
+    @Column(name = "last_login_at")
+    private LocalDateTime lastLoginAt;
+
+
+    @Column(nullable = false)
+    private boolean active = true;
+
+    @Column(name = "password_reset_required", nullable = false)
+    private boolean passwordResetRequired = false;
+
+    @Column(nullable = false)
+    private boolean deleted = false;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
 
     // Email validation pattern
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
@@ -160,13 +184,25 @@ public class UserAccount {
 
     // ========== Business Logic Methods ==========
 
+
     /**
-     * Get the user's full name
-     * @return first name + last name
+     * Gets the user's full name.
+     * @return full name in "FirstName LastName" format
      */
     public String getFullName() {
-        return firstName + " " + lastName;
+        StringBuilder fullName = new StringBuilder();
+        if (firstName != null) {
+            fullName.append(firstName);
+        }
+        if (lastName != null) {
+            if (fullName.length() > 0) {
+                fullName.append(" ");
+            }
+            fullName.append(lastName);
+        }
+        return fullName.toString();
     }
+
 
     /**
      * Check if this user is an admin
