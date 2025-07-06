@@ -5,12 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 /**
- * DTO for client portfolio summary.
+ * DTO for client portfolio summary information.
  * Provides overview of all investments and performance metrics.
  *
  * @author Due Diligence Finance Team
@@ -23,29 +23,56 @@ import java.util.Map;
 @NoArgsConstructor
 public class PortfolioSummaryDTO {
 
-    // Portfolio overview
+    private String clientId;
+
+    private String clientName;
+
     private Integer totalInvestments;
-    private Double totalValue;
-    private Double totalCost;
-    private Double totalProfitLoss;
-    private Double totalProfitLossPercentage;
 
-    // Daily performance
-    private Double dayChange;
-    private Double dayChangePercentage;
+    private BigDecimal totalValue;
 
-    // Asset allocation
-    private Map<String, Double> sectorAllocation;
-    private Map<String, Double> stockAllocation;
+    private BigDecimal totalCost;
 
-    // Top performers
-    private List<InvestmentDTO> topGainers;
-    private List<InvestmentDTO> topLosers;
+    private BigDecimal totalGain;
 
-    // All investments
+    private BigDecimal totalGainPercentage;
+
+    private BigDecimal totalDividendsReceived;
+
+    private BigDecimal averageRiskLevel;
+
     private List<InvestmentDTO> investments;
 
-    // Metadata
     private LocalDateTime lastUpdated;
-    private String currency;
+
+    // Performance metrics
+    private BigDecimal dailyChange;
+
+    private BigDecimal dailyChangePercentage;
+
+    private BigDecimal weeklyChange;
+
+    private BigDecimal weeklyChangePercentage;
+
+    private BigDecimal monthlyChange;
+
+    private BigDecimal monthlyChangePercentage;
+
+    private BigDecimal yearlyChange;
+
+    private BigDecimal yearlyChangePercentage;
+
+    // Asset allocation
+    private List<AssetAllocation> assetAllocation;
+
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class AssetAllocation {
+        private String assetType;
+        private BigDecimal value;
+        private BigDecimal percentage;
+        private Integer count;
+    }
 }
