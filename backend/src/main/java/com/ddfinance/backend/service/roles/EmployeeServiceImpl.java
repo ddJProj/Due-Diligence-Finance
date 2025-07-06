@@ -523,10 +523,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     private InvestmentDTO convertToInvestmentDTO(Investment investment) {
         InvestmentDTO dto = new InvestmentDTO();
         dto.setId(investment.getId());
-        dto.setStockSymbol(investment.getTickerSymbol());
-        dto.setStockName(investment.getName());
+        dto.setTickerSymbol(investment.getTickerSymbol());
+        dto.setName(investment.getName());
         dto.setShares(investment.getShares());
-        dto.setPurchasePrice(investment.getPurchasePricePerShare());
+        dto.setPurchasePricePerShare(investment.getPurchasePricePerShare());
         dto.setPurchaseDate(investment.getCreatedDate());
         dto.setStatus(investment.getStatus().name());
         dto.setNotes(investment.getNotes());
