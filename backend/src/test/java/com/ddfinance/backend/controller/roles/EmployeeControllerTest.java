@@ -7,8 +7,6 @@ import com.ddfinance.backend.dto.investment.InvestmentDTO;
 import com.ddfinance.backend.dto.actions.MessageDTO;
 import com.ddfinance.backend.service.roles.EmployeeService;
 import com.ddfinance.core.domain.enums.InvestmentStatus;
-import com.ddfinance.core.exception.EntityNotFoundException;
-import com.ddfinance.core.exception.ValidationException;
 import com.ddfinance.core.exception.SecurityException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -346,7 +344,7 @@ class EmployeeControllerTest {
                 InvestmentDTO.builder()
                         .id(3000L)
                         .status(InvestmentStatus.PENDING)
-                        .stockSymbol("AMZN")
+                        .tickerSymbol("AMZN")
                         .build()
         );
         when(employeeService.getPendingInvestments("employee@company.com")).thenReturn(pendingInvestments);
