@@ -51,8 +51,8 @@ class EmployeeTest {
         assertNull(employee.getLocationId());
         assertNull(employee.getDepartment());
         assertNull(employee.getHireDate());
-        assertNotNull(employee.getClients());
-        assertTrue(employee.getClients().isEmpty());
+        assertNotNull(employee.getClientList());
+        assertTrue(employee.getClientList().isEmpty());
     }
 
     @Test
@@ -64,7 +64,7 @@ class EmployeeTest {
         assertEquals(employeeId, paramEmployee.getEmployeeId());
         assertEquals(userAccount, paramEmployee.getUserAccount());
         assertNotNull(paramEmployee.getHireDate());
-        assertNotNull(paramEmployee.getClients());
+        assertNotNull(paramEmployee.getClientList());
     }
 
     @Test
@@ -152,30 +152,30 @@ class EmployeeTest {
         clients.add(testClient1);
         clients.add(testClient2);
 
-        employee.setClients(clients);
-        assertEquals(clients, employee.getClients());
-        assertEquals(2, employee.getClients().size());
+        employee.setClientList(clients);
+        assertEquals(clients, employee.getClientList());
+        assertEquals(2, employee.getClientList().size());
     }
 
     @Test
     void testAddClient() {
-        assertTrue(employee.getClients().isEmpty());
+        assertTrue(employee.getClientList().isEmpty());
 
         employee.addClient(testClient1);
 
-        assertEquals(1, employee.getClients().size());
-        assertTrue(employee.getClients().contains(testClient1));
+        assertEquals(1, employee.getClientList().size());
+        assertTrue(employee.getClientList().contains(testClient1));
         assertEquals(employee, testClient1.getAssignedEmployee());
     }
 
     @Test
     void testRemoveClient() {
         employee.addClient(testClient1);
-        assertEquals(1, employee.getClients().size());
+        assertEquals(1, employee.getClientList().size());
 
         employee.removeClient(testClient1);
 
-        assertTrue(employee.getClients().isEmpty());
+        assertTrue(employee.getClientList().isEmpty());
         assertNull(testClient1.getAssignedEmployee());
     }
 
