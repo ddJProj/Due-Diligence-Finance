@@ -9,7 +9,9 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -51,6 +53,19 @@ public class Client {
 
     // Client ID validation pattern (e.g., "CLI-001", "NYC-123")
     private static final Pattern CLIENT_ID_PATTERN = Pattern.compile("^[A-Z]{3}-\\d{3,}$");
+
+
+    @ElementCollection
+    @CollectionTable(name = "client_investment_preferences",
+            joinColumns = @JoinColumn(name = "client_id"))
+    @MapKeyColumn(name = "preference_key")
+    @Column(name = "preference_value", length = 500)
+    private Map<String, Object> investmentPreferences = new HashMap<>();
+
+    @Column(name = "risk_profile", length = 50)
+    private String riskProfile; // LOW, MODERATE, HIGH, AGGRESSIVE
+
+
 
     /**
      * Constructor with UserAccount and generated client ID
@@ -190,11 +205,11 @@ public class Client {
 
         // Remove from previous employee if exists
         if (this.assignedEmployee != null) {
-            this.assignedEmployee.getClients().remove(this);
+            this.assignedEmployee.getClientList().remove(this);
         }
 
         this.assignedEmployee = employee;
-        employee.getClients().add(this);
+        employee.getClientList().add(this);
         return true;
     }
 
@@ -203,7 +218,7 @@ public class Client {
      */
     public void unassignFromEmployee() {
         if (assignedEmployee != null) {
-            assignedEmployee.getClients().remove(this);
+            assignedEmployee.getClientList().remove(this);
             this.assignedEmployee = null;
         }
     }

@@ -21,7 +21,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ClientDetailsDTO {
 
-    private Long clientId;
+    private Long id;
+    private String clientId;
     private String email;
     private String firstName;
     private String lastName;
