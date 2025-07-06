@@ -59,7 +59,9 @@ import java.util.stream.Collectors;
         private Boolean isActive = true;
 
         @OneToMany(mappedBy = "assignedEmployee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-        private Set<Client> clients = new HashSet<>();
+        private Set<Client> clientList = new HashSet<>();
+
+
 
         // Employee ID validation pattern (e.g., "FIN-NYC-001", "ADM-CHI-123")
         private static final Pattern EMPLOYEE_ID_PATTERN = Pattern.compile("^[A-Z]{3}-[A-Z]{2,3}-\\d{3,}$");
@@ -74,7 +76,7 @@ import java.util.stream.Collectors;
             this.employeeId = employeeId;
             this.hireDate = LocalDateTime.now();
             this.isActive = true;
-            this.clients = new HashSet<>();
+            this.clientList = new HashSet<>();
         }
 
         /**
@@ -89,7 +91,7 @@ import java.util.stream.Collectors;
             this.department = department;
             this.hireDate = LocalDateTime.now();
             this.isActive = true;
-            this.clients = new HashSet<>();
+            this.clientList = new HashSet<>();
         }
 
         // ========== Client Management Methods ==========
@@ -100,7 +102,7 @@ import java.util.stream.Collectors;
          */
         public void addClient(Client client) {
             if (client != null) {
-                clients.add(client);
+                clientList.add(client);
                 client.setAssignedEmployee(this);
             }
         }
@@ -111,7 +113,7 @@ import java.util.stream.Collectors;
          */
         public void removeClient(Client client) {
             if (client != null) {
-                clients.remove(client);
+                clientList.remove(client);
                 client.setAssignedEmployee(null);
             }
         }
@@ -121,7 +123,7 @@ import java.util.stream.Collectors;
          * @return the count of clients
          */
         public int getClientCount() {
-            return clients.size();
+            return clientList.size();
         }
 
         /**
@@ -129,7 +131,7 @@ import java.util.stream.Collectors;
          * @return true if employee has clients
          */
         public boolean hasClients() {
-            return !clients.isEmpty();
+            return !clientList.isEmpty();
         }
 
         /**
@@ -137,35 +139,38 @@ import java.util.stream.Collectors;
          * @return set of active clients
          */
         public Set<Client> getActiveClients() {
-            return clients.stream()
+            return clientList.stream()
                     .filter(client -> "ACTIVE".equals(client.getClientStatus()))
                     .collect(Collectors.toSet());
         }
 
         /**
          * Set clients and maintain bidirectional relationship
-         * @param clients new set of clients
+         * @param clientList new set of clients
          */
-        public void setClients(Set<Client> clients) {
+        public void setClientList(Set<Client> clientList) {
             // Clear existing relationships
-            if (this.clients != null) {
-                this.clients.forEach(client -> client.setAssignedEmployee(null));
+            if (this.clientList != null) {
+                this.clientList.forEach(client -> client.setAssignedEmployee(null));
             }
 
-            this.clients = clients != null ? clients : new HashSet<>();
+            this.clientList = clientList != null ? clientList : new HashSet<>();
 
             // Set new relationships
-            this.clients.forEach(client -> client.setAssignedEmployee(this));
+            this.clientList.forEach(client -> client.setAssignedEmployee(this));
         }
 
         // ========== Business Logic Methods ==========
 
         /**
-         * Get the employee's full name from the associated UserAccount
-         * @return full name or null if no UserAccount
+         * Gets the employee's full name from the associated UserAccount.
+         * @return full name in "FirstName LastName" format
          */
         public String getFullName() {
-            return userAccount != null ? userAccount.getFullName() : null;
+            if (userAccount != null) {
+                return userAccount.getFullName();
+            }
+            return null;
         }
 
         /**
