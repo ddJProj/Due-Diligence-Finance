@@ -1,6 +1,8 @@
 package com.ddfinance.core.domain;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import com.ddfinance.core.domain.enums.UpgradeRequestStatus;
@@ -55,6 +57,27 @@ public class GuestUpgradeRequest {
      */
     @Column(name = "details", length = 1000)
     private String details;
+
+
+    @Column(name = "processed_date")
+    private LocalDateTime processedDate;
+
+    @Column(name = "processed_by", length = 100)
+    private String processedBy;
+
+    @Column(name = "rejection_reason", length = 500)
+    private String rejectionReason;
+
+    @ElementCollection
+    @CollectionTable(name = "upgrade_request_additional_info",
+            joinColumns = @JoinColumn(name = "request_id"))
+    @MapKeyColumn(name = "info_key")
+    @Column(name = "info_value", length = 1000)
+    private Map<String, Object> additionalInfo = new HashMap<>();
+
+
+
+
 
     /**
      * Default constructor for JPA
@@ -226,6 +249,28 @@ public class GuestUpgradeRequest {
         this.details = "Reason for Rejection: " + rejectionReason;
         return this;
     }
+
+
+    /**
+     * Process this upgrade request.
+     * @param status the new status (APPROVED or REJECTED)
+     * @param processedBy the user who processed the request
+     * @param reason rejection reason if status is REJECTED
+     */
+    public void processRequest(UpgradeRequestStatus status, String processedBy, String reason) {
+        if (!status.isProcessed()) {
+            throw new IllegalArgumentException("Status must be APPROVED or REJECTED");
+        }
+
+        this.status = status;
+        this.processedDate = LocalDateTime.now();
+        this.processedBy = processedBy;
+
+        if (status == UpgradeRequestStatus.REJECTED) {
+            this.rejectionReason = reason;
+        }
+    }
+
 
     @Override
     public boolean equals(Object o) {
