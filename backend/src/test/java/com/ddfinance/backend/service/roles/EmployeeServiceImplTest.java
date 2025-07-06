@@ -244,7 +244,7 @@ class EmployeeServiceImplTest {
         // Assert
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals("AAPL", result.get(0).getStockSymbol());
+        assertEquals("AAPL", result.get(0).getTickerSymbol());
 
         verify(investmentRepository).findByClientOrderByCreatedDateDesc(client1);
     }
