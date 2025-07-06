@@ -39,6 +39,16 @@ public class Admin {
         @Column(name = "admin_id", unique = true, nullable = false, length = 20)
         private String adminId;
 
+        @Column(name = "super_admin", nullable = false)
+        private boolean superAdmin = false;
+
+        @Column(name = "system_access_level", length = 50)
+        private String systemAccessLevel = "FULL"; // FULL, LIMITED, READONLY
+
+        @Column(length = 500)
+        private String notes;
+
+
         /**
          * Department or area of administrative responsibility
          * Examples: System Administration, IT Security, Compliance, Investment Management
@@ -191,7 +201,29 @@ public class Admin {
         public LocalDateTime getLastLoginDate() {
                 return lastLoginDate;
         }
+        /**
+         * Gets the admin's full name from the associated UserAccount.
+         * @return full name or null if no UserAccount
+         */
+        public String getAdminName() {
+                return userAccount != null ? userAccount.getFullName() : null;
+        }
 
+        /**
+         * Gets the admin's email from the associated UserAccount.
+         * @return email or null if no UserAccount
+         */
+        public String getAdminEmail() {
+                return userAccount != null ? userAccount.getEmail() : null;
+        }
+
+        /**
+         * Checks if this admin has full system access.
+         * @return true if access level is FULL
+         */
+        public boolean hasFullAccess() {
+                return "FULL".equals(systemAccessLevel);
+        }
         /**
          * Sets the last login date
          *

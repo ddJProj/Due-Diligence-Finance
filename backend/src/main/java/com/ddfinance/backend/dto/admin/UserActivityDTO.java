@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * DTO for user activity tracking.
- * Used for monitoring user behavior and system usage.
+ * DTO for user activity logging and tracking.
+ * Contains information about user actions and system interactions.
  *
  * @author Due Diligence Finance Team
  * @version 1.0
@@ -21,20 +21,31 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class UserActivityDTO {
 
+    private Long id;
+
     private Long userId;
+
     private String userEmail;
-    private String userRole;
 
-    private LocalDateTime lastLogin;
-    private LocalDateTime lastLogout;
-    private Long totalLogins;
-    private Long failedLoginAttempts;
+    private String userName;
 
-    private String lastActivity;
-    private LocalDateTime lastActivityTime;
+    private String activityType; // LOGIN, LOGOUT, VIEW, CREATE, UPDATE, DELETE
+
+    private LocalDateTime activityTime;
+
     private String ipAddress;
+
     private String userAgent;
 
-    private Boolean isActive;
-    private Boolean isLocked;
+    private String sessionId;
+
+    private String resourceType;
+
+    private Long resourceId;
+
+    private String details;
+
+    private boolean success;
+
+    private String errorMessage;
 }
