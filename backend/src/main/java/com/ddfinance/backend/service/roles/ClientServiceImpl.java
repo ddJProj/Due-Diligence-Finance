@@ -78,7 +78,7 @@ public class ClientServiceImpl implements ClientService {
         dto.setFirstName(client.getUserAccount().getFirstName());
         dto.setLastName(client.getUserAccount().getLastName());
         dto.setPhoneNumber(client.getUserAccount().getPhoneNumber());
-        dto.setDateJoined(client.getUserAccount().getCreatedDate());
+        dto.setDateJoined(client.getUserAccount().getCreatedAt());
 
         if (client.getAssignedEmployee() != null) {
             Employee employee = client.getAssignedEmployee();
@@ -368,10 +368,10 @@ public class ClientServiceImpl implements ClientService {
     private InvestmentDTO convertToInvestmentDTO(Investment investment) {
         InvestmentDTO dto = new InvestmentDTO();
         dto.setId(investment.getId());
-        dto.setStockSymbol(investment.getTickerSymbol());
-        dto.setStockName(investment.getName());
+        dto.setTickerSymbol(investment.getTickerSymbol());
+        dto.setName(investment.getName());
         dto.setShares(investment.getShares());
-        dto.setPurchasePrice(investment.getPurchasePricePerShare());
+        dto.setPurchasePricePerShare(investment.getPurchasePricePerShare());
         dto.setPurchaseDate(investment.getCreatedDate());
         dto.setStatus(investment.getStatus().name());
 
