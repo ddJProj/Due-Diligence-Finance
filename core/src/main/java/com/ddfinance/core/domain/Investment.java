@@ -64,6 +64,16 @@ public class Investment {
     @Column(name = "shares", precision = 15, scale = 6)
     private BigDecimal shares;
 
+
+    @Column(name = "last_modified_at")
+    private LocalDateTime lastModifiedAt;
+
+    @Column(name = "order_type", length = 20)
+    private String orderType;
+
+    @Column(name = "target_price", precision = 15, scale = 4)
+    private BigDecimal targetPrice;
+
     /**
      * Price per share when purchased
      */
@@ -484,4 +494,9 @@ public class Investment {
             generateInvestmentId();
         }
     }
-}
+
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.lastModifiedAt = LocalDateTime.now();
+    }}
