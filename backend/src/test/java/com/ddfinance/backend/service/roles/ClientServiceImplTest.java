@@ -20,7 +20,6 @@ import com.ddfinance.core.domain.enums.InvestmentStatus;
 import com.ddfinance.core.domain.enums.Role;
 import com.ddfinance.core.exception.EntityNotFoundException;
 import com.ddfinance.core.exception.SecurityException;
-import com.ddfinance.core.exception.ValidationException;
 import com.ddfinance.core.repository.UserAccountRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -217,8 +216,8 @@ class ClientServiceImplTest {
         // Assert
         assertNotNull(result);
         assertEquals(2, result.size());
-        assertEquals("MSFT", result.get(0).getStockSymbol()); // Most recent first
-        assertEquals("AAPL", result.get(1).getStockSymbol());
+        assertEquals("MSFT", result.get(0).getTickerSymbol()); // Most recent first
+        assertEquals("AAPL", result.get(1).getTickerSymbol());
 
         verify(investmentRepository).findByClientOrderByCreatedDateDesc(client);
     }
@@ -235,7 +234,7 @@ class ClientServiceImplTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("AAPL", result.getStockSymbol());
+        assertEquals("AAPL", result.getTickerSymbol());
         assertEquals(BigDecimal.valueOf(100), result.getShares());
 
         verify(investmentRepository).findById(1L);
