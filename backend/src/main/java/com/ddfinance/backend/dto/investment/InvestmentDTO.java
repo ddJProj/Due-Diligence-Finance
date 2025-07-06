@@ -1,16 +1,16 @@
 package com.ddfinance.backend.dto.investment;
 
-import com.ddfinance.core.domain.enums.InvestmentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
  * DTO for investment information.
- * Contains investment details with live stock data.
+ * Contains all details about a specific investment.
  *
  * @author Due Diligence Finance Team
  * @version 1.0
@@ -23,33 +23,85 @@ import java.time.LocalDateTime;
 public class InvestmentDTO {
 
     private Long id;
-    private Long clientId;
 
-    // Stock information
-    private String stockSymbol;
-    private String stockName;
+    private String investmentId;
+
+    private String tickerSymbol;
+
+    private String name;
+
+    private String investmentType;
+
+    private BigDecimal shares;
+
+    private BigDecimal purchasePricePerShare;
+
+    private BigDecimal currentPrice;
+
+    private BigDecimal currentValue;
+
+    private BigDecimal totalCost;
+
+    private BigDecimal unrealizedGain;
+
+    private BigDecimal unrealizedGainPercentage;
+
+    private BigDecimal realizedGain;
+
+    private BigDecimal dividendsReceived;
+
+    private String status;
+
+    private String riskLevel;
+
+    private LocalDateTime purchaseDate;
+
+    private LocalDateTime lastPriceUpdate;
+
+    private String notes;
+
+    // Additional fields for detailed view
     private String exchange;
+
     private String sector;
 
-    // Investment details
-    private Integer quantity;
-    private Double purchasePrice;
-    private Double currentPrice;
-    private Double totalValue;
-    private Double totalCost;
+    private BigDecimal dividendYield;
 
-    // Performance
-    private Double profitLoss;
-    private Double profitLossPercentage;
-    private Double dayChange;
-    private Double dayChangePercentage;
+    private BigDecimal dayChange;
 
-    // Status and dates
-    private InvestmentStatus status;
-    private LocalDateTime purchaseDate;
-    private LocalDateTime lastUpdated;
+    private BigDecimal dayChangePercentage;
 
-    // Additional info
-    private String notes;
-    private Boolean autoReinvestDividends;
+    private BigDecimal weekChange;
+
+    private BigDecimal weekChangePercentage;
+
+    private BigDecimal monthChange;
+
+    private BigDecimal monthChangePercentage;
+
+    private BigDecimal yearChange;
+
+    private BigDecimal yearChangePercentage;
+
+    // Market data
+    private BigDecimal fiftyTwoWeekHigh;
+
+    private BigDecimal fiftyTwoWeekLow;
+
+    private BigDecimal marketCap;
+
+    private BigDecimal peRatio;
+
+    private BigDecimal volume;
+
+    private BigDecimal averageVolume;
+
+    // Metadata
+    private LocalDateTime createdAt;
+
+    private String createdBy;
+
+    private LocalDateTime lastModifiedAt;
+
+    private String modifiedBy;
 }
