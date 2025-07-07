@@ -20,4 +20,6 @@ public interface SystemConfigRepository extends JpaRepository<SystemConfig, Long
     Optional<SystemConfig> findByConfigKey(String configKey);
 
     boolean existsByConfigKey(String configKey);
+
+    void deleteByConfigKey(String configKey);
 }

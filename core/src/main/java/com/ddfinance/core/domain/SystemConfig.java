@@ -31,6 +31,9 @@ public class SystemConfig {
     @Column(name = "config_key", unique = true, nullable = false, length = 50)
     private String configKey;
 
+    @Column(name = "config_value", length = 500)
+    private String configValue;
+
     @Column(name = "maintenance_mode", nullable = false)
     private boolean maintenanceMode = false;
 
@@ -108,12 +111,38 @@ public class SystemConfig {
 
     /**
      * Validates if the configuration is valid.
-     * @return true if all settings are within valid ranges
+     * @return true if all required fields are valid
      */
     public boolean isValid() {
-        return passwordMinLength >= 6 && passwordMinLength <= 128 &&
-                sessionTimeout >= 5 && sessionTimeout <= 480 &&
-                maxLoginAttempts >= 3 && maxLoginAttempts <= 10 &&
-                loginLockoutMinutes >= 5 && loginLockoutMinutes <= 1440;
+        return configKey != null && !configKey.isEmpty() &&
+                passwordMinLength >= 6 &&
+                sessionTimeout > 0 &&
+                maxLoginAttempts > 0 &&
+                loginLockoutMinutes > 0;
+    }
+
+    /**
+     * Gets a configuration value as a String.
+     * Returns the specific field value based on the configKey.
+     */
+    public String getConfigurationValue() {
+        if (configValue != null) {
+            return configValue;
+        }
+
+        // Return specific field values based on configKey
+        switch (configKey) {
+            case "maintenanceMode":
+                return String.valueOf(maintenanceMode);
+            case "maxUploadSize":
+                return String.valueOf(maxUploadSize);
+            case "sessionTimeout":
+                return String.valueOf(sessionTimeout);
+            case "passwordMinLength":
+                return String.valueOf(passwordMinLength);
+            default:
+                return configValue;
+        }
     }
 }
+
