@@ -15,10 +15,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 @Configuration
 @ComponentScan(basePackages = {
-        "com.ddfinance.core.service",
-        "com.ddfinance.backend.service",
-        "com.ddfinance.backend.controller",
-        "com.ddfinance.backend.config"
+        "com.ddfinance.core",  // Add this to scan ALL of core module
+        "com.ddfinance.backend"  // Scan ALL of backend module
 })
 @EnableJpaRepositories(basePackages = {
         "com.ddfinance.core.repository",

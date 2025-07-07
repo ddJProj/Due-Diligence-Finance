@@ -24,7 +24,6 @@ public class EmployeeDTO {
     private String email;
     private String firstName;
     private String lastName;
-    private String title;
     private String department;
     private String location;
     private String phoneNumber;
