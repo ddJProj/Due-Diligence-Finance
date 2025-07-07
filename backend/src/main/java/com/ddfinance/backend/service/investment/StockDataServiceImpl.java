@@ -1,4 +1,4 @@
-package com.ddfinance.backend.service.stock;
+package com.ddfinance.backend.service.investment;
 
 import com.ddfinance.backend.dto.investment.MarketOverviewDTO;
 import com.ddfinance.backend.dto.investment.StockQuoteDTO;
@@ -150,18 +150,30 @@ public class StockDataServiceImpl implements StockDataService {
             return null;
         }
 
+        Map<String, Object> stockInfo = getStockInfo(symbol);
+
         return StockQuoteDTO.builder()
                 .symbol(symbol.toUpperCase())
-                .price(currentPrice)
-                .bid(currentPrice.multiply(BigDecimal.valueOf(0.999)))
-                .ask(currentPrice.multiply(BigDecimal.valueOf(1.001)))
+                .companyName((String) stockInfo.getOrDefault("name", symbol + " Corporation"))
+                .exchange((String) stockInfo.getOrDefault("exchange", "NYSE"))
+                .currentPrice(currentPrice.doubleValue())
+                .previousClose(currentPrice.multiply(BigDecimal.valueOf(0.99)).doubleValue())
+                .dayChange(currentPrice.multiply(BigDecimal.valueOf(0.01)).doubleValue())
+                .dayChangePercentage(1.01)
+                .dayHigh(currentPrice.multiply(BigDecimal.valueOf(1.02)).doubleValue())
+                .dayLow(currentPrice.multiply(BigDecimal.valueOf(0.98)).doubleValue())
+                .openPrice(currentPrice.multiply(BigDecimal.valueOf(0.995)).doubleValue())
                 .volume(1000000L + (long)(Math.random() * 5000000))
-                .dayHigh(currentPrice.multiply(BigDecimal.valueOf(1.02)))
-                .dayLow(currentPrice.multiply(BigDecimal.valueOf(0.98)))
-                .previousClose(currentPrice.multiply(BigDecimal.valueOf(0.99)))
-                .change(currentPrice.multiply(BigDecimal.valueOf(0.01)))
-                .changePercent(BigDecimal.valueOf(1.01))
-                .timestamp(LocalDateTime.now())
+                .averageVolume(2000000L)
+                .week52High(currentPrice.multiply(BigDecimal.valueOf(1.3)).doubleValue())
+                .week52Low(currentPrice.multiply(BigDecimal.valueOf(0.7)).doubleValue())
+                .marketCap(((BigDecimal) stockInfo.getOrDefault("marketCap", new BigDecimal("1000000000"))).longValue())
+                .peRatio(15.0 + Math.random() * 20)
+                .eps(5.0 + Math.random() * 10)
+                .dividendYield(Math.random() * 3)
+                .sector((String) stockInfo.getOrDefault("sector", "Technology"))
+                .lastUpdated(LocalDateTime.now())
+                .currency("USD")
                 .build();
     }
 
@@ -184,7 +196,10 @@ public class StockDataServiceImpl implements StockDataService {
                         .symbol(symbol)
                         .name(name)
                         .exchange((String) info.get("exchange"))
-                        .type("Stock")
+                        .type("Common Stock")
+                        .sector((String) info.get("sector"))
+                        .country("US")
+                        .tradable(true)
                         .build());
             }
         }
@@ -193,21 +208,42 @@ public class StockDataServiceImpl implements StockDataService {
     }
 
     @Override
+    public Map<String, Object> getStockQuote(String symbol) {
+        logger.info("Getting stock quote for symbol: {}", symbol);
+
+        Map<String, Object> quote = new HashMap<>();
+        BigDecimal price = getCurrentPrice(symbol);
+
+        if (price != null) {
+            quote.put("price", price.doubleValue());
+            Map<String, Object> info = getStockInfo(symbol);
+            quote.put("name", info.getOrDefault("name", symbol + " Corporation"));
+        }
+
+        return quote;
+    }
+
+    @Override
     public MarketOverviewDTO getMarketOverview() {
         logger.info("Getting market overview");
 
         // TODO: Implement actual API call
+        // For now, return S&P 500 data as the market overview
         return MarketOverviewDTO.builder()
-                .sp500(new BigDecimal("4500.25"))
-                .sp500Change(new BigDecimal("25.50"))
-                .sp500ChangePercent(new BigDecimal("0.57"))
-                .dowJones(new BigDecimal("35000.75"))
-                .dowJonesChange(new BigDecimal("150.25"))
-                .dowJonesChangePercent(new BigDecimal("0.43"))
-                .nasdaq(new BigDecimal("14250.50"))
-                .nasdaqChange(new BigDecimal("75.25"))
-                .nasdaqChangePercent(new BigDecimal("0.53"))
-                .timestamp(LocalDateTime.now())
+                .indexName("S&P 500")
+                .indexSymbol("SPX")
+                .currentValue(4500.25)
+                .previousClose(4474.75)
+                .dayChange(25.50)
+                .dayChangePercentage(0.57)
+                .dayHigh(4510.00)
+                .dayLow(4470.00)
+                .marketStatus("OPEN")
+                .volume(2500000000L)
+                .advancers(350)
+                .decliners(130)
+                .unchanged(20)
+                .lastUpdated(LocalDateTime.now())
                 .build();
     }
 

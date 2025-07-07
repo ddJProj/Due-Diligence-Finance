@@ -36,6 +36,14 @@ public interface StockDataService {
     Map<String, Object> getStockInfo(String symbol);
 
     /**
+     * Gets stock quote as a simple map (used by EmployeeService).
+     *
+     * @param symbol The stock symbol
+     * @return Map containing basic quote data with "price" and "name" keys
+     */
+    Map<String, Object> getStockQuote(String symbol);
+
+    /**
      * Gets historical price data for a stock within a date range.
      *
      * @param symbol The stock symbol
