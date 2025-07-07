@@ -81,20 +81,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         dto.setEmail(employee.getUserAccount().getEmail());
         dto.setFirstName(employee.getUserAccount().getFirstName());
         dto.setLastName(employee.getUserAccount().getLastName());
-        dto.setTitle(employee.getTitle());
-        dto.setLocationId(employee.getLocationId());
-        dto.setDateJoined(employee.getUserAccount().getCreatedDate());
+        dto.setDepartment(employee.getDepartment());
+        dto.setLocation(employee.getLocationId());
+        dto.setHireDate(employee.getHireDate());
+        dto.setManagerId(employee.getManagerId());
+        dto.setSalary(employee.getSalary());
+        dto.setEmploymentStatus(employee.getIsActive() ? "ACTIVE" : "INACTIVE");
+        dto.setYearsOfExperience((int) employee.getYearsOfService());
 
         // Calculate metrics
         dto.setTotalClients(employee.getClientList().size());
+        dto.setActiveClients(employee.getActiveClients().size());
 
         // Calculate active investments and AUM
         Set<Client> clients = employee.getClientList();
-        long activeInvestments = investmentRepository.countByClientInAndStatus(clients, InvestmentStatus.ACTIVE);
         BigDecimal totalAUM = investmentRepository.calculateTotalValueForClients(clients);
-
-        dto.setActiveInvestments((int) activeInvestments);
-        dto.setTotalAssetsUnderManagement(totalAUM != null ? totalAUM : BigDecimal.ZERO);
+        dto.setTotalAssetsUnderManagement(totalAUM != null ? totalAUM.doubleValue() : 0.0);
 
         return dto;
     }
@@ -156,7 +158,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new SecurityException.ForbiddenException("You are not assigned to this client");
         }
 
-        // Validate stock symbol
+        // Validate stock symbol and get current price
         BigDecimal currentPrice = stockDataService.getCurrentPrice(request.getStockSymbol());
         if (currentPrice == null) {
             throw new ValidationException("Invalid stock symbol: " + request.getStockSymbol());
@@ -166,37 +168,51 @@ public class EmployeeServiceImpl implements EmployeeService {
         Map<String, Object> stockInfo = stockDataService.getStockInfo(request.getStockSymbol());
         String stockName = (String) stockInfo.getOrDefault("name", request.getStockSymbol());
 
-        // Create investment
-        Investment investment = new Investment();
-        investment.setClient(client);
-        investment.setTickerSymbol(request.getStockSymbol());
-        investment.setName(stockName);
-        investment.setShares(request.getShares());
-        investment.setPurchasePricePerShare(currentPrice);
-        investment.setStatus(InvestmentStatus.PENDING);
-        investment.setCreatedDate(LocalDateTime.now());
-        investment.set(request.getNotes());
+        // Create investment using the constructor
+        Investment investment = new Investment(
+                stockName,
+                request.getStockSymbol(),
+                BigDecimal.valueOf(request.getQuantity()),
+                currentPrice,
+                client,
+                employee
+        );
 
-        // Set order type and additional details
-        investment.setOrderType(request.getOrderType() != null ? request.getOrderType() : "MARKET");
-        if ("LIMIT".equals(request.getOrderType()) && request.getLimitPrice() != null) {
-            investment.setTargetPrice(request.getLimitPrice());
+        // Set additional fields
+        investment.setCurrentPricePerShare(currentPrice);
+        investment.setCurrentValue(investment.getShares().multiply(currentPrice));
+        investment.setInvestmentType("STOCK");
+
+        // Set order type and target price for limit orders
+        if (request.getOrderType() != null) {
+            investment.setOrderType(request.getOrderType());
+            if ("LIMIT".equals(request.getOrderType()) && request.getTargetPrice() != null) {
+                investment.setTargetPrice(BigDecimal.valueOf(request.getTargetPrice()));
+            }
+        }
+
+        // Set description if provided
+        if (request.getNotes() != null) {
+            investment.setDescription(request.getNotes());
         }
 
         Investment saved = investmentRepository.save(investment);
 
-        // Notify client
-        notificationService.notifyClientOfInvestment(client, saved);
+        // Process the order based on type
+        processInvestmentOrder(saved, request.getOrderType());
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("message", "Investment created successfully");
-        result.put("investmentId", saved.getId());
-        result.put("stockSymbol", saved.getStockSymbol());
-        result.put("shares", saved.getShares());
-        result.put("purchasePrice", saved.getPurchasePricePerShare());
-        result.put("status", saved.getStatus().name());
+        // Send notification
+        notifyClientOfNewInvestment(client, saved);
 
-        return result;
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Investment created successfully");
+        response.put("investmentId", saved.getId());
+        response.put("tickerSymbol", saved.getTickerSymbol());
+        response.put("shares", saved.getShares());
+        response.put("purchasePrice", saved.getPurchasePricePerShare());
+        response.put("status", saved.getStatus().toString());
+
+        return response;
     }
 
     @Override
@@ -211,7 +227,6 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new SecurityException.ForbiddenException("You are not assigned to this client");
         }
 
-        // Parse and validate new status
         InvestmentStatus newStatus;
         try {
             newStatus = InvestmentStatus.valueOf(status.toUpperCase());
@@ -219,10 +234,12 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new ValidationException("Invalid investment status: " + status);
         }
 
-        // Check if transition is valid
+        // Validate status transition
         if (!investment.getStatus().canTransitionTo(newStatus)) {
-            throw new ValidationException(String.format("Cannot transition from %s to %s",
-                    investment.getStatus(), newStatus));
+            throw new ValidationException(
+                    String.format("Cannot transition from %s to %s",
+                            investment.getStatus(), newStatus)
+            );
         }
 
         investment.setStatus(newStatus);
@@ -254,6 +271,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         newMessage.setRead(false);
 
         Message saved = messageRepository.save(newMessage);
+
+        // Send notification
+        notificationService.sendNotification(
+                client.getUserAccount().getEmail(),
+                message.getSubject(),
+                message.getContent()
+        );
 
         Map<String, Object> result = new HashMap<>();
         result.put("message", "Message sent successfully");
@@ -289,35 +313,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Map<String, Object> metrics = new HashMap<>();
 
-        // Basic metrics
-        Set<Client> clients = employee.getClientList();
-        metrics.put("totalClients", clients.size());
+        // Client metrics
+        metrics.put("totalClients", employee.getClientCount());
+        metrics.put("activeClients", employee.getActiveClients().size());
 
         // Investment metrics
+        Set<Client> clients = employee.getClientList();
         long activeInvestments = investmentRepository.countByClientInAndStatus(clients, InvestmentStatus.ACTIVE);
-        metrics.put("activeInvestments", activeInvestments);
-
         BigDecimal totalAUM = investmentRepository.calculateTotalValueForClients(clients);
+
+        metrics.put("activeInvestments", activeInvestments);
         metrics.put("totalAssetsUnderManagement", totalAUM != null ? totalAUM : BigDecimal.ZERO);
 
-        // Meeting metrics for last 30 days
-        LocalDateTime thirtyDaysAgo = LocalDateTime.now().minusDays(30);
-        long recentMeetings = clientMeetingRepository.countByEmployeeAndDateBetween(
-                employee, thirtyDaysAgo, LocalDateTime.now()
-        );
-        metrics.put("recentMeetings", recentMeetings);
+        // Performance calculations
+        BigDecimal totalReturns = calculateTotalReturns(clients);
+        metrics.put("totalReturns", totalReturns);
+        metrics.put("averageReturnPercentage", calculateAverageReturnPercentage(clients));
 
-        // Performance by investment status
-        Map<String, Long> investmentsByStatus = new HashMap<>();
-        for (InvestmentStatus status : InvestmentStatus.values()) {
-            long count = investmentRepository.countByClientInAndStatus(clients, status);
-            investmentsByStatus.put(status.name(), count);
-        }
-        metrics.put("investmentsByStatus", investmentsByStatus);
-
-        // Monthly performance trend
-        List<Map<String, Object>> monthlyTrend = calculateMonthlyPerformance(clients);
-        metrics.put("monthlyTrend", monthlyTrend);
+        // Activity metrics
+        metrics.put("messagesThisMonth", getMonthlyMessageCount(employee));
+        metrics.put("meetingsThisWeek", getWeeklyMeetingCount(employee));
 
         return metrics;
     }
@@ -342,7 +357,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public byte[] generateClientReport(String email, Long clientId, String format) {
+    public byte[] generateClientReport(String email, Long clientId, String reportType) {
         Employee employee = findEmployeeByEmail(email);
 
         Client client = clientRepository.findById(clientId)
@@ -353,13 +368,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new SecurityException.ForbiddenException("You are not assigned to this client");
         }
 
-        // Validate format
-        if (!Arrays.asList("PDF", "CSV", "EXCEL").contains(format.toUpperCase())) {
-            throw new ValidationException("Invalid report format: " + format);
-        }
-
         try {
-            return reportGeneratorService.generateClientReport(client, format);
+            return reportGeneratorService.generateClientReport(client, reportType);
         } catch (Exception e) {
             throw new RuntimeException("Failed to generate report: " + e.getMessage(), e);
         }
@@ -371,15 +381,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = findEmployeeByEmail(email);
 
         Set<Client> clients = employee.getClientList();
-        Set<InvestmentStatus> pendingStatuses = Set.of(
-                InvestmentStatus.PENDING,
-                InvestmentStatus.UNDER_REVIEW,
-                InvestmentStatus.APPROVED
-        );
+
+        // Use the enum's built-in method for getting pending statuses
+        Set<InvestmentStatus> pendingStatuses = InvestmentStatus.getPendingStatuses();
 
         return investmentRepository.findByClientInAndStatusIn(clients, pendingStatuses).stream()
                 .map(this::convertToInvestmentDTO)
-                .sorted((a, b) -> b.getPurchaseDate().compareTo(a.getPurchaseDate()))
                 .collect(Collectors.toList());
     }
 
@@ -395,9 +402,11 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new SecurityException.ForbiddenException("You are not assigned to this client");
         }
 
-        client.setNotes(notes);
-        client.setNotesLastUpdated(LocalDateTime.now());
-        client.setNotesUpdatedBy(employee.getUserAccount().getEmail());
+        // Store notes in investment preferences map
+        Map<String, Object> preferences = client.getInvestmentPreferences();
+        preferences.put("employeeNotes", notes);
+        preferences.put("notesLastUpdated", LocalDateTime.now().toString());
+        preferences.put("notesUpdatedBy", employee.getUserAccount().getEmail());
 
         clientRepository.save(client);
     }
@@ -411,7 +420,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         LocalDateTime endDate = startDate.plusDays(30);
 
         List<EmployeeSchedule> schedules = employeeScheduleRepository
-                .findByEmployeeAndDateBetween(employee, startDate, endDate);
+                .findByEmployeeAndScheduleDateBetween(employee, startDate, endDate);
 
         List<Map<String, Object>> scheduleList = new ArrayList<>();
 
@@ -429,7 +438,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             scheduleList.add(item);
         }
 
-        // Add upcoming client meetings
+        // Add client meetings
         List<ClientMeeting> meetings = clientMeetingRepository
                 .findByEmployeeAndMeetingDateBetween(employee, startDate, endDate);
 
@@ -437,12 +446,11 @@ public class EmployeeServiceImpl implements EmployeeService {
             Map<String, Object> item = new HashMap<>();
             item.put("id", "meeting-" + meeting.getId());
             item.put("date", meeting.getMeetingDate());
-            item.put("type", "CLIENT_MEETING");
+            item.put("type", "MEETING");
             item.put("title", meeting.getSubject());
-            item.put("description", "Client meeting");
+            item.put("description", meeting.getNotes());
             item.put("clientId", meeting.getClient().getId());
             item.put("clientName", meeting.getClient().getUserAccount().getFullName());
-            item.put("duration", meeting.getDurationMinutes());
             scheduleList.add(item);
         }
 
@@ -488,34 +496,46 @@ public class EmployeeServiceImpl implements EmployeeService {
         return saved.getId();
     }
 
-    // Helper methods
+    // Helper Methods
 
     private Employee findEmployeeByEmail(String email) {
         UserAccount userAccount = userAccountRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("User account not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User not found with email: " + email));
 
         return employeeRepository.findByUserAccount(userAccount)
-                .orElseThrow(() -> new EntityNotFoundException("Employee profile not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Employee not found for user: " + email));
     }
 
     private ClientDTO convertToClientDTO(Client client) {
         ClientDTO dto = new ClientDTO();
         dto.setId(client.getId());
-        dto.setClientId(client.getClientId());
+        dto.setEmail(client.getUserAccount().getEmail());
         dto.setFirstName(client.getUserAccount().getFirstName());
         dto.setLastName(client.getUserAccount().getLastName());
-        dto.setEmail(client.getUserAccount().getEmail());
-        dto.setPhoneNumber(client.getUserAccount().getPhoneNumber());
 
-        // Calculate portfolio value
-        BigDecimal portfolioValue = calculateClientPortfolioValue(client);
-        dto.setPortfolioValue(portfolioValue);
+        // Set registration date from Client entity
+        dto.setDateJoined(client.getRegistrationDate());
 
-        // Count active investments
-        long activeCount = client.getInvestments().stream()
-                .filter(inv -> inv.getStatus() == InvestmentStatus.ACTIVE)
-                .count();
-        dto.setActiveInvestments((int) activeCount);
+        // Set investment preferences from the map
+        Map<String, Object> preferences = client.getInvestmentPreferences();
+        if (preferences != null) {
+            dto.setPhoneNumber((String) preferences.get("phoneNumber"));
+            dto.setAddress((String) preferences.get("address"));
+            dto.setRiskTolerance((String) preferences.get("riskTolerance"));
+            dto.setInvestmentGoals((String) preferences.get("investmentGoals"));
+            dto.setPreferredSectors((String) preferences.get("preferredSectors"));
+        }
+
+        dto.setIsActive("ACTIVE".equals(client.getClientStatus()));
+
+        // Calculate portfolio value from investments
+        List<Investment> investments = investmentRepository.findByClient(client);
+        BigDecimal portfolioValue = investments.stream()
+                .filter(inv -> inv.getCurrentValue() != null)
+                .map(Investment::getCurrentValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        dto.setPortfolioValue(portfolioValue.doubleValue());
+        dto.setTotalInvestments(investments.size());
 
         return dto;
     }
@@ -523,29 +543,30 @@ public class EmployeeServiceImpl implements EmployeeService {
     private InvestmentDTO convertToInvestmentDTO(Investment investment) {
         InvestmentDTO dto = new InvestmentDTO();
         dto.setId(investment.getId());
+        dto.setInvestmentId(investment.getInvestmentId());
         dto.setTickerSymbol(investment.getTickerSymbol());
         dto.setName(investment.getName());
         dto.setShares(investment.getShares());
         dto.setPurchasePricePerShare(investment.getPurchasePricePerShare());
+        dto.setCurrentPrice(investment.getCurrentPricePerShare());
+        dto.setStatus(investment.getStatus().toString());
         dto.setPurchaseDate(investment.getCreatedDate());
-        dto.setStatus(investment.getStatus().name());
-        dto.setNotes(investment.getNotes());
 
-        // Get current price and calculate value
-        BigDecimal currentPrice = stockDataService.getCurrentPrice(investment.getTickerSymbol());
-        dto.setCurrentPrice(currentPrice);
+        // Calculate value and profit/loss
+        BigDecimal currentValue = investment.getCurrentValue() != null ?
+                investment.getCurrentValue() : investment.getShares().multiply(investment.getCurrentPricePerShare());
+        BigDecimal totalCost = investment.getAmount() != null ?
+                investment.getAmount() : investment.getShares().multiply(investment.getPurchasePricePerShare());
+        BigDecimal unrealizedGain = currentValue.subtract(totalCost);
 
-        if (currentPrice != null) {
-            dto.setCurrentValue(currentPrice.multiply(investment.getShares()));
+        dto.setCurrentValue(currentValue);
+        dto.setTotalCost(totalCost);
+        dto.setUnrealizedGain(unrealizedGain);
 
-            // Calculate gain/loss
-            BigDecimal purchaseValue = investment.getPurchasePricePerShare().multiply(investment.getShares());
-            BigDecimal gain = dto.getCurrentValue().subtract(purchaseValue);
-            dto.setUnrealizedGain(gain);
+        if (totalCost.compareTo(BigDecimal.ZERO) > 0) {
             dto.setUnrealizedGainPercentage(
-                    purchaseValue.signum() > 0 ?
-                            gain.divide(purchaseValue, 4, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal.valueOf(100)) :
-                            BigDecimal.ZERO
+                    unrealizedGain.divide(totalCost, 4, BigDecimal.ROUND_HALF_UP)
+                            .multiply(BigDecimal.valueOf(100))
             );
         }
 
@@ -557,56 +578,80 @@ public class EmployeeServiceImpl implements EmployeeService {
         map.put("id", message.getId());
         map.put("subject", message.getSubject());
         map.put("content", message.getContent());
-        map.put("senderEmail", message.getSender().getEmail());
-        map.put("senderName", message.getSender().getFullName());
+        map.put("fromClient", message.getSender().getFullName());
+        map.put("fromEmail", message.getSender().getEmail());
         map.put("sentAt", message.getSentAt());
         map.put("read", message.isRead());
-
-        // Find which client sent this
-        Optional<Client> senderClient = clientRepository.findByUserAccount(message.getSender());
-        if (senderClient.isPresent()) {
-            map.put("clientId", senderClient.get().getId());
-            map.put("clientName", senderClient.get().getClientId());
-        }
-
+        map.put("readAt", message.getReadAt());
         return map;
     }
 
-    private BigDecimal calculateClientPortfolioValue(Client client) {
-        BigDecimal totalValue = BigDecimal.ZERO;
+    private void processInvestmentOrder(Investment investment, String orderType) {
+        // TODO: Implement order processing logic based on order type
+        // For now, just update status to ACTIVE for market orders
+        if ("MARKET".equalsIgnoreCase(orderType)) {
+            investment.setStatus(InvestmentStatus.ACTIVE);
+            investmentRepository.save(investment);
+        }
+    }
 
-        for (Investment investment : client.getInvestments()) {
-            if (investment.getStatus() == InvestmentStatus.ACTIVE) {
-                BigDecimal currentPrice = stockDataService.getCurrentPrice(investment.getTickerSymbol());
-                if (currentPrice != null) {
-                    BigDecimal value = currentPrice.multiply(investment.getShares());
-                    totalValue = totalValue.add(value);
+    private void notifyClientOfNewInvestment(Client client, Investment investment) {
+        notificationService.notifyClientOfInvestment(client, investment);
+    }
+
+    private BigDecimal calculateTotalReturns(Set<Client> clients) {
+        BigDecimal totalReturns = BigDecimal.ZERO;
+
+        for (Client client : clients) {
+            List<Investment> investments = investmentRepository.findByClient(client);
+            for (Investment investment : investments) {
+                if (investment.getStatus() == InvestmentStatus.ACTIVE) {
+                    totalReturns = totalReturns.add(investment.calculateGainLoss());
                 }
             }
         }
 
-        return totalValue;
+        return totalReturns;
     }
 
-    private List<Map<String, Object>> calculateMonthlyPerformance(Set<Client> clients) {
-        List<Map<String, Object>> monthlyData = new ArrayList<>();
+    private Double calculateAverageReturnPercentage(Set<Client> clients) {
+        BigDecimal totalCost = BigDecimal.ZERO;
+        BigDecimal totalValue = BigDecimal.ZERO;
 
-        // Calculate for last 6 months
-        for (int i = 5; i >= 0; i--) {
-            LocalDateTime monthStart = LocalDateTime.now().minusMonths(i).withDayOfMonth(1);
-            LocalDateTime monthEnd = monthStart.plusMonths(1).minusDays(1);
-
-            Map<String, Object> monthData = new HashMap<>();
-            monthData.put("month", monthStart.getMonth().toString());
-            monthData.put("year", monthStart.getYear());
-
-            // TODO: Calculate actual performance metrics
-            monthData.put("newInvestments", 0);
-            monthData.put("totalValue", BigDecimal.ZERO);
-
-            monthlyData.add(monthData);
+        for (Client client : clients) {
+            List<Investment> investments = investmentRepository.findByClient(client);
+            for (Investment investment : investments) {
+                if (investment.getStatus() == InvestmentStatus.ACTIVE) {
+                    totalCost = totalCost.add(investment.getAmount());
+                    totalValue = totalValue.add(investment.getCurrentValue() != null ?
+                            investment.getCurrentValue() : BigDecimal.ZERO);
+                }
+            }
         }
 
-        return monthlyData;
+        if (totalCost.compareTo(BigDecimal.ZERO) == 0) {
+            return 0.0;
+        }
+
+        BigDecimal returnPercentage = totalValue.subtract(totalCost)
+                .divide(totalCost, 4, BigDecimal.ROUND_HALF_UP)
+                .multiply(BigDecimal.valueOf(100));
+
+        return returnPercentage.doubleValue();
+    }
+
+    private Long getMonthlyMessageCount(Employee employee) {
+        LocalDateTime startOfMonth = LocalDateTime.now().withDayOfMonth(1).withHour(0).withMinute(0);
+        List<Message> messages = messageRepository.findBySenderOrderBySentAtDesc(employee.getUserAccount());
+
+        return messages.stream()
+                .filter(m -> m.getSentAt().isAfter(startOfMonth))
+                .count();
+    }
+
+    private Long getWeeklyMeetingCount(Employee employee) {
+        LocalDateTime startOfWeek = LocalDateTime.now().minusDays(7);
+        LocalDateTime now = LocalDateTime.now();
+        return clientMeetingRepository.countByEmployeeAndMeetingDateBetween(employee, startOfWeek, now);
     }
 }
