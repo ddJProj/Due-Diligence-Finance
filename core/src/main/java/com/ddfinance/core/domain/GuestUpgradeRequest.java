@@ -1,24 +1,29 @@
 package com.ddfinance.core.domain;
 
+import com.ddfinance.core.domain.enums.UpgradeRequestStatus;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import com.ddfinance.core.domain.enums.UpgradeRequestStatus;
-
-import jakarta.persistence.*;
-
 /**
  * Entity representing a guest user's request to upgrade their account to client status.
  * This entity tracks the request lifecycle from creation through approval or rejection.
  *
- * @author DDFinance Team
+ * @author Due Diligence Finance Team
  * @version 1.0
  * @since 2025-01-15
  */
 @Entity
 @Table(name = "guest_upgrade_requests")
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class GuestUpgradeRequest {
 
     /**
@@ -48,14 +53,14 @@ public class GuestUpgradeRequest {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private UpgradeRequestStatus status;
+    private UpgradeRequestStatus status = UpgradeRequestStatus.PENDING;
 
     /**
      * Additional details about the upgrade request
      * Can include justification, rejection reasons, etc.
      * Maximum length of 1000 characters
      */
-    @Column(name = "details", length = 1000)
+    @Column(length = 1000)
     private String details;
 
 
@@ -69,85 +74,50 @@ public class GuestUpgradeRequest {
     private String rejectionReason;
 
     @ElementCollection
-    @CollectionTable(name = "upgrade_request_additional_info",
+    @CollectionTable(
+        name = "upgrade_request_additional_info",
             joinColumns = @JoinColumn(name = "request_id"))
     @MapKeyColumn(name = "info_key")
-    @Column(name = "info_value", length = 1000)
-    private Map<String, Object> additionalInfo = new HashMap<>();
+    @Column(name = "info_value")
+    private Map<String, String> additionalInfo = new HashMap<>();
 
 
+    @Column(name = "income_verification", nullable = false)
+    private boolean incomeVerification = false;
 
+    @Column(name = "identity_verification", nullable = false)
+    private boolean identityVerification = false;
 
+    @Column(name = "documents_provided", nullable = false)
+    private boolean documentsProvided = false;
 
     /**
-     * Default constructor for JPA
+     * Constructor with required fields.
      */
-    public GuestUpgradeRequest() {
-    }
-
-    /**
-     * Parameterized constructor for creating a new upgrade request
-     *
-     * @param userAccount The user account requesting the upgrade
-     * @param requestDate The date and time of the request
-     * @param status The initial status of the request
-     * @param details Additional details about the request
-     */
-    public GuestUpgradeRequest(UserAccount userAccount, LocalDateTime requestDate,
-                               UpgradeRequestStatus status, String details) {
+    public GuestUpgradeRequest(UserAccount userAccount, String details) {
         this.userAccount = userAccount;
-        this.requestDate = requestDate;
-        this.status = status;
         this.details = details;
+        this.requestDate = LocalDateTime.now();
+        this.status = UpgradeRequestStatus.PENDING;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        if (requestDate == null) {
+            requestDate = LocalDateTime.now();
+        }
+        if (status == null) {
+            status = UpgradeRequestStatus.PENDING;
+        }
     }
 
     /**
-     * Gets the unique identifier for this upgrade request
-     *
-     * @return The request ID
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * Sets the unique identifier for this upgrade request
-     *
-     * @param id The request ID
-     * @return This GuestUpgradeRequest instance for method chaining
-     */
-    public GuestUpgradeRequest setId(Long id) {
-        this.id = id;
-        return this;
-    }
-
-    /**
-     * Gets the user account associated with this upgrade request
-     *
-     * @return The user account
-     */
-    public UserAccount getUserAccount() {
-        return userAccount;
-    }
-
-    /**
-     * Sets the user account associated with this upgrade request
-     *
-     * @param userAccount The user account requesting the upgrade
-     * @return This GuestUpgradeRequest instance for method chaining
+     * Fluent setter for UserAccount.
+     * @return this instance for chaining
      */
     public GuestUpgradeRequest setUserAccount(UserAccount userAccount) {
         this.userAccount = userAccount;
         return this;
-    }
-
-    /**
-     * Gets the date and time when this upgrade request was submitted
-     *
-     * @return The request date
-     */
-    public LocalDateTime getRequestDate() {
-        return requestDate;
     }
 
     /**
@@ -156,25 +126,15 @@ public class GuestUpgradeRequest {
      * @param requestDate The request date
      * @return This GuestUpgradeRequest instance for method chaining
      */
+
     public GuestUpgradeRequest setRequestDate(LocalDateTime requestDate) {
         this.requestDate = requestDate;
         return this;
     }
 
     /**
-     * Gets the current status of this upgrade request
-     *
-     * @return The request status
-     */
-    public UpgradeRequestStatus getStatus() {
-        return status;
-    }
-
-    /**
-     * Sets the current status of this upgrade request
-     *
-     * @param status The request status
-     * @return This GuestUpgradeRequest instance for method chaining
+     * Fluent setter for status.
+     * @return this instance for chaining
      */
     public GuestUpgradeRequest setStatus(UpgradeRequestStatus status) {
         this.status = status;
@@ -182,19 +142,8 @@ public class GuestUpgradeRequest {
     }
 
     /**
-     * Gets the additional details about this upgrade request
-     *
-     * @return The request details
-     */
-    public String getDetails() {
-        return details;
-    }
-
-    /**
-     * Sets the additional details about this upgrade request
-     *
-     * @param details The request details (max 1000 characters)
-     * @return This GuestUpgradeRequest instance for method chaining
+     * Fluent setter for details.
+     * @return this instance for chaining
      */
     public GuestUpgradeRequest setDetails(String details) {
         this.details = details;
@@ -202,52 +151,41 @@ public class GuestUpgradeRequest {
     }
 
     /**
-     * Checks if this upgrade request is currently pending
-     *
-     * @return true if the status is PENDING, false otherwise
+     * Checks if the request can be processed.
+     * @return true if status is PENDING
      */
-    public boolean isPending() {
+    public boolean canBeProcessed() {
         return status == UpgradeRequestStatus.PENDING;
     }
 
     /**
-     * Checks if this upgrade request has been approved
-     *
-     * @return true if the status is APPROVED, false otherwise
+     * Checks if all required verifications are complete.
+     * @return true if all verifications are done
      */
-    public boolean isApproved() {
-        return status == UpgradeRequestStatus.APPROVED;
+    public boolean isFullyVerified() {
+        return incomeVerification && identityVerification && documentsProvided;
     }
 
     /**
-     * Checks if this upgrade request has been rejected
-     *
-     * @return true if the status is REJECTED, false otherwise
+     * Approves the request.
+     * @param processedBy The admin who approved it
      */
-    public boolean isRejected() {
-        return status == UpgradeRequestStatus.REJECTED;
-    }
-
-    /**
-     * Marks this upgrade request as approved
-     *
-     * @return This GuestUpgradeRequest instance for method chaining
-     */
-    public GuestUpgradeRequest approve() {
+    public void approve(String processedBy) {
         this.status = UpgradeRequestStatus.APPROVED;
-        return this;
+        this.processedDate = LocalDateTime.now();
+        this.processedBy = processedBy;
     }
 
     /**
-     * Marks this upgrade request as rejected with a reason
-     *
-     * @param rejectionReason The reason for rejection
-     * @return This GuestUpgradeRequest instance for method chaining
+     * Rejects the request.
+     * @param processedBy The admin who rejected it
+     * @param reason The rejection reason
      */
-    public GuestUpgradeRequest reject(String rejectionReason) {
+    public void reject(String processedBy, String reason) {
         this.status = UpgradeRequestStatus.REJECTED;
-        this.details = "Reason for Rejection: " + rejectionReason;
-        return this;
+        this.processedDate = LocalDateTime.now();
+        this.processedBy = processedBy;
+        this.rejectionReason = reason;
     }
 
 
@@ -299,4 +237,6 @@ public class GuestUpgradeRequest {
                 ", details='" + details + '\'' +
                 '}';
     }
+
+
 }
