@@ -28,6 +28,13 @@ public interface AdminService {
     SystemStatsDTO getSystemStats();
 
     /**
+     * Gets recent user activity (top 100).
+     *
+     * @return List of recent user activities
+     */
+    List<UserActivityDTO> getRecentUserActivity();
+
+    /**
      * Gets user activities within a date range.
      *
      * @param startDate Start date
@@ -35,6 +42,113 @@ public interface AdminService {
      * @return List of user activities
      */
     List<UserActivityDTO> getUserActivities(LocalDateTime startDate, LocalDateTime endDate);
+
+    /**
+     * Creates a new user account with role.
+     *
+     * @param userData User data including role
+     * @return Result with user details
+     */
+    Map<String, Object> createUserAccount(Map<String, Object> userData);
+
+    /**
+     * Updates user permissions.
+     *
+     * @param userId User ID
+     * @param permissions List of permission names
+     */
+    void updatePermissions(Long userId, List<String> permissions);
+
+    /**
+     * Resets a user's password.
+     *
+     * @param userId User ID
+     */
+    void resetUserPassword(Long userId);
+
+    /**
+     * Disables a user account.
+     *
+     * @param userId User ID
+     */
+    void disableUser(Long userId);
+
+    /**
+     * Enables a user account.
+     *
+     * @param userId User ID
+     */
+    void enableUser(Long userId);
+
+    /**
+     * Searches for users by email or name.
+     *
+     * @param query Search query
+     * @return List of matching users
+     */
+    List<Map<String, Object>> searchUsers(String query);
+
+    /**
+     * Gets system configuration.
+     *
+     * @return Configuration map
+     */
+    Map<String, Object> getSystemConfiguration();
+
+    /**
+     * Updates system configuration.
+     *
+     * @param key Configuration key
+     * @param value Configuration value
+     * @return Update result
+     */
+    Map<String, Object> updateSystemConfiguration(String key, String value);
+
+    /**
+     * Gets pending upgrade requests.
+     *
+     * @return List of pending requests
+     */
+    List<Map<String, Object>> getPendingUpgradeRequests();
+
+    /**
+     * Approves an upgrade request.
+     *
+     * @param requestId Request ID
+     */
+    void approveUpgradeRequest(Long requestId);
+
+    /**
+     * Rejects an upgrade request.
+     *
+     * @param requestId Request ID
+     * @param reason Rejection reason
+     */
+    void rejectUpgradeRequest(Long requestId, String reason);
+
+    /**
+     * Generates system backup.
+     *
+     * @return Backup data
+     */
+    byte[] generateBackup();
+
+    /**
+     * Restores from backup.
+     *
+     * @param backupData Backup data
+     */
+    void restoreFromBackup(byte[] backupData);
+
+    /**
+     * Gets audit logs with optional user filter.
+     *
+     * @param startDate Start date
+     * @param endDate End date
+     * @param userId Optional user ID filter
+     * @return List of audit logs
+     */
+    List<Map<String, Object>> getAuditLogs(LocalDateTime startDate, LocalDateTime endDate, Long userId);
 
     /**
      * Assigns permissions to a user.
@@ -104,47 +218,13 @@ public interface AdminService {
     /**
      * Toggles system maintenance mode.
      *
-     * @param enable True to enable, false to disable
-     * @return Operation result
+     * @param enabled True to enable, false to disable
+     * @return Result with status
      */
-    Map<String, Object> toggleMaintenanceMode(boolean enable);
+    Map<String, Object> toggleMaintenanceMode(boolean enabled);
 
     /**
-     * Gets pending guest upgrade requests.
-     *
-     * @return List of pending requests
-     */
-    List<Map<String, Object>> getPendingUpgradeRequests();
-
-    /**
-     * Approves a guest upgrade request.
-     *
-     * @param requestId Request ID
-     * @throws com.ddfinance.core.exception.EntityNotFoundException if request not found
-     */
-    void approveUpgradeRequest(Long requestId);
-
-    /**
-     * Rejects a guest upgrade request.
-     *
-     * @param requestId Request ID
-     * @param reason Rejection reason
-     * @throws com.ddfinance.core.exception.EntityNotFoundException if request not found
-     */
-    void rejectUpgradeRequest(Long requestId, String reason);
-
-    /**
-     * Gets system audit logs.
-     *
-     * @param startDate Start date
-     * @param endDate End date
-     * @param userId Optional user ID filter
-     * @return List of audit logs
-     */
-    List<Map<String, Object>> getAuditLogs(LocalDateTime startDate, LocalDateTime endDate, Long userId);
-
-    /**
-     * Backs up system data.
+     * Creates backup of system data.
      *
      * @return Backup file path
      */
@@ -153,7 +233,7 @@ public interface AdminService {
     /**
      * Restores system data from backup.
      *
-     * @param backupPath Backup file path
+     * @param backupPath Path to backup file
      * @return Restore result
      */
     Map<String, Object> restoreSystemData(String backupPath);
