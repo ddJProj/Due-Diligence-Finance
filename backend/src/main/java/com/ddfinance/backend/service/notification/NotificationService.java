@@ -1,7 +1,9 @@
 package com.ddfinance.backend.service.notification;
 
+import com.ddfinance.core.domain.Client;
 import com.ddfinance.core.domain.ContactRequest;
 import com.ddfinance.core.domain.GuestUpgradeRequest;
+import com.ddfinance.core.domain.Investment;
 import com.ddfinance.core.domain.UserAccount;
 
 /**
@@ -56,6 +58,14 @@ public interface NotificationService {
     void createInAppNotification(Long userId, String type, String message);
 
     /**
+     * Notifies client of a new investment.
+     *
+     * @param client The client to notify
+     * @param investment The new investment
+     */
+    void notifyClientOfInvestment(Client client, Investment investment);
+
+    /**
      * Sends a password reset notification with temporary password.
      *
      * @param user The user to notify
@@ -92,6 +102,4 @@ public interface NotificationService {
      * @param reason The rejection reason
      */
     void notifyUserOfUpgradeRejection(UserAccount user, String reason);
-
-
 }
