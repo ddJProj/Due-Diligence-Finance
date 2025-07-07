@@ -81,7 +81,7 @@ public class InvestmentTest {
         assertEquals(name, stockInvestment.getName());
         assertEquals(ticker, stockInvestment.getTickerSymbol());
         assertEquals(shares, stockInvestment.getShares());
-        assertEquals(pricePerShare, stockInvestment.getPurchasePricePerSharePerShare());
+        assertEquals(pricePerShare, stockInvestment.getPurchasePricePerShare());
         assertEquals(testClient, stockInvestment.getClient());
         assertEquals("STOCK", stockInvestment.getInvestmentType());
         assertEquals(InvestmentStatus.PENDING, stockInvestment.getStatus());
