@@ -22,6 +22,7 @@ import java.util.List;
 @Repository
 public interface UserActivityLogRepository extends JpaRepository<UserActivityLog, Long> {
 
+
     List<UserActivityLog> findByUserAccount(UserAccount userAccount);
 
     List<UserActivityLog> findByActivityTimeBetween(LocalDateTime start, LocalDateTime end);
@@ -38,4 +39,5 @@ public interface UserActivityLogRepository extends JpaRepository<UserActivityLog
     default Long countActiveSessionsInLastMinutes(int minutes) {
         return countActiveSessionsInLastMinutes(LocalDateTime.now().minusMinutes(minutes));
     }
+
 }

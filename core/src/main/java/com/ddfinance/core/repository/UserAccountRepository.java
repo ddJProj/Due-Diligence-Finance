@@ -59,11 +59,62 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Long> 
     boolean existsByRole(Role role);
 
     /**
-     * Count the number of UserAccounts with a specific role
-     * Useful for administrative reporting and system statistics
+     * Counts the number of users with a specific role.
      *
-     * @param role the role to count
-     * @return the number of user accounts with the specified role
+     * @param role The role to count
+     * @return Number of users with the role
      */
     int countByRole(Role role);
+
+    /**
+     * Finds active user accounts.
+     *
+     * @return List of active users
+     */
+    List<UserAccount> findByActiveTrue();
+
+    /**
+     * Finds user accounts by role and active status.
+     *
+     * @param role The role to filter by
+     * @param active The active status
+     * @return List of matching users
+     */
+    List<UserAccount> findByRoleAndActive(Role role, boolean active);
+
+    /**
+     * Searches for users by email or name (case-insensitive).
+     *
+     * @param searchTerm The term to search for
+     * @return List of matching users
+     */
+    @Query("SELECT u FROM UserAccount u WHERE " +
+            "LOWER(u.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(u.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+    List<UserAccount> searchByEmailOrName(@Param("searchTerm") String searchTerm);
+
+    /**
+     * Finds users who haven't been deleted.
+     *
+     * @return List of non-deleted users
+     */
+    List<UserAccount> findByDeletedFalse();
+
+    /**
+     * Finds users by multiple roles.
+     *
+     * @param roles The roles to search for
+     * @return List of users with any of the specified roles
+     */
+    List<UserAccount> findByRoleIn(List<Role> roles);
+
+    /**
+     * Counts active users by role.
+     *
+     * @param role The role to count
+     * @return Number of active users with the role
+     */
+    int countByRoleAndActiveTrue(Role role);
+
 }

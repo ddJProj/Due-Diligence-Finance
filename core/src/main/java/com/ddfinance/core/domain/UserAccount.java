@@ -80,7 +80,6 @@ public class UserAccount {
     @Column(name = "last_login_at")
     private LocalDateTime lastLoginAt;
 
-
     @Column(nullable = false)
     private boolean active = true;
 
@@ -93,11 +92,30 @@ public class UserAccount {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    // ========== NEW FIELDS ADDED FOR ADMINSERVICEIMPL ==========
+
+    @Column(name = "created_date", nullable = false)
+    private LocalDateTime createdDate = LocalDateTime.now();
+
+    @Column(name = "last_modified_date")
+    private LocalDateTime lastModifiedDate;
+
+    @Column(name = "account_locked", nullable = false)
+    private boolean accountLocked = false;
+
+    @Column(name = "failed_login_attempts")
+    private int failedLoginAttempts = 0;
+
+    @Column(name = "lock_expiry_time")
+    private LocalDateTime lockExpiryTime;
+
+    // ========== END NEW FIELDS ==========
 
     // Email validation pattern
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
             "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
     );
+
     /**
      * Constructor with basic user information (defaults to GUEST role)
      * @param email user's email address
@@ -112,6 +130,7 @@ public class UserAccount {
         this.lastName = lastName;
         this.role = Role.GUEST;
         this.permissions = new HashSet<>();
+        this.createdDate = LocalDateTime.now();
     }
 
     /**
@@ -129,9 +148,25 @@ public class UserAccount {
         this.lastName = lastName;
         this.role = role;
         this.permissions = new HashSet<>();
+        this.createdDate = LocalDateTime.now();
     }
 
+    // ========== JPA Lifecycle Methods ==========
 
+    @PrePersist
+    protected void onCreate() {
+        if (createdDate == null) {
+            createdDate = LocalDateTime.now();
+        }
+        if (lastModifiedDate == null) {
+            lastModifiedDate = LocalDateTime.now();
+        }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        lastModifiedDate = LocalDateTime.now();
+    }
 
     // ========== Permission Management Methods ==========
 
@@ -164,6 +199,15 @@ public class UserAccount {
     }
 
     /**
+     * Check if this user has a specific permission (overloaded for Permission object)
+     * @param permission the permission to check
+     * @return true if user has the permission
+     */
+    public boolean hasPermission(Permission permission) {
+        return permissions.contains(permission);
+    }
+
+    /**
      * Clear all permissions for this user
      */
     public void clearPermissions() {
@@ -178,12 +222,7 @@ public class UserAccount {
         this.permissions = permissions != null ? permissions : new HashSet<>();
     }
 
-
-
-
-
     // ========== Business Logic Methods ==========
-
 
     /**
      * Gets the user's full name.
@@ -202,7 +241,6 @@ public class UserAccount {
         }
         return fullName.toString();
     }
-
 
     /**
      * Check if this user is an admin
@@ -296,5 +334,27 @@ public class UserAccount {
         return role.canApproveClientUpgrades();
     }
 
+    /**
+     * Checks if the account is currently locked.
+     * @return true if account is locked and lock hasn't expired
+     */
+    public boolean isCurrentlyLocked() {
+        return accountLocked && (lockExpiryTime == null || lockExpiryTime.isAfter(LocalDateTime.now()));
+    }
 
+    /**
+     * Alias for password field to support different naming conventions
+     * @return the hashed password
+     */
+    public String getHashedPassword() {
+        return this.password;
+    }
+
+    /**
+     * Alias for password field to support different naming conventions
+     * @param hashedPassword the hashed password to set
+     */
+    public void setHashedPassword(String hashedPassword) {
+        this.password = hashedPassword;
+    }
 }
