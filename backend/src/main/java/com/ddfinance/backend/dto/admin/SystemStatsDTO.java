@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
  * DTO for system statistics.
  * Provides overview of system usage and health.
@@ -37,4 +39,8 @@ public class SystemStatsDTO {
     private Double cpuUsage;
     private Double memoryUsage;
     private Long diskSpaceAvailable;
-}
+
+
+    private Double totalSystemValue;
+    private LocalDateTime generatedAt;
+    private Long databaseSize;}
