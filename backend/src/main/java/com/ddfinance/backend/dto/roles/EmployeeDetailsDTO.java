@@ -26,7 +26,6 @@ public class EmployeeDetailsDTO {
     private String email;
     private String firstName;
     private String lastName;
-    private String title;
     private String department;
     private String location;
     private String phoneNumber;
@@ -34,6 +33,8 @@ public class EmployeeDetailsDTO {
     // Employment details
     private LocalDateTime hireDate;
     private String employmentStatus;
+    private String managerId;
+    private Double salary;
 
     // Performance metrics
     private Integer totalClients;
