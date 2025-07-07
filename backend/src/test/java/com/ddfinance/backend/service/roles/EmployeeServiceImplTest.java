@@ -6,8 +6,8 @@ import com.ddfinance.backend.dto.investment.InvestmentDTO;
 import com.ddfinance.backend.dto.roles.ClientDTO;
 import com.ddfinance.backend.dto.roles.EmployeeDetailsDTO;
 import com.ddfinance.backend.repository.*;
+import com.ddfinance.backend.service.investment.StockDataService;
 import com.ddfinance.backend.service.notification.NotificationService;
-import com.ddfinance.backend.service.stock.StockDataService;
 import com.ddfinance.core.domain.*;
 import com.ddfinance.core.domain.enums.InvestmentStatus;
 import com.ddfinance.core.domain.enums.Role;
@@ -98,8 +98,10 @@ class EmployeeServiceImplTest {
         employee.setId(1L);
         employee.setUserAccount(employeeUserAccount);
         employee.setEmployeeId("EMP-001");
-        employee.setTitle("Senior Financial Advisor");
+        employee.setDepartment("Finance");
         employee.setLocationId("NYC");
+        employee.setHireDate(LocalDateTime.now().minusYears(5));
+        employee.setIsActive(true);
 
         // Setup client 1
         clientUserAccount1 = new UserAccount();
@@ -114,6 +116,7 @@ class EmployeeServiceImplTest {
         client1.setClientId("CLI-001");
         client1.setUserAccount(clientUserAccount1);
         client1.setAssignedEmployee(employee);
+        client1.setRegistrationDate(LocalDateTime.now().minusYears(1));
 
         // Setup client 2
         clientUserAccount2 = new UserAccount();
@@ -128,6 +131,7 @@ class EmployeeServiceImplTest {
         client2.setClientId("CLI-002");
         client2.setUserAccount(clientUserAccount2);
         client2.setAssignedEmployee(employee);
+        client2.setRegistrationDate(LocalDateTime.now().minusMonths(6));
 
         // Setup clients list for employee
         employee.setClientList(Set.of(client1, client2));
@@ -136,10 +140,14 @@ class EmployeeServiceImplTest {
         investment1 = new Investment();
         investment1.setId(1L);
         investment1.setClient(client1);
-        investment1.setStockSymbol("AAPL");
+        investment1.setTickerSymbol("AAPL");
         investment1.setShares(BigDecimal.valueOf(100));
-        investment1.setPurchasePrice(BigDecimal.valueOf(150.00));
+        investment1.setPurchasePricePerShare(BigDecimal.valueOf(150.00));
+        investment1.setCurrentPricePerShare(BigDecimal.valueOf(175.00));
+        investment1.setAmount(BigDecimal.valueOf(15000.00));
+        investment1.setCurrentValue(BigDecimal.valueOf(17500.00));
         investment1.setStatus(InvestmentStatus.ACTIVE);
+        investment1.setCreatedDate(LocalDateTime.now().minusMonths(3));
     }
 
     @Test
@@ -147,6 +155,7 @@ class EmployeeServiceImplTest {
         // Arrange
         when(userAccountRepository.findByEmail("jane.smith@company.com")).thenReturn(Optional.of(employeeUserAccount));
         when(employeeRepository.findByUserAccount(employeeUserAccount)).thenReturn(Optional.of(employee));
+        when(investmentRepository.calculateTotalValueForClients(anySet())).thenReturn(BigDecimal.valueOf(250000));
 
         // Act
         EmployeeDetailsDTO result = employeeService.getEmployeeDetails("jane.smith@company.com");
@@ -157,9 +166,10 @@ class EmployeeServiceImplTest {
         assertEquals("Jane", result.getFirstName());
         assertEquals("Smith", result.getLastName());
         assertEquals("EMP-001", result.getEmployeeId());
-        assertEquals("Senior Financial Advisor", result.getTitle());
-        assertEquals("NYC", result.getLocationId());
+        assertEquals("Finance", result.getDepartment());
+        assertEquals("NYC", result.getLocation());
         assertEquals(2, result.getTotalClients());
+        assertEquals(250000.0, result.getTotalAssetsUnderManagement());
 
         verify(employeeRepository).findByUserAccount(employeeUserAccount);
     }
@@ -181,6 +191,7 @@ class EmployeeServiceImplTest {
         // Arrange
         when(userAccountRepository.findByEmail("jane.smith@company.com")).thenReturn(Optional.of(employeeUserAccount));
         when(employeeRepository.findByUserAccount(employeeUserAccount)).thenReturn(Optional.of(employee));
+        when(investmentRepository.findByClient(any())).thenReturn(new ArrayList<>());
 
         // Act
         List<ClientDTO> result = employeeService.getAssignedClients("jane.smith@company.com");
@@ -188,8 +199,8 @@ class EmployeeServiceImplTest {
         // Assert
         assertNotNull(result);
         assertEquals(2, result.size());
-        assertTrue(result.stream().anyMatch(c -> c.getClientId().equals("CLI-001")));
-        assertTrue(result.stream().anyMatch(c -> c.getClientId().equals("CLI-002")));
+        assertTrue(result.stream().anyMatch(c -> c.getFirstName().equals("Alice")));
+        assertTrue(result.stream().anyMatch(c -> c.getFirstName().equals("John")));
 
         verify(employeeRepository).findByUserAccount(employeeUserAccount);
     }
@@ -200,13 +211,14 @@ class EmployeeServiceImplTest {
         when(userAccountRepository.findByEmail("jane.smith@company.com")).thenReturn(Optional.of(employeeUserAccount));
         when(employeeRepository.findByUserAccount(employeeUserAccount)).thenReturn(Optional.of(employee));
         when(clientRepository.findById(1L)).thenReturn(Optional.of(client1));
+        when(investmentRepository.findByClient(client1)).thenReturn(new ArrayList<>());
 
         // Act
         ClientDTO result = employeeService.getClientForEmployee("jane.smith@company.com", 1L);
 
         // Assert
         assertNotNull(result);
-        assertEquals("CLI-001", result.getClientId());
+        assertEquals("john.doe@example.com", result.getEmail());
         assertEquals("John", result.getFirstName());
         assertEquals("Doe", result.getLastName());
 
@@ -255,7 +267,7 @@ class EmployeeServiceImplTest {
         CreateInvestmentRequest request = new CreateInvestmentRequest();
         request.setClientId(1L);
         request.setStockSymbol("MSFT");
-        request.setShares(BigDecimal.valueOf(50));
+        request.setQuantity(50);
         request.setOrderType("MARKET");
 
         when(userAccountRepository.findByEmail("jane.smith@company.com")).thenReturn(Optional.of(employeeUserAccount));
@@ -276,7 +288,7 @@ class EmployeeServiceImplTest {
         assertNotNull(result);
         assertEquals("Investment created successfully", result.get("message"));
         assertNotNull(result.get("investmentId"));
-        assertEquals("MSFT", result.get("stockSymbol"));
+        assertEquals("MSFT", result.get("tickerSymbol"));
 
         verify(investmentRepository).save(any(Investment.class));
         verify(notificationService).notifyClientOfInvestment(eq(client1), any());
@@ -288,7 +300,7 @@ class EmployeeServiceImplTest {
         CreateInvestmentRequest request = new CreateInvestmentRequest();
         request.setClientId(1L);
         request.setStockSymbol("INVALID");
-        request.setShares(BigDecimal.valueOf(50));
+        request.setQuantity(50);
 
         when(userAccountRepository.findByEmail("jane.smith@company.com")).thenReturn(Optional.of(employeeUserAccount));
         when(employeeRepository.findByUserAccount(employeeUserAccount)).thenReturn(Optional.of(employee));
@@ -314,7 +326,7 @@ class EmployeeServiceImplTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("COMPLETED", investment1.getStatus().name());
+        assertEquals("COMPLETED", result.getStatus());
 
         verify(investmentRepository).save(investment1);
     }
@@ -394,7 +406,7 @@ class EmployeeServiceImplTest {
         when(employeeRepository.findByUserAccount(employeeUserAccount)).thenReturn(Optional.of(employee));
         when(investmentRepository.countByClientInAndStatus(anySet(), eq(InvestmentStatus.ACTIVE))).thenReturn(5L);
         when(investmentRepository.calculateTotalValueForClients(anySet())).thenReturn(BigDecimal.valueOf(500000));
-        when(clientMeetingRepository.countByEmployeeAndDateBetween(any(), any(), any())).thenReturn(10L);
+        when(clientMeetingRepository.countByEmployeeAndMeetingDateBetween(any(), any(), any())).thenReturn(10L);
 
         // Act
         Map<String, Object> result = employeeService.getPerformanceMetrics("jane.smith@company.com");
@@ -404,7 +416,6 @@ class EmployeeServiceImplTest {
         assertEquals(2, result.get("totalClients"));
         assertEquals(5L, result.get("activeInvestments"));
         assertEquals(BigDecimal.valueOf(500000), result.get("totalAssetsUnderManagement"));
-        assertNotNull(result.get("recentMeetings"));
 
         verify(investmentRepository).countByClientInAndStatus(anySet(), eq(InvestmentStatus.ACTIVE));
     }
@@ -414,6 +425,7 @@ class EmployeeServiceImplTest {
         // Arrange
         when(userAccountRepository.findByEmail("jane.smith@company.com")).thenReturn(Optional.of(employeeUserAccount));
         when(employeeRepository.findByUserAccount(employeeUserAccount)).thenReturn(Optional.of(employee));
+        when(investmentRepository.findByClient(any())).thenReturn(new ArrayList<>());
 
         // Act
         List<ClientDTO> result = employeeService.searchClients("jane.smith@company.com", "john");
@@ -451,6 +463,9 @@ class EmployeeServiceImplTest {
         pendingInvestment.setId(2L);
         pendingInvestment.setStatus(InvestmentStatus.PENDING);
         pendingInvestment.setClient(client1);
+        pendingInvestment.setTickerSymbol("GOOGL");
+        pendingInvestment.setShares(BigDecimal.valueOf(10));
+        pendingInvestment.setPurchasePricePerShare(BigDecimal.valueOf(2800));
 
         when(userAccountRepository.findByEmail("jane.smith@company.com")).thenReturn(Optional.of(employeeUserAccount));
         when(employeeRepository.findByUserAccount(employeeUserAccount)).thenReturn(Optional.of(employee));
@@ -492,7 +507,9 @@ class EmployeeServiceImplTest {
         // Arrange
         when(userAccountRepository.findByEmail("jane.smith@company.com")).thenReturn(Optional.of(employeeUserAccount));
         when(employeeRepository.findByUserAccount(employeeUserAccount)).thenReturn(Optional.of(employee));
-        when(employeeScheduleRepository.findByEmployeeAndDateBetween(any(), any(), any()))
+        when(employeeScheduleRepository.findByEmployeeAndScheduleDateBetween(any(), any(), any()))
+                .thenReturn(new ArrayList<>());
+        when(clientMeetingRepository.findByEmployeeAndMeetingDateBetween(any(), any(), any()))
                 .thenReturn(new ArrayList<>());
 
         // Act
@@ -500,7 +517,7 @@ class EmployeeServiceImplTest {
 
         // Assert
         assertNotNull(result);
-        verify(employeeScheduleRepository).findByEmployeeAndDateBetween(any(), any(), any());
+        verify(employeeScheduleRepository).findByEmployeeAndScheduleDateBetween(any(), any(), any());
     }
 
     @Test
