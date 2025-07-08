@@ -4,6 +4,7 @@ import com.ddfinance.backend.dto.actions.MessageDTO;
 import com.ddfinance.backend.dto.investment.InvestmentDTO;
 import com.ddfinance.backend.dto.investment.PortfolioSummaryDTO;
 import com.ddfinance.backend.dto.roles.ClientDetailsDTO;
+import com.ddfinance.backend.dto.roles.EmployeeDTO;
 import com.ddfinance.backend.repository.*;
 import com.ddfinance.backend.service.investment.StockDataService;
 import com.ddfinance.core.domain.*;
@@ -78,18 +79,26 @@ public class ClientServiceImpl implements ClientService {
         dto.setFirstName(client.getUserAccount().getFirstName());
         dto.setLastName(client.getUserAccount().getLastName());
         dto.setPhoneNumber(client.getUserAccount().getPhoneNumber());
-        dto.setDateJoined(client.getUserAccount().getCreatedAt());
+        dto.setDateJoined(client.getUserAccount().getCreatedDate());
 
         if (client.getAssignedEmployee() != null) {
             Employee employee = client.getAssignedEmployee();
-            dto.setAssignedEmployeeId(employee.getEmployeeId());
-            dto.setAssignedEmployeeName(employee.getFullName());
-            dto.setAssignedEmployeeEmail(employee.getUserAccount().getEmail());
-            dto.setAssignedEmployeeTitle(employee.getTitle());
+            EmployeeDTO employeeDTO = new EmployeeDTO();
+            employeeDTO.setId(employee.getId());
+            employeeDTO.setEmployeeId(employee.getEmployeeId());
+            employeeDTO.setEmail(employee.getUserAccount().getEmail());
+            employeeDTO.setFirstName(employee.getUserAccount().getFirstName());
+            employeeDTO.setLastName(employee.getUserAccount().getLastName());
+            employeeDTO.setDepartment(employee.getDepartment());
+            dto.setAssignedEmployee(employeeDTO);
         }
 
-        dto.setInvestmentPreferences(client.getInvestmentPreferences());
-        dto.setRiskProfile(client.getRiskProfile());
+        // Set account status
+        dto.setIsActive(client.getUserAccount().isActive());
+        dto.setAccountStatus(client.getUserAccount().isActive() ? "ACTIVE" : "INACTIVE");
+
+        // Set investment preferences
+        dto.setRiskTolerance(client.getRiskProfile());
 
         return dto;
     }
@@ -299,6 +308,12 @@ public class ClientServiceImpl implements ClientService {
         validateInvestmentPreferences(preferences);
 
         client.setInvestmentPreferences(preferences);
+
+        // Update risk profile if provided
+        if (preferences.containsKey("riskTolerance")) {
+            client.setRiskProfile((String) preferences.get("riskTolerance"));
+        }
+
         clientRepository.save(client);
 
         Map<String, Object> result = new HashMap<>();
@@ -405,8 +420,12 @@ public class ClientServiceImpl implements ClientService {
         map.put("amount", transaction.getAmount());
         map.put("description", transaction.getDescription());
         map.put("date", transaction.getTransactionDate());
-        map.put("investmentId", transaction.getInvestment() != null ? transaction.getInvestment().getId() : null);
-        map.put("stockSymbol", transaction.getInvestment() != null ? transaction.getInvestment().getTickerSymbol() : null);
+
+        if (transaction.getInvestment() != null) {
+            map.put("investmentId", transaction.getInvestment().getId());
+            map.put("tickerSymbol", transaction.getInvestment().getTickerSymbol());
+        }
+
         return map;
     }
 
@@ -418,6 +437,8 @@ public class ClientServiceImpl implements ClientService {
         map.put("generatedDate", document.getGeneratedDate());
         map.put("fileName", document.getFileName());
         map.put("fileSize", document.getFileSize());
+        map.put("isFinal", document.isFinalVersion());
+        map.put("sentToClient", document.isSentToClient());
         return map;
     }
 
@@ -435,7 +456,7 @@ public class ClientServiceImpl implements ClientService {
                                                                LocalDateTime startDate,
                                                                LocalDateTime endDate) {
         Map<String, Object> performance = new HashMap<>();
-        performance.put("stockSymbol", investment.getTickerSymbol());
+        performance.put("tickerSymbol", investment.getTickerSymbol());
         performance.put("shares", investment.getShares());
 
         // Get historical data from stock service
