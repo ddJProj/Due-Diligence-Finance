@@ -8,6 +8,7 @@ import com.ddfinance.backend.repository.GuestUpgradeRequestRepository;
 import com.ddfinance.backend.repository.FAQRepository;
 import com.ddfinance.backend.repository.ContactRequestRepository;
 import com.ddfinance.backend.service.notification.NotificationService;
+import com.ddfinance.core.domain.ContactRequest;
 import com.ddfinance.core.domain.Guest;
 import com.ddfinance.core.domain.GuestUpgradeRequest;
 import com.ddfinance.core.domain.UserAccount;
@@ -76,7 +77,7 @@ class GuestServiceImplTest {
         guestUserAccount.setFirstName("John");
         guestUserAccount.setLastName("Guest");
         guestUserAccount.setRole(Role.GUEST);
-        guestUserAccount.setCreatedAt(LocalDateTime.now().minusDays(7));
+        guestUserAccount.setCreatedDate(LocalDateTime.now().minusDays(7));
 
         // Setup guest
         guest = new Guest();
@@ -91,6 +92,18 @@ class GuestServiceImplTest {
         upgradeRequest.setStatus(UpgradeRequestStatus.PENDING);
         upgradeRequest.setRequestDate(LocalDateTime.now().minusDays(1));
         upgradeRequest.setDetails("I would like to become a client to start investing.");
+
+        // Setup additionalInfo map for upgrade request
+        Map<String, String> additionalInfo = new HashMap<>();
+        additionalInfo.put("phoneNumber", "+1234567890");
+        additionalInfo.put("address", "123 Test St");
+        additionalInfo.put("occupation", "Software Engineer");
+        additionalInfo.put("annualIncome", "100000");
+        additionalInfo.put("investmentGoals", "Long-term growth");
+        additionalInfo.put("riskTolerance", "MODERATE");
+        additionalInfo.put("expectedInvestmentAmount", "50000");
+        additionalInfo.put("sourceOfFunds", "Savings");
+        upgradeRequest.setAdditionalInfo(additionalInfo);
     }
 
     @Test
@@ -98,6 +111,8 @@ class GuestServiceImplTest {
         // Arrange
         when(userAccountRepository.findByEmail("john.guest@example.com")).thenReturn(Optional.of(guestUserAccount));
         when(guestRepository.findByUserAccount(guestUserAccount)).thenReturn(Optional.of(guest));
+        when(upgradeRequestRepository.findByUserAccountOrderByRequestDateDesc(guestUserAccount))
+                .thenReturn(Collections.emptyList());
 
         // Act
         GuestDetailsDTO result = guestService.getGuestDetails("john.guest@example.com");
@@ -107,8 +122,8 @@ class GuestServiceImplTest {
         assertEquals("john.guest@example.com", result.getEmail());
         assertEquals("John", result.getFirstName());
         assertEquals("Guest", result.getLastName());
-        assertEquals("GUEST-001", result.getGuestId());
-        assertNotNull(result.getAccountCreatedDate());
+        assertEquals(1L, result.getGuestId());
+        assertNotNull(result.getRegistrationDate());
 
         verify(userAccountRepository).findByEmail("john.guest@example.com");
         verify(guestRepository).findByUserAccount(guestUserAccount);
@@ -146,14 +161,18 @@ class GuestServiceImplTest {
     void requestUpgrade_Success() {
         // Arrange
         CreateUpgradeRequestDTO request = new CreateUpgradeRequestDTO();
-        request.setDetails("I want to invest");
+        request.setPhoneNumber("+1234567890");
+        request.setAddress("123 Test St");
+        request.setOccupation("Software Engineer");
+        request.setAnnualIncome(100000.0);
+        request.setInvestmentGoals("Long-term growth");
+        request.setRiskTolerance("MODERATE");
         request.setExpectedInvestmentAmount(50000.0);
-        request.setInvestmentExperience("INTERMEDIATE");
-        request.setEmploymentStatus("EMPLOYED");
-        request.setAnnualIncome("100000-150000");
+        request.setSourceOfFunds("Savings");
+        request.setAgreeToIdentityVerification(true);
+        request.setAcceptTermsAndConditions(true);
 
         when(userAccountRepository.findByEmail("john.guest@example.com")).thenReturn(Optional.of(guestUserAccount));
-        when(guestRepository.findByUserAccount(guestUserAccount)).thenReturn(Optional.of(guest));
         when(upgradeRequestRepository.existsByUserAccountAndStatus(guestUserAccount, UpgradeRequestStatus.PENDING))
                 .thenReturn(false);
         when(upgradeRequestRepository.save(any(GuestUpgradeRequest.class))).thenAnswer(invocation -> {
@@ -179,10 +198,8 @@ class GuestServiceImplTest {
     void requestUpgrade_ExistingPendingRequest_ThrowsException() {
         // Arrange
         CreateUpgradeRequestDTO request = new CreateUpgradeRequestDTO();
-        request.setDetails("I want to invest");
 
         when(userAccountRepository.findByEmail("john.guest@example.com")).thenReturn(Optional.of(guestUserAccount));
-        when(guestRepository.findByUserAccount(guestUserAccount)).thenReturn(Optional.of(guest));
         when(upgradeRequestRepository.existsByUserAccountAndStatus(guestUserAccount, UpgradeRequestStatus.PENDING))
                 .thenReturn(true);
 
@@ -204,9 +221,12 @@ class GuestServiceImplTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals(1L, result.getId());
-        assertEquals("PENDING", result.getStatus().name());
-        assertEquals("I would like to become a client to start investing.", result.getDetails());
+        assertEquals(1L, result.getRequestId());
+        assertEquals(UpgradeRequestStatus.PENDING, result.getStatus());
+        assertEquals("+1234567890", result.getPhoneNumber());
+        assertEquals("123 Test St", result.getAddress());
+        assertEquals("Software Engineer", result.getOccupation());
+        assertEquals(100000.0, result.getAnnualIncome());
 
         verify(upgradeRequestRepository).findByUserAccountOrderByRequestDateDesc(guestUserAccount);
     }
@@ -265,6 +285,8 @@ class GuestServiceImplTest {
         when(userAccountRepository.findByEmail("john.guest@example.com")).thenReturn(Optional.of(guestUserAccount));
         when(guestRepository.findByUserAccount(guestUserAccount)).thenReturn(Optional.of(guest));
         when(userAccountRepository.save(any(UserAccount.class))).thenReturn(guestUserAccount);
+        when(upgradeRequestRepository.findByUserAccountOrderByRequestDateDesc(guestUserAccount))
+                .thenReturn(Collections.emptyList());
 
         // Act
         GuestDetailsDTO result = guestService.updateProfile("john.guest@example.com", profileData);
@@ -312,14 +334,15 @@ class GuestServiceImplTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals(10000.0, result.get("initialAmount"));
-        assertEquals(5, result.get("years"));
+        assertEquals(10000.0, result.get("initialInvestment"));
+        assertEquals(5, result.get("investmentPeriod"));
         assertNotNull(result.get("projections"));
 
-        Map<String, Object> projections = (Map<String, Object>) result.get("projections");
-        assertNotNull(projections.get("conservative"));
-        assertNotNull(projections.get("moderate"));
-        assertNotNull(projections.get("aggressive"));
+        List<Map<String, Object>> projections = (List<Map<String, Object>>) result.get("projections");
+        assertNotNull(projections);
+        assertEquals(5, projections.size());
+        assertTrue(projections.stream().anyMatch(p -> "Conservative (4%)".equals(p.get("scenario"))));
+        assertTrue(projections.stream().anyMatch(p -> "Growth (10%)".equals(p.get("scenario"))));
     }
 
     @Test
@@ -338,7 +361,8 @@ class GuestServiceImplTest {
         // Assert
         assertNotNull(result);
         assertFalse(result.isEmpty());
-        assertTrue(result.stream().anyMatch(res -> "category".equals("Getting Started")));
+        assertTrue(result.stream().anyMatch(res -> "BASICS".equals(res.get("category"))));
+        assertTrue(result.stream().anyMatch(res -> res.get("title").toString().contains("Stock Market")));
     }
 
     @Test
@@ -350,7 +374,11 @@ class GuestServiceImplTest {
         contactRequest.put("phone", "+1234567890");
         contactRequest.put("message", "I'd like to learn more");
 
-        when(contactRequestRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(contactRequestRepository.save(any(ContactRequest.class))).thenAnswer(invocation -> {
+            ContactRequest saved = invocation.getArgument(0);
+            saved.setId(1L);
+            return saved;
+        });
 
         // Act
         assertDoesNotThrow(() -> {
@@ -358,15 +386,27 @@ class GuestServiceImplTest {
         });
 
         // Assert
-        verify(contactRequestRepository).save(any());
-        verify(notificationService).notifySalesTeamOfContact(any());
+        verify(contactRequestRepository).save(any(ContactRequest.class));
+        verify(notificationService).notifySalesTeamOfContact(any(ContactRequest.class));
+    }
+
+    @Test
+    void submitContactRequest_MissingName_ThrowsException() {
+        // Arrange
+        Map<String, String> contactRequest = new HashMap<>();
+        contactRequest.put("email", "john.guest@example.com");
+        contactRequest.put("message", "I'd like to learn more");
+
+        // Act & Assert
+        assertThrows(ValidationException.class, () -> {
+            guestService.submitContactRequest(contactRequest);
+        });
     }
 
     @Test
     void checkUpgradeEligibility_Success() {
         // Arrange
         when(userAccountRepository.findByEmail("john.guest@example.com")).thenReturn(Optional.of(guestUserAccount));
-        when(guestRepository.findByUserAccount(guestUserAccount)).thenReturn(Optional.of(guest));
         when(upgradeRequestRepository.existsByUserAccountAndStatus(guestUserAccount, UpgradeRequestStatus.PENDING))
                 .thenReturn(false);
 
@@ -383,7 +423,6 @@ class GuestServiceImplTest {
     void checkUpgradeEligibility_PendingRequest_NotEligible() {
         // Arrange
         when(userAccountRepository.findByEmail("john.guest@example.com")).thenReturn(Optional.of(guestUserAccount));
-        when(guestRepository.findByUserAccount(guestUserAccount)).thenReturn(Optional.of(guest));
         when(upgradeRequestRepository.existsByUserAccountAndStatus(guestUserAccount, UpgradeRequestStatus.PENDING))
                 .thenReturn(true);
 
@@ -403,15 +442,54 @@ class GuestServiceImplTest {
         when(guestRepository.findByUserAccount(guestUserAccount)).thenReturn(Optional.of(guest));
         when(upgradeRequestRepository.findByUserAccountOrderByRequestDateDesc(guestUserAccount))
                 .thenReturn(Arrays.asList(upgradeRequest));
+        when(contactRequestRepository.countByStatus("NEW")).thenReturn(2L);
 
         // Act
         Map<String, Object> result = guestService.getActivitySummary("john.guest@example.com");
 
         // Assert
         assertNotNull(result);
-        assertNotNull(result.get("accountCreated"));
-        assertNotNull(result.get("daysSinceCreation"));
+        assertNotNull(result.get("welcomeMessage"));
+        assertEquals("Guest Account", result.get("accountType"));
+        assertNotNull(result.get("registrationDate"));
+        assertNotNull(result.get("daysSinceRegistration"));
+        assertEquals("PENDING", result.get("upgradeRequestStatus"));
+        assertNotNull(result.get("upgradeRequestDate"));
+        assertNotNull(result.get("availableActions"));
+        assertNotNull(result.get("clientBenefits"));
+        assertNotNull(result.get("recentActivity"));
+        assertNotNull(result.get("nextSteps"));
+        assertNotNull(result.get("quickStats"));
         assertNotNull(result.get("upgradeRequestHistory"));
         assertNotNull(result.get("lastActivity"));
+
+        List<Map<String, Object>> recentActivity = (List<Map<String, Object>>) result.get("recentActivity");
+        assertFalse(recentActivity.isEmpty());
+
+        Map<String, Object> quickStats = (Map<String, Object>) result.get("quickStats");
+        assertNotNull(quickStats.get("profileComplete"));
+        assertNotNull(quickStats.get("hasPhoneNumber"));
+        assertNotNull(quickStats.get("hasSubmittedUpgradeRequest"));
+        assertNotNull(quickStats.get("accountAge"));
+    }
+
+    @Test
+    void getActivitySummary_NoUpgradeRequest() {
+        // Arrange
+        when(userAccountRepository.findByEmail("john.guest@example.com")).thenReturn(Optional.of(guestUserAccount));
+        when(guestRepository.findByUserAccount(guestUserAccount)).thenReturn(Optional.of(guest));
+        when(upgradeRequestRepository.findByUserAccountOrderByRequestDateDesc(guestUserAccount))
+                .thenReturn(Collections.emptyList());
+        when(contactRequestRepository.countByStatus("NEW")).thenReturn(0L);
+
+        // Act
+        Map<String, Object> result = guestService.getActivitySummary("john.guest@example.com");
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("NO_REQUEST", result.get("upgradeRequestStatus"));
+
+        List<String> nextSteps = (List<String>) result.get("nextSteps");
+        assertTrue(nextSteps.contains("Submit an upgrade request to become a client"));
     }
 }
