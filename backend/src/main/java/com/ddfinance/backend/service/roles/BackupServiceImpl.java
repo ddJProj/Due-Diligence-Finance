@@ -23,6 +23,30 @@ public class BackupServiceImpl implements BackupService {
     private static final String BACKUP_DIR = "/backups/";
 
     @Override
+    public byte[] createFullBackup() throws Exception {
+        // TODO: Implement actual database backup
+        return new byte[0];
+    }
+
+    @Override
+    public void restoreFromBackup(byte[] backupData) throws Exception {
+        // TODO: Implement actual database backup
+
+    }
+
+    @Override
+    public byte[] createPartialBackup(boolean includeUsers, boolean includeInvestments, boolean includeConfigs) throws Exception {
+        // TODO: Implement actual database backup
+        return new byte[0];
+    }
+
+    @Override
+    public boolean validateBackup(byte[] backupData) {
+        // TODO: Implement actual database backup
+        return false;
+    }
+
+    @Override
     public String performBackup() throws Exception {
         // TODO: Implement actual database backup
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
@@ -105,5 +129,10 @@ public class BackupServiceImpl implements BackupService {
         Thread.sleep(500);
 
         return backupPath;
+    }
+
+    @Override
+    public String getLastBackupTimestamp() {
+        return "";
     }
 }
