@@ -416,9 +416,9 @@ public class ClientServiceImpl implements ClientService {
     private Map<String, Object> convertTransactionToMap(Transaction transaction) {
         Map<String, Object> map = new HashMap<>();
         map.put("id", transaction.getId());
-        map.put("type", transaction.getType());
-        map.put("amount", transaction.getAmount());
-        map.put("description", transaction.getDescription());
+        map.put("type", transaction.getTransactionType());
+        map.put("amount", transaction.getTotalAmount());
+        map.put("description", transaction.getDescription());  // This is correct for your entity
         map.put("date", transaction.getTransactionDate());
 
         if (transaction.getInvestment() != null) {
