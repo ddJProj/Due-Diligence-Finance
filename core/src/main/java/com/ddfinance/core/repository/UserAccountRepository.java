@@ -85,29 +85,35 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Long> 
     /**
      * Searches for users by email or name (case-insensitive).
      *
-     * @param searchTerm The term to search for
+     * @param query The search query
      * @return List of matching users
      */
     @Query("SELECT u FROM UserAccount u WHERE " +
-            "LOWER(u.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-            "LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-            "LOWER(u.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
-    List<UserAccount> searchByEmailOrName(@Param("searchTerm") String searchTerm);
+            "LOWER(u.email) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+            "LOWER(u.firstName) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+            "LOWER(u.lastName) LIKE LOWER(CONCAT('%', :query, '%'))")
+    List<UserAccount> searchByEmailOrName(@Param("query") String query);
 
     /**
-     * Finds users who haven't been deleted.
+     * Finds users by role that match a search query.
      *
-     * @return List of non-deleted users
+     * @param role The role to filter by
+     * @param query The search query
+     * @return List of matching users
      */
-    List<UserAccount> findByDeletedFalse();
+    @Query("SELECT u FROM UserAccount u WHERE u.role = :role AND " +
+            "(LOWER(u.email) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+            "LOWER(u.firstName) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+            "LOWER(u.lastName) LIKE LOWER(CONCAT('%', :query, '%')))")
+    List<UserAccount> findByRoleAndSearchQuery(@Param("role") Role role, @Param("query") String query);
 
     /**
-     * Finds users by multiple roles.
+     * Finds all user accounts ordered by creation date.
      *
-     * @param roles The roles to search for
-     * @return List of users with any of the specified roles
+     * @return List of users ordered by creation date
      */
-    List<UserAccount> findByRoleIn(List<Role> roles);
+    @Query("SELECT u FROM UserAccount u ORDER BY u.createdDate DESC")
+    List<UserAccount> findAllOrderByCreatedDateDesc();
 
     /**
      * Counts active users by role.
@@ -115,6 +121,6 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Long> 
      * @param role The role to count
      * @return Number of active users with the role
      */
-    int countByRoleAndActiveTrue(Role role);
-
+    @Query("SELECT COUNT(u) FROM UserAccount u WHERE u.role = :role AND u.active = true")
+    long countActiveByRole(@Param("role") Role role);
 }
