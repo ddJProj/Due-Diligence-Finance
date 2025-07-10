@@ -92,29 +92,28 @@ public interface UserAccountService {
     /**
      * Creates a new user account.
      *
-     * @param userAccountDTO User account data
+     * @param userDTO User details
+     * @param temporaryPassword Temporary password for the new user
      * @return Created user account DTO
      * @throws com.ddfinance.core.exception.ValidationException if email already exists
      */
-    UserAccountDTO createUserAccount(UserAccountDTO userAccountDTO);
+    UserAccountDTO createUser(UserAccountDTO userDTO, String temporaryPassword);
 
     /**
-     * Assigns permissions to a user.
+     * Activates a user account.
      *
-     * @param userId User ID
-     * @param permissionIds Set of permission IDs to assign
-     * @return Updated user account DTO
+     * @param id User ID
      * @throws com.ddfinance.core.exception.EntityNotFoundException if user not found
+     * @throws com.ddfinance.core.exception.ValidationException if user is already active
      */
-    UserAccountDTO assignPermissions(Long userId, java.util.Set<Long> permissionIds);
+    void activateUser(Long id);
 
     /**
-     * Removes permissions from a user.
+     * Deactivates a user account.
      *
-     * @param userId User ID
-     * @param permissionIds Set of permission IDs to remove
-     * @return Updated user account DTO
+     * @param id User ID
      * @throws com.ddfinance.core.exception.EntityNotFoundException if user not found
+     * @throws com.ddfinance.core.exception.ValidationException if user is already inactive
      */
-    UserAccountDTO removePermissions(Long userId, java.util.Set<Long> permissionIds);
+    void deactivateUser(Long id);
 }
