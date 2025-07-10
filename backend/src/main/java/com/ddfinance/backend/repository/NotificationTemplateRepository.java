@@ -151,4 +151,31 @@ public interface NotificationTemplateRepository extends JpaRepository<Notificati
     @Query("SELECT DISTINCT nt.category FROM NotificationTemplate nt " +
             "WHERE nt.category IS NOT NULL ORDER BY nt.category")
     List<String> findDistinctCategories();
+
+
+    /**
+     * Finds a notification template by its unique template ID.
+     *
+     * @param templateId The template ID
+     * @return Optional containing the template if found
+     */
+    Optional<NotificationTemplate> findByTemplateId(String templateId);
+
+    /**
+     * Finds an active notification template by its template ID.
+     *
+     * @param templateId The template ID
+     * @return Optional containing the active template if found
+     */
+    Optional<NotificationTemplate> findByTemplateIdAndActiveTrue(String templateId);
+
+    /**
+     * Checks if a template with the given ID exists.
+     *
+     * @param templateId The template ID
+     * @return true if template exists
+     */
+    boolean existsByTemplateId(String templateId);
+
+
 }
