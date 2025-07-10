@@ -17,16 +17,20 @@ import java.util.List;
  */
 @Repository
 public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
-
     List<AuditLog> findByUserId(Long userId);
-
     List<AuditLog> findByTimestampBetween(LocalDateTime start, LocalDateTime end);
-
     List<AuditLog> findByUserIdAndTimestampBetween(Long userId, LocalDateTime start, LocalDateTime end);
-
     List<AuditLog> findByAction(String action);
-
     List<AuditLog> findByEntityTypeAndEntityId(String entityType, Long entityId);
-
     List<AuditLog> findBySuccessFalse();
+
+    /**
+     * Finds all audit logs created after the specified timestamp.
+     * Used for incremental backups.
+     *
+     * @param timestamp The timestamp threshold
+     * @return List of audit logs created after the threshold
+     */
+    List<AuditLog> findByTimestampAfter(LocalDateTime timestamp);
 }
+
