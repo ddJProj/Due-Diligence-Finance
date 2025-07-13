@@ -1,0 +1,23 @@
+For Testing:
+
+<leader>tt - Run the nearest test
+<leader>tf - Run all tests in current file
+<leader>td - Debug the nearest test
+<leader>to - Show test output
+<leader>tO - Toggle test output panel
+<leader>tS - Toggle test summary
+[t / ]t - Navigate between failed tests
+
+For Debugging:
+
+<leader>db - Toggle breakpoint
+<leader>d1 or <A-1> - Start/Continue debugging
+<leader>d2 or <A-2> - Step into
+<leader>d3 or <A-3> - Step over
+<leader>d4 or <A-4> - Step out
+<leader>d6 or <A-6> - Toggle debug UI
+
+Place your cursor on a test and press <leader>tt to run it
+Press <leader>to to see the output
+Set a breakpoint with <leader>db and debug with <leader>td
+
