@@ -1,232 +1,225 @@
-/* frontend/src/components/auth/LoginForm.css */
+// frontend/src/components/auth/LoginForm.tsx
 
-.login-form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 2rem;
-  background-color: #f5f5f5;
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
+import { Role } from '@/types/auth.types';
+import './LoginForm.css';
+
+interface LoginFormProps {
+  title?: string;
+  redirectTo?: string;
 }
 
-.login-form {
-  background: white;
-  padding: 2.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
+interface FormData {
+  username: string;
+  password: string;
+  rememberMe: boolean;
 }
 
-.form-title {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #333;
-  font-size: 1.75rem;
-  font-weight: 600;
+interface FormErrors {
+  username?: string;
+  password?: string;
 }
 
-.error-message {
-  background-color: #fee;
-  color: #c33;
-  padding: 0.75rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-  font-size: 0.875rem;
-  text-align: center;
-  border: 1px solid #fcc;
-}
+const ROLE_DASHBOARDS: Record<Role, string> = {
+  [Role.ADMIN]: '/dashboard/admin',
+  [Role.EMPLOYEE]: '/dashboard/employee',
+  [Role.CLIENT]: '/dashboard/client',
+  [Role.GUEST]: '/',
+};
 
-.form-group {
-  margin-bottom: 1.25rem;
-}
+/**
+ * LoginForm component for user authentication
+ * Handles form validation, submission, and navigation
+ */
+export const LoginForm: React.FC<LoginFormProps> = ({
+  title = 'Sign In',
+  redirectTo,
+}) => {
+  const navigate = useNavigate();
+  const { login, loading } = useAuth();
+  
+  const [formData, setFormData] = useState<FormData>({
+    username: '',
+    password: '',
+    rememberMe: false,
+  });
+  
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
-.form-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #555;
-  font-weight: 500;
-  font-size: 0.875rem;
-}
+  // Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+    
+    // Clear errors when user types
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
+    }
+    if (apiError) {
+      setApiError(null);
+    }
+  };
 
-.form-input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
+  // Validate form
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
 
-.form-input:focus {
-  outline: none;
-  border-color: #1976d2;
-  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
-}
+    if (!formData.username) {
+      newErrors.username = 'Username is required';
+    } else if (formData.username.length < 3) {
+      newErrors.username = 'Username must be at least 3 characters';
+    }
 
-.form-input.error {
-  border-color: #c33;
-}
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
 
-.form-input:disabled {
-  background-color: #f5f5f5;
-  cursor: not-allowed;
-}
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-.password-input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
 
-.password-toggle {
-  position: absolute;
-  right: 0.75rem;
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  cursor: pointer;
-  font-size: 1.25rem;
-  color: #666;
-  transition: color 0.2s;
-}
+    try {
+      const response = await login(formData.username, formData.password);
+      
+      if (response && response.user) {
+        // Navigate to appropriate dashboard or redirect URL
+        const destination = redirectTo || ROLE_DASHBOARDS[response.user.role as Role];
+        navigate(destination);
+      }
+    } catch (error) {
+      setApiError(error instanceof Error ? error.message : 'Login failed');
+    }
+  };
 
-.password-toggle:hover:not(:disabled) {
-  color: #333;
-}
+  // Toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
-.password-toggle:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
+  return (
+    <div className="login-form-container">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2 className="form-title">{title}</h2>
 
-.field-error {
-  display: block;
-  margin-top: 0.25rem;
-  color: #c33;
-  font-size: 0.75rem;
-}
+        {apiError && (
+          <div className="error-message" role="alert">
+            {apiError}
+          </div>
+        )}
 
-.form-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
+        <div className="form-group">
+          <label htmlFor="username" className="form-label">
+            Username
+          </label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            className={`form-input ${errors.username ? 'error' : ''}`}
+            value={formData.username}
+            onChange={handleChange}
+            disabled={loading}
+            autoComplete="username"
+            aria-describedby={errors.username ? 'username-error' : undefined}
+          />
+          {errors.username && (
+            <span id="username-error" className="field-error">
+              {errors.username}
+            </span>
+          )}
+        </div>
 
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  font-size: 0.875rem;
-  color: #555;
-}
+        <div className="form-group">
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
+          <div className="password-input-wrapper">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              id="password"
+              name="password"
+              className={`form-input ${errors.password ? 'error' : ''}`}
+              value={formData.password}
+              onChange={handleChange}
+              disabled={loading}
+              autoComplete="current-password"
+              aria-describedby={errors.password ? 'password-error' : undefined}
+            />
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={togglePasswordVisibility}
+              aria-label="Toggle password visibility"
+              disabled={loading}
+            >
+              {showPassword ? '👁️‍🗨️' : '👁️'}
+            </button>
+          </div>
+          {errors.password && (
+            <span id="password-error" className="field-error">
+              {errors.password}
+            </span>
+          )}
+        </div>
 
-.checkbox-label input[type="checkbox"] {
-  cursor: pointer;
-}
+        <div className="form-options">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              name="rememberMe"
+              checked={formData.rememberMe}
+              onChange={handleChange}
+              disabled={loading}
+            />
+            <span>Remember me</span>
+          </label>
+          <button
+            type="button"
+            className="link-button"
+            onClick={() => navigate('/forgot-password')}
+            disabled={loading}
+          >
+            Forgot password?
+          </button>
+        </div>
 
-.checkbox-label input[type="checkbox"]:disabled {
-  cursor: not-allowed;
-}
+        <button
+          type="submit"
+          className="submit-button"
+          disabled={loading}
+        >
+          {loading ? 'Signing in...' : 'Sign In'}
+        </button>
 
-.link-button {
-  background: none;
-  border: none;
-  color: #1976d2;
-  cursor: pointer;
-  font-size: 0.875rem;
-  text-decoration: none;
-  transition: color 0.2s;
-  padding: 0;
-}
-
-.link-button:hover:not(:disabled) {
-  color: #1565c0;
-  text-decoration: underline;
-}
-
-.link-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.submit-button {
-  width: 100%;
-  padding: 0.875rem;
-  background-color: #1976d2;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.submit-button:hover:not(:disabled) {
-  background-color: #1565c0;
-}
-
-.submit-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.form-footer {
-  text-align: center;
-  margin-top: 1.5rem;
-  font-size: 0.875rem;
-  color: #555;
-}
-
-.form-footer span {
-  margin-right: 0.5rem;
-}
-
-/* Responsive Design */
-@media (max-width: 480px) {
-  .login-form-container {
-    padding: 1rem;
-  }
-
-  .login-form {
-    padding: 1.5rem;
-  }
-
-  .form-title {
-    font-size: 1.5rem;
-  }
-
-  .form-options {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-}
-
-/* Animation for form appearance */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.login-form {
-  animation: fadeIn 0.3s ease-out;
-}
-
-/* Focus visible for accessibility */
-.form-input:focus-visible,
-.password-toggle:focus-visible,
-.link-button:focus-visible,
-.submit-button:focus-visible {
-  outline: 2px solid #1976d2;
-  outline-offset: 2px;
-}
+        <div className="form-footer">
+          <span>Don't have an account?</span>
+          <button
+            type="button"
+            className="link-button"
+            onClick={() => navigate('/register')}
+            disabled={loading}
+          >
+            Sign up
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
