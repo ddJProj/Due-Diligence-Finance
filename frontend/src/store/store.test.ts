@@ -4,6 +4,22 @@ import { configureStore } from '@reduxjs/toolkit';
 import { store, RootState, AppDispatch } from './store';
 
 describe('Redux Store Configuration', () => {
+  // Create a fresh store for each test to avoid state pollution
+  let testStore: typeof store;
+  
+  beforeEach(() => {
+    // Import store freshly for each test
+    testStore = configureStore({
+      reducer: {
+        auth: (state = {}) => state,
+        api: (state = {}) => state,
+        client: (state = {}) => state,
+        employee: (state = {}) => state,
+        admin: (state = {}) => state,
+      },
+    });
+  });
+
   it('should create a store with the correct structure', () => {
     expect(store).toBeDefined();
     expect(store.getState).toBeDefined();
@@ -103,4 +119,4 @@ describe('Redux Store Configuration', () => {
       unsubscribe();
     });
   });
-});
+}););
