@@ -1,0 +1,65 @@
+/* frontend/src/pages/auth/LoginPage.css */
+.auth-page {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background-color: #f5f7fa;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+  font-size: 1rem;
+  color: #718096;
+}
+
+.form-wrapper {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Tablet and larger */
+@media (min-width: 768px) {
+  .auth-page {
+    min-height: calc(100vh - 240px);
+  }
+
+  .auth-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .form-wrapper {
+    padding: 2.5rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .auth-container {
+    max-width: 520px;
+  }
+
+  .form-wrapper {
+    padding: 3rem;
+  }
+}
