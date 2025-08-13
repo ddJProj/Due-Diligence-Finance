@@ -5,3 +5,4 @@ export { RoleGuard } from './RoleGuard';
 export { GuestOnlyRoute } from './GuestOnlyRoute';
 export { LoginForm } from './LoginForm';
 export { LoginPage } from './LoginPage';
+export { RegisterForm } from './RegisterForm';
