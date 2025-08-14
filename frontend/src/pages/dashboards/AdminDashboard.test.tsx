@@ -6,7 +6,7 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { MemoryRouter } from 'react-router-dom';
-import AdminDashboard from './AdminDashboard';
+import { AdminDashboard } from './AdminDashboard';
 import adminService from '../../api/AdminService';
 import authSlice from '../../store/authSlice';
 
