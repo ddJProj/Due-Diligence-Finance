@@ -41,7 +41,7 @@ interface UserActivity {
   description?: string;
 }
 
-const AdminDashboard: React.FC = () => {
+export const AdminDashboard: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -294,5 +294,3 @@ const AdminDashboard: React.FC = () => {
     </div>
   );
 };
-
-export default AdminDashboard;
