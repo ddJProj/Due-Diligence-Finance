@@ -2,6 +2,5 @@
 
 export { ClientDashboard } from './ClientDashboard';
 export { EmployeeDashboard } from './EmployeeDashboard';
-export { default as AdminDashboard } from './AdminDashboard';
-
-
+export { AdminDashboard } from './AdminDashboard';
+export { GuestDashboard } from './GuestDashboard';
