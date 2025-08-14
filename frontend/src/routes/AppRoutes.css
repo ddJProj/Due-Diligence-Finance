@@ -1,0 +1,189 @@
+/* frontend/src/routes/AppRoutes.css */
+
+/* Page Loader */
+.page-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--color-background, #f5f5f5);
+}
+
+/* Error Pages */
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  background-color: var(--color-background, #f5f5f5);
+}
+
+.error-page h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-primary, #4f46e5);
+  margin-bottom: 1rem;
+}
+
+.error-page p {
+  font-size: 1.25rem;
+  color: var(--color-text-secondary, #666);
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.error-page .error-code {
+  font-size: 8rem;
+  font-weight: 300;
+  color: var(--color-primary-light, #e0e7ff);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.error-page .error-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.error-page .btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.error-page .btn--primary {
+  background-color: var(--color-primary, #4f46e5);
+  color: white;
+}
+
+.error-page .btn--primary:hover {
+  background-color: var(--color-primary-dark, #4338ca);
+  transform: translateY(-1px);
+}
+
+.error-page .btn--secondary {
+  background-color: transparent;
+  color: var(--color-primary, #4f46e5);
+  border: 2px solid var(--color-primary, #4f46e5);
+}
+
+.error-page .btn--secondary:hover {
+  background-color: var(--color-primary, #4f46e5);
+  color: white;
+}
+
+/* Route Transition Animations */
+.route-enter {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.route-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.route-exit {
+  opacity: 1;
+}
+
+.route-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+/* Placeholder Pages */
+.placeholder-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.placeholder-page h2 {
+  font-size: 2rem;
+  color: var(--color-text-primary, #1a1a1a);
+  margin-bottom: 1rem;
+}
+
+.placeholder-page p {
+  color: var(--color-text-secondary, #666);
+  font-size: 1.125rem;
+}
+
+.placeholder-page .icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .page-loader {
+    background-color: #0f0f0f;
+  }
+
+  .error-page {
+    background-color: #0f0f0f;
+  }
+
+  .error-page h1 {
+    color: #6366f1;
+  }
+
+  .error-page p {
+    color: #a0a0a0;
+  }
+
+  .error-page .error-code {
+    color: #312e81;
+  }
+
+  .error-page .btn--secondary {
+    color: #6366f1;
+    border-color: #6366f1;
+  }
+
+  .error-page .btn--secondary:hover {
+    background-color: #6366f1;
+    color: white;
+  }
+
+  .placeholder-page h2 {
+    color: #f5f5f5;
+  }
+
+  .placeholder-page p {
+    color: #a0a0a0;
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .error-page h1 {
+    font-size: 2rem;
+  }
+
+  .error-page .error-code {
+    font-size: 5rem;
+  }
+
+  .error-page p {
+    font-size: 1rem;
+  }
+
+  .placeholder-page h2 {
+    font-size: 1.5rem;
+  }
+}
