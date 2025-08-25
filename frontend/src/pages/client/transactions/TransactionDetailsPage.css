@@ -1,0 +1,235 @@
+/* frontend/src/pages/client/transactions/TransactionDetailsPage.css */
+.transaction-details-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.transaction-details-page h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+}
+
+/* Details Grid */
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Detail Section */
+.detail-section {
+  padding: 1.5rem;
+}
+
+.detail-section h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Detail Items */
+.detail-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-item.full-width {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.detail-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  text-align: right;
+}
+
+.detail-value.notes {
+  text-align: left;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+/* Total Row */
+.total-row {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--border-color);
+}
+
+.total-amount {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+/* View Investment Button */
+.view-investment-btn {
+  margin-top: 1.5rem;
+}
+
+/* Status Notices */
+.pending-notice,
+.failed-notice {
+  padding: 1.5rem;
+}
+
+.pending-notice h3,
+.failed-notice h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.pending-notice {
+  background-color: var(--warning-bg);
+  border-left: 4px solid var(--warning-color);
+}
+
+.pending-notice h3 {
+  color: var(--warning-color);
+}
+
+.failed-notice {
+  background-color: var(--error-bg);
+  border-left: 4px solid var(--error-color);
+}
+
+.failed-notice h3 {
+  color: var(--error-color);
+}
+
+.pending-notice p,
+.failed-notice p {
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* Print Styles */
+@media print {
+  .page-header,
+  .header-actions,
+  .view-investment-btn {
+    display: none;
+  }
+
+  .transaction-details-page {
+    padding: 0;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-section {
+    page-break-inside: avoid;
+  }
+}
+
+/* Dark Mode */
+.dark .detail-section h2 {
+  border-bottom-color: var(--border-color);
+}
+
+.dark .total-row {
+  border-top-color: var(--border-color);
+}
+
+.dark .pending-notice {
+  background-color: rgba(251, 191, 36, 0.1);
+}
+
+.dark .failed-notice {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .transaction-details-page {
+    padding: 1rem;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .header-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .transaction-details-page h1 {
+    font-size: 1.5rem;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .detail-section {
+    padding: 1rem;
+  }
+
+  .detail-section h2 {
+    font-size: 1rem;
+  }
+
+  .detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .detail-value {
+    text-align: left;
+    font-size: 1rem;
+  }
+
+  .total-amount {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-actions {
+    grid-template-columns: 1fr;
+  }
+}
