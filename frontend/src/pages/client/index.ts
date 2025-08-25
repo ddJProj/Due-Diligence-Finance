@@ -4,4 +4,9 @@
 export { PortfolioOverviewPage } from './portfolio';
 
 // Investment pages
-export { InvestmentListPage, InvestmentDetailsPage } from './investments';
+export { 
+  InvestmentListPage, 
+  InvestmentDetailsPage,
+  CreateInvestmentPage,
+  EditInvestmentPage 
+} from './investments';
