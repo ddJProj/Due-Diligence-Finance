@@ -1,0 +1,352 @@
+/* frontend/src/pages/employee/clients/ClientDetailsPage.css */
+.client-details-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+/* Client Header */
+.client-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background-color: var(--bg-secondary);
+  border-radius: 0.5rem;
+}
+
+.client-info h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.client-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.client-meta .email {
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.client-dates {
+  display: flex;
+  gap: 2rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.client-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 2rem;
+}
+
+.tab {
+  padding: 1rem 2rem;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.tab:hover {
+  color: var(--text-primary);
+}
+
+.tab.active {
+  color: var(--primary-color);
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+}
+
+/* Tab Content */
+.tab-content {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Portfolio Summary */
+.portfolio-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.summary-item .label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.summary-item .value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.summary-item .value.positive {
+  color: var(--success-color);
+}
+
+.summary-item .value.negative {
+  color: var(--error-color);
+}
+
+.summary-item .percentage {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 400;
+  margin-top: 0.25rem;
+}
+
+/* Portfolio Details */
+.portfolio-details {
+  padding: 1.5rem;
+}
+
+.portfolio-details h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-item .label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.detail-item .value {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.detail-item .value.positive {
+  color: var(--success-color);
+}
+
+.detail-item .value.negative {
+  color: var(--error-color);
+}
+
+/* Tables */
+.investments-table-container,
+.transactions-table-container {
+  overflow-x: auto;
+}
+
+.investments-table,
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.investments-table th,
+.transactions-table th {
+  text-align: left;
+  padding: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 2px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.investments-table td,
+.transactions-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.investments-table tr:hover,
+.transactions-table tr:hover {
+  background-color: var(--bg-hover);
+}
+
+.investment-name {
+  display: flex;
+  flex-direction: column;
+}
+
+.investment-name .name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.investment-name .symbol {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+td.positive {
+  color: var(--success-color);
+  font-weight: 500;
+}
+
+td.negative {
+  color: var(--error-color);
+  font-weight: 500;
+}
+
+td .percentage {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.empty-state h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+}
+
+/* Dark Mode */
+.dark .client-header {
+  background-color: var(--bg-secondary);
+}
+
+.dark .tab:hover {
+  color: var(--text-primary);
+}
+
+.dark .investments-table tr:hover,
+.dark .transactions-table tr:hover {
+  background-color: var(--bg-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .client-details-page {
+    padding: 1rem;
+  }
+
+  .client-header {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .client-info h1 {
+    font-size: 1.5rem;
+  }
+
+  .client-dates {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab {
+    padding: 0.75rem 1.5rem;
+    white-space: nowrap;
+  }
+
+  .portfolio-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .investments-table,
+  .transactions-table {
+    font-size: 0.875rem;
+  }
+
+  .investments-table th,
+  .transactions-table th,
+  .investments-table td,
+  .transactions-table td {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .client-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .summary-item .value {
+    font-size: 1.25rem;
+  }
+}
