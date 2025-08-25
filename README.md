@@ -109,7 +109,7 @@ Due-Diligence-Finance/
 - Node.js 18.x or higher
 - npm or yarn package manager
 - Gradle 7.x or higher
-- Your preferred IDE (IntelliJ IDEA for backend, VS Code for frontend)
+- Your preferred IDE (IntelliJ IDEA for backend, Neovim (configuration located in .dotfiles repository) & Web-based VS Code for frontend)
 - Database (H2 for development, PostgreSQL/MySQL for production)
 
 #### Quick Start
