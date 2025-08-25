@@ -1,0 +1,296 @@
+/* frontend/src/pages/client/portfolio/PortfolioOverviewPage.css */
+
+.portfolio-overview-page {
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+
+.portfolio-overview-page main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Header Section */
+.portfolio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.portfolio-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.action-link,
+.action-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  color: var(--text-primary);
+}
+
+.action-link:hover,
+.action-button:hover {
+  background-color: var(--hover);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.action-link--primary {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.action-link--primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.action-button {
+  border: none;
+}
+
+.action-link:focus,
+.action-button:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background-color: var(--surface);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card--primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+}
+
+.stat-card h3 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-secondary);
+}
+
+.stat-card--primary h3 {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.stat-percentage {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0.25rem 0 0 0;
+}
+
+.positive {
+  color: var(--success);
+}
+
+.negative {
+  color: var(--error);
+}
+
+/* Charts Grid */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-card {
+  background-color: var(--surface);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.chart-card h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+}
+
+.chart-container {
+  height: 300px;
+  margin-bottom: 1rem;
+}
+
+/* Asset Allocation Breakdown */
+.allocation-breakdown {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.allocation-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  align-items: center;
+  padding: 0.5rem 0;
+  font-size: 0.875rem;
+}
+
+.allocation-item:not(:last-child) {
+  border-bottom: 1px solid var(--border-light);
+}
+
+.allocation-category {
+  font-weight: 500;
+}
+
+.allocation-percentage {
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.allocation-value {
+  text-align: right;
+  font-weight: 500;
+}
+
+/* Loading and Error States */
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 1rem;
+}
+
+.loading-container p {
+  color: var(--text-secondary);
+}
+
+/* Mobile Styles */
+@media (max-width: 767px) {
+  .portfolio-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .allocation-item {
+    font-size: 0.75rem;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .portfolio-overview-page {
+    --background: #0a0a0a;
+    --surface: #1a1a1a;
+    --surface-variant: #2a2a2a;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --border: #333333;
+    --border-light: #252525;
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --hover: #2a2a2a;
+    --success: #10b981;
+    --error: #ef4444;
+  }
+
+  .stat-card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .stat-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  }
+
+  .chart-card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Light Mode */
+@media (prefers-color-scheme: light) {
+  .portfolio-overview-page {
+    --background: #f5f5f5;
+    --surface: #ffffff;
+    --surface-variant: #f0f0f0;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --border: #e0e0e0;
+    --border-light: #f0f0f0;
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --hover: #f9f9f9;
+    --success: #10b981;
+    --error: #ef4444;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .stat-card,
+  .action-link,
+  .action-button {
+    transition: none;
+  }
+}

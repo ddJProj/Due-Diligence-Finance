@@ -1,0 +1,431 @@
+/* frontend/src/pages/client/investments/InvestmentDetailsPage.css */
+
+.investment-details-page {
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+
+.investment-details-page main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Page Header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.back-button {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-button:hover {
+  background-color: var(--hover);
+  transform: translateX(-2px);
+}
+
+.back-button:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.edit-button,
+.delete-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-button {
+  background-color: var(--primary);
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.delete-button {
+  background-color: var(--error);
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: var(--error-dark);
+  transform: translateY(-1px);
+}
+
+.edit-button:focus,
+.delete-button:focus {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Investment Header */
+.investment-header {
+  background-color: var(--surface);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.investment-title h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.investment-meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.875rem;
+}
+
+.investment-meta span {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  background-color: var(--surface-variant);
+}
+
+.symbol {
+  font-weight: 600;
+  color: var(--primary);
+  background-color: var(--primary-light) !important;
+}
+
+.type {
+  color: var(--text-secondary);
+}
+
+.sector,
+.exchange {
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  background-color: var(--surface);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.metric-card--primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+}
+
+.metric-card h3 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-secondary);
+}
+
+.metric-card--primary h3 {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.metric-percentage {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0.25rem 0 0 0;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin: 0.25rem 0 0 0;
+}
+
+.positive {
+  color: var(--success);
+}
+
+.negative {
+  color: var(--error);
+}
+
+/* Investment Info */
+.investment-info {
+  background-color: var(--surface);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.info-section {
+  margin-bottom: 1.5rem;
+}
+
+.info-section:last-child {
+  margin-bottom: 0;
+}
+
+.info-section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+}
+
+.info-section p {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* Price History */
+.price-history {
+  background-color: var(--surface);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.price-history h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+}
+
+.history-table {
+  overflow-x: auto;
+}
+
+.history-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.history-table th {
+  text-align: left;
+  padding: 0.75rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  border-bottom: 2px solid var(--border);
+}
+
+.history-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.history-table tr:last-child td {
+  border-bottom: none;
+}
+
+.change-percentage {
+  display: block;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.no-history {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 2rem;
+}
+
+/* Last Updated */
+.last-updated {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 2rem;
+}
+
+/* Error States */
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 1rem;
+}
+
+.loading-container p {
+  color: var(--text-secondary);
+}
+
+.not-found {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.not-found h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.not-found p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+.back-link:hover {
+  background-color: var(--primary);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Mobile Styles */
+@media (max-width: 767px) {
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-actions {
+    justify-content: space-between;
+  }
+
+  .investment-title h1 {
+    font-size: 1.5rem;
+  }
+
+  .investment-meta {
+    font-size: 0.75rem;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-value {
+    font-size: 1.25rem;
+  }
+
+  .history-table {
+    font-size: 0.875rem;
+  }
+
+  .history-table th,
+  .history-table td {
+    padding: 0.5rem;
+  }
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .investment-details-page {
+    --background: #0a0a0a;
+    --surface: #1a1a1a;
+    --surface-variant: #2a2a2a;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --border: #333333;
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --primary-light: rgba(59, 130, 246, 0.2);
+    --hover: #2a2a2a;
+    --success: #10b981;
+    --error: #ef4444;
+    --error-dark: #dc2626;
+    --focus: #3b82f6;
+  }
+
+  .metric-card,
+  .investment-header,
+  .investment-info,
+  .price-history {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Light Mode */
+@media (prefers-color-scheme: light) {
+  .investment-details-page {
+    --background: #f5f5f5;
+    --surface: #ffffff;
+    --surface-variant: #f0f0f0;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --border: #e0e0e0;
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --primary-light: #dbeafe;
+    --hover: #f9f9f9;
+    --success: #10b981;
+    --error: #ef4444;
+    --error-dark: #dc2626;
+    --focus: #3b82f6;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .back-button,
+  .edit-button,
+  .delete-button,
+  .back-link {
+    transition: none;
+  }
+}
