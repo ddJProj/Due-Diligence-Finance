@@ -1,241 +1,248 @@
-// frontend/src/pages/client/portfolio/PortfolioOverviewPage.test.tsx
+// frontend/src/pages/client/portfolio/PortfolioOverviewPage.tsx
 
-import { render, screen, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { vi } from 'vitest';
-import { store } from '../../../store';
-import { PortfolioOverviewPage } from './PortfolioOverviewPage';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Line, Doughnut } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 import { portfolioApi } from '../../../services/api/portfolioApi';
+import { LoadingSpinner } from '../../../components/common/LoadingSpinner';
+import { ErrorMessage } from '../../../components/common/ErrorMessage';
+import './PortfolioOverviewPage.css';
 
-// Mock the portfolio API
-vi.mock('../../../services/api/portfolioApi', () => ({
-  portfolioApi: {
-    getPortfolioSummary: vi.fn(),
-    getPortfolioPerformance: vi.fn(),
-    getAssetAllocation: vi.fn(),
-  },
-}));
+// Register ChartJS components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-// Mock chart components to avoid canvas issues in tests
-vi.mock('react-chartjs-2', () => ({
-  Line: () => <div data-testid="line-chart">Line Chart</div>,
-  Doughnut: () => <div data-testid="doughnut-chart">Doughnut Chart</div>,
-}));
+interface PortfolioSummary {
+  totalValue: number;
+  totalGainLoss: number;
+  totalGainLossPercentage: number;
+  dayChange: number;
+  dayChangePercentage: number;
+  numberOfInvestments: number;
+  cashBalance: number;
+}
 
-const mockPortfolioSummary = {
-  totalValue: 1500000,
-  totalGainLoss: 150000,
-  totalGainLossPercentage: 11.11,
-  dayChange: 5000,
-  dayChangePercentage: 0.33,
-  numberOfInvestments: 12,
-  cashBalance: 50000,
-};
+interface AssetAllocation {
+  category: string;
+  value: number;
+  percentage: number;
+}
 
-const mockPerformanceData = {
-  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-  datasets: [{
-    label: 'Portfolio Value',
-    data: [1350000, 1380000, 1420000, 1400000, 1480000, 1500000],
-  }],
-};
+export const PortfolioOverviewPage: React.FC = () => {
+  const [summary, setSummary] = useState<PortfolioSummary | null>(null);
+  const [performanceData, setPerformanceData] = useState<any>(null);
+  const [assetAllocation, setAssetAllocation] = useState<AssetAllocation[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-const mockAssetAllocation = [
-  { category: 'Stocks', value: 750000, percentage: 50 },
-  { category: 'Bonds', value: 300000, percentage: 20 },
-  { category: 'Real Estate', value: 225000, percentage: 15 },
-  { category: 'Commodities', value: 150000, percentage: 10 },
-  { category: 'Cash', value: 75000, percentage: 5 },
-];
+  useEffect(() => {
+    fetchPortfolioData();
+  }, []);
 
-const renderWithProviders = () => {
-  return render(
-    <Provider store={store}>
-      <MemoryRouter>
-        <PortfolioOverviewPage />
-      </MemoryRouter>
-    </Provider>
+  const fetchPortfolioData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const [summaryData, performance, allocation] = await Promise.all([
+        portfolioApi.getPortfolioSummary(),
+        portfolioApi.getPortfolioPerformance(),
+        portfolioApi.getAssetAllocation(),
+      ]);
+
+      setSummary(summaryData);
+      setPerformanceData(performance);
+      setAssetAllocation(allocation);
+    } catch (err) {
+      setError('Failed to load portfolio data. Please try again later.');
+      console.error('Error fetching portfolio data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatCurrency = (value: number): string => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value);
+  };
+
+  const formatPercentage = (value: number): string => {
+    const sign = value >= 0 ? '+' : '';
+    return `${sign}${value.toFixed(2)}%`;
+  };
+
+  const getValueClass = (value: number): string => {
+    return value >= 0 ? 'positive' : 'negative';
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+    },
+  };
+
+  const doughnutData = {
+    labels: assetAllocation.map(asset => asset.category),
+    datasets: [
+      {
+        data: assetAllocation.map(asset => asset.value),
+        backgroundColor: [
+          '#3b82f6',
+          '#10b981',
+          '#f59e0b',
+          '#ef4444',
+          '#8b5cf6',
+        ],
+        borderWidth: 0,
+      },
+    ],
+  };
+
+  const handleDownloadReport = () => {
+    // TODO: Implement report download
+    console.log('Downloading portfolio report...');
+  };
+
+  if (loading) {
+    return (
+      <div className="portfolio-overview-page">
+        <div className="loading-container" role="status">
+          <LoadingSpinner />
+          <p>Loading portfolio data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="portfolio-overview-page">
+        <div className="error-container" role="alert">
+          <ErrorMessage message={error} onRetry={fetchPortfolioData} />
+        </div>
+      </div>
+    );
+  }
+
+  if (!summary) {
+    return null;
+  }
+
+  return (
+    <div className="portfolio-overview-page">
+      <main role="main">
+        <div className="portfolio-header">
+          <h1>Portfolio Overview</h1>
+          <div className="header-actions">
+            <Link to="/client/investments" className="action-link">
+              View Investments
+            </Link>
+            <Link to="/client/investments/new" className="action-link action-link--primary">
+              Add Investment
+            </Link>
+            <button 
+              onClick={handleDownloadReport}
+              className="action-button"
+              aria-label="Download Report"
+            >
+              Download Report
+            </button>
+          </div>
+        </div>
+
+        <div className="portfolio-content">
+          <div className="stats-grid">
+            <div className="stat-card stat-card--primary">
+              <h3>Total Portfolio Value</h3>
+              <p className="stat-value">{formatCurrency(summary.totalValue)}</p>
+            </div>
+
+            <div className="stat-card">
+              <h3>Total Gain/Loss</h3>
+              <p className={`stat-value ${getValueClass(summary.totalGainLoss)}`}>
+                {summary.totalGainLoss >= 0 ? '+' : ''}{formatCurrency(summary.totalGainLoss)}
+              </p>
+              <p className={`stat-percentage ${getValueClass(summary.totalGainLossPercentage)}`}>
+                {formatPercentage(summary.totalGainLossPercentage)}
+              </p>
+            </div>
+
+            <div className="stat-card">
+              <h3>Day Change</h3>
+              <p className={`stat-value ${getValueClass(summary.dayChange)}`}>
+                {summary.dayChange >= 0 ? '+' : ''}{formatCurrency(summary.dayChange)}
+              </p>
+              <p className={`stat-percentage ${getValueClass(summary.dayChangePercentage)}`}>
+                {formatPercentage(summary.dayChangePercentage)}
+              </p>
+            </div>
+
+            <div className="stat-card">
+              <h3>Investments</h3>
+              <p className="stat-value">{summary.numberOfInvestments}</p>
+            </div>
+
+            <div className="stat-card">
+              <h3>Cash Balance</h3>
+              <p className="stat-value">{formatCurrency(summary.cashBalance)}</p>
+            </div>
+          </div>
+
+          <div className="charts-grid">
+            <div className="chart-card">
+              <h2>Performance History</h2>
+              <div className="chart-container">
+                {performanceData && (
+                  <Line data={performanceData} options={chartOptions} />
+                )}
+              </div>
+            </div>
+
+            <div className="chart-card">
+              <h2>Asset Allocation</h2>
+              <div className="chart-container">
+                <Doughnut data={doughnutData} options={chartOptions} />
+              </div>
+              <div className="allocation-breakdown">
+                {assetAllocation.map((asset, index) => (
+                  <div key={index} className="allocation-item">
+                    <span className="allocation-category">{asset.category}</span>
+                    <span className="allocation-percentage">{asset.percentage}%</span>
+                    <span className="allocation-value">{formatCurrency(asset.value)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 };
-
-describe('PortfolioOverviewPage', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    (portfolioApi.getPortfolioSummary as ReturnType<typeof vi.fn>).mockResolvedValue(mockPortfolioSummary);
-    (portfolioApi.getPortfolioPerformance as ReturnType<typeof vi.fn>).mockResolvedValue(mockPerformanceData);
-    (portfolioApi.getAssetAllocation as ReturnType<typeof vi.fn>).mockResolvedValue(mockAssetAllocation);
-  });
-
-  it('should render without errors', async () => {
-    renderWithProviders();
-    
-    await waitFor(() => {
-      expect(screen.getByText('Portfolio Overview')).toBeInTheDocument();
-    });
-  });
-
-  it('should fetch portfolio data on mount', async () => {
-    renderWithProviders();
-
-    await waitFor(() => {
-      expect(portfolioApi.getPortfolioSummary).toHaveBeenCalled();
-      expect(portfolioApi.getPortfolioPerformance).toHaveBeenCalled();
-      expect(portfolioApi.getAssetAllocation).toHaveBeenCalled();
-    });
-  });
-
-  it('should display portfolio summary statistics', async () => {
-    renderWithProviders();
-
-    await waitFor(() => {
-      expect(screen.getByText('Total Portfolio Value')).toBeInTheDocument();
-      expect(screen.getByText('$1,500,000.00')).toBeInTheDocument();
-      expect(screen.getByText('Total Gain/Loss')).toBeInTheDocument();
-      expect(screen.getByText('+$150,000.00')).toBeInTheDocument();
-      expect(screen.getByText('+11.11%')).toBeInTheDocument();
-    });
-  });
-
-  it('should display day change information', async () => {
-    renderWithProviders();
-
-    await waitFor(() => {
-      expect(screen.getByText('Day Change')).toBeInTheDocument();
-      expect(screen.getByText('+$5,000.00')).toBeInTheDocument();
-      expect(screen.getByText('+0.33%')).toBeInTheDocument();
-    });
-  });
-
-  it('should display investment count and cash balance', async () => {
-    renderWithProviders();
-
-    await waitFor(() => {
-      expect(screen.getByText('Investments')).toBeInTheDocument();
-      expect(screen.getByText('12')).toBeInTheDocument();
-      expect(screen.getByText('Cash Balance')).toBeInTheDocument();
-      expect(screen.getByText('$50,000.00')).toBeInTheDocument();
-    });
-  });
-
-  it('should render performance chart', async () => {
-    renderWithProviders();
-
-    await waitFor(() => {
-      expect(screen.getByText('Performance History')).toBeInTheDocument();
-      expect(screen.getByTestId('line-chart')).toBeInTheDocument();
-    });
-  });
-
-  it('should render asset allocation chart', async () => {
-    renderWithProviders();
-
-    await waitFor(() => {
-      expect(screen.getByText('Asset Allocation')).toBeInTheDocument();
-      expect(screen.getByTestId('doughnut-chart')).toBeInTheDocument();
-    });
-  });
-
-  it('should display asset allocation breakdown', async () => {
-    renderWithProviders();
-
-    await waitFor(() => {
-      expect(screen.getByText('Stocks')).toBeInTheDocument();
-      expect(screen.getByText('50%')).toBeInTheDocument();
-      expect(screen.getByText('$750,000.00')).toBeInTheDocument();
-    });
-  });
-
-  it('should show loading state while fetching data', () => {
-    (portfolioApi.getPortfolioSummary as ReturnType<typeof vi.fn>).mockImplementation(() => 
-      new Promise(() => {}) // Never resolves
-    );
-
-    renderWithProviders();
-
-    expect(screen.getByRole('status')).toBeInTheDocument();
-    expect(screen.getByText('Loading portfolio data...')).toBeInTheDocument();
-  });
-
-  it('should handle error state', async () => {
-    const error = new Error('Failed to fetch portfolio data');
-    (portfolioApi.getPortfolioSummary as ReturnType<typeof vi.fn>).mockRejectedValue(error);
-
-    renderWithProviders();
-
-    await waitFor(() => {
-      expect(screen.getByRole('alert')).toBeInTheDocument();
-      expect(screen.getByText(/Failed to load portfolio data/)).toBeInTheDocument();
-    });
-  });
-
-  it('should have action buttons', async () => {
-    renderWithProviders();
-
-    await waitFor(() => {
-      expect(screen.getByRole('link', { name: /view investments/i })).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: /add investment/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /download report/i })).toBeInTheDocument();
-    });
-  });
-
-  it('should navigate to investments page', async () => {
-    renderWithProviders();
-
-    await waitFor(() => {
-      const investmentsLink = screen.getByRole('link', { name: /view investments/i });
-      expect(investmentsLink).toHaveAttribute('href', '/client/investments');
-    });
-  });
-
-  it('should have proper page layout', async () => {
-    const { container } = renderWithProviders();
-
-    await waitFor(() => {
-      expect(container.querySelector('.portfolio-overview-page')).toBeInTheDocument();
-      expect(container.querySelector('.portfolio-header')).toBeInTheDocument();
-      expect(container.querySelector('.portfolio-content')).toBeInTheDocument();
-    });
-  });
-
-  it('should have responsive grid layout', async () => {
-    const { container } = renderWithProviders();
-
-    await waitFor(() => {
-      expect(container.querySelector('.stats-grid')).toBeInTheDocument();
-      expect(container.querySelector('.charts-grid')).toBeInTheDocument();
-    });
-  });
-
-  it('should format negative values correctly', async () => {
-    const negativeSummary = {
-      ...mockPortfolioSummary,
-      totalGainLoss: -50000,
-      totalGainLossPercentage: -3.23,
-      dayChange: -2000,
-      dayChangePercentage: -0.13,
-    };
-
-    (portfolioApi.getPortfolioSummary as ReturnType<typeof vi.fn>).mockResolvedValue(negativeSummary);
-    renderWithProviders();
-
-    await waitFor(() => {
-      expect(screen.getByText('-$50,000.00')).toBeInTheDocument();
-      expect(screen.getByText('-3.23%')).toBeInTheDocument();
-      expect(screen.getByText('-$2,000.00')).toBeInTheDocument();
-      expect(screen.getByText('-0.13%')).toBeInTheDocument();
-    });
-  });
-
-  it('should have proper accessibility attributes', async () => {
-    renderWithProviders();
-
-    await waitFor(() => {
-      const main = screen.getByRole('main');
-      expect(main).toBeInTheDocument();
-      
-      const heading = screen.getByRole('heading', { level: 1 });
-      expect(heading).toHaveTextContent('Portfolio Overview');
-    });
-  });
-});
