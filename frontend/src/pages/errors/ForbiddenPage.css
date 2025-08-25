@@ -1,0 +1,240 @@
+/* frontend/src/pages/errors/ForbiddenPage.css */
+
+.forbidden-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+
+.forbidden-page .error-container {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.forbidden-page .error-content {
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: var(--surface);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.forbidden-page .error-illustration {
+  margin-bottom: 2rem;
+  color: var(--warning);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.forbidden-page .error-code {
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--warning);
+  margin-bottom: 1rem;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+.forbidden-page .error-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.forbidden-page .error-message {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.forbidden-page .error-details {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.forbidden-page .error-path {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  padding: 0.75rem;
+  background-color: var(--surface-variant);
+  border-radius: 4px;
+  word-break: break-all;
+}
+
+.forbidden-page .error-path code {
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.forbidden-page .error-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.forbidden-page .error-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 140px;
+}
+
+.forbidden-page .error-button--primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.forbidden-page .error-button--primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.forbidden-page .error-button--secondary {
+  background-color: var(--surface-variant);
+  color: var(--text-primary);
+}
+
+.forbidden-page .error-button--secondary:hover {
+  background-color: var(--hover);
+  transform: translateY(-1px);
+}
+
+.forbidden-page .error-button--tertiary {
+  background-color: var(--warning-light);
+  color: var(--warning-dark);
+}
+
+.forbidden-page .error-button--tertiary:hover {
+  background-color: var(--warning);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.forbidden-page .error-button:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.forbidden-page .error-help {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.forbidden-page .error-help p {
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.forbidden-page .error-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.forbidden-page .error-link:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+.forbidden-page .error-link:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  .forbidden-page .error-code {
+    font-size: 6rem;
+  }
+  
+  .forbidden-page .error-title {
+    font-size: 2.5rem;
+  }
+  
+  .forbidden-page .error-actions {
+    flex-wrap: nowrap;
+  }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .forbidden-page {
+    --background: #0a0a0a;
+    --surface: #1a1a1a;
+    --surface-variant: #2a2a2a;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --border: #333333;
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --hover: #333333;
+    --warning: #f59e0b;
+    --warning-light: #fbbf24;
+    --warning-dark: #d97706;
+  }
+  
+  .forbidden-page .error-content {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .forbidden-page .error-button--tertiary {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+  }
+}
+
+/* Light mode */
+@media (prefers-color-scheme: light) {
+  .forbidden-page {
+    --background: #f5f5f5;
+    --surface: #ffffff;
+    --surface-variant: #f0f0f0;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --border: #e0e0e0;
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --hover: #f0f0f0;
+    --warning: #f59e0b;
+    --warning-light: #fef3c7;
+    --warning-dark: #92400e;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .forbidden-page .error-illustration {
+    animation: none;
+  }
+  
+  .forbidden-page .error-button {
+    transition: none;
+  }
+}
