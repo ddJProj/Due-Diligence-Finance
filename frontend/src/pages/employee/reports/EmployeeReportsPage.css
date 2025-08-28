@@ -1,0 +1,390 @@
+/* frontend/src/pages/employee/reports/EmployeeReportsPage.css */
+.employee-reports-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Date Filters */
+.date-filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.date-input {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease;
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* View Tabs */
+.view-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 2rem;
+}
+
+.tab {
+  padding: 1rem 2rem;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.tab:hover {
+  color: var(--text-primary);
+}
+
+.tab.active {
+  color: var(--primary-color);
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+}
+
+/* Report Content */
+.report-content {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.metric-card h3 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metric-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.metric-subtext {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Quick Stats */
+.quick-stats {
+  padding: 1.5rem;
+}
+
+.quick-stats h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1.5rem 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.stat-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stat-value.positive {
+  color: var(--success-color);
+}
+
+/* Report Actions */
+.report-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Detail Metrics */
+.detail-metrics {
+  padding: 1.5rem;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.metric-row:last-child {
+  border-bottom: none;
+}
+
+.metric-row span:first-child {
+  color: var(--text-secondary);
+}
+
+.metric-row span:last-child {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.metric-row .positive {
+  color: var(--success-color);
+}
+
+.metric-row .urgent {
+  color: var(--error-color);
+}
+
+/* Investment Types */
+.investment-types {
+  padding: 1.5rem;
+}
+
+.type-row {
+  margin-bottom: 1.5rem;
+}
+
+.type-row span {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--bg-secondary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+/* Top Investments */
+.top-investments {
+  padding: 1.5rem;
+}
+
+.investment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.investment-item:last-child {
+  border-bottom: none;
+}
+
+.investment-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.investment-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.investment-symbol {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.performance {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.performance.positive {
+  color: var(--success-color);
+}
+
+/* Dark Mode */
+.dark .date-input {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+.dark .tab:hover {
+  color: var(--text-primary);
+}
+
+.dark .progress-bar {
+  background-color: var(--bg-primary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .report-actions {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .employee-reports-page {
+    padding: 1rem;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .date-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .view-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab {
+    padding: 0.75rem 1.5rem;
+    white-space: nowrap;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-value {
+    font-size: 1.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .report-actions {
+    flex-direction: column;
+  }
+
+  .report-actions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}
