@@ -1,0 +1,238 @@
+/* frontend/src/pages/admin/settings/SystemSettingsPage.css */
+
+.system-settings-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Page Header */
+.system-settings-page .page-header {
+  margin-bottom: 2rem;
+}
+
+.system-settings-page .page-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.system-settings-page .page-header p {
+  color: #6b7280;
+}
+
+/* Settings Sections */
+.system-settings-page .settings-section {
+  margin-bottom: 2rem;
+}
+
+.system-settings-page .settings-section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Form Layout */
+.system-settings-page .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.system-settings-page .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.system-settings-page .form-group:last-child {
+  margin-bottom: 0;
+}
+
+.system-settings-page .form-group label {
+  display: block;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.system-settings-page .form-group input[type="text"],
+.system-settings-page .form-group input[type="number"],
+.system-settings-page .form-group textarea {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.system-settings-page .form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.system-settings-page .form-group input:focus,
+.system-settings-page .form-group textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.system-settings-page .form-group input.error {
+  border-color: #ef4444;
+}
+
+.system-settings-page .form-group input.error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.system-settings-page .error-message {
+  display: block;
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.system-settings-page .field-help {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+/* Checkbox Groups */
+.system-settings-page .checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.system-settings-page .checkbox-group label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.system-settings-page .checkbox-group input[type="checkbox"] {
+  margin-right: 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+}
+
+/* Settings Info */
+.system-settings-page .settings-info {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
+
+.system-settings-page .settings-info p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.system-settings-page .settings-info strong {
+  color: #374151;
+}
+
+/* Form Actions */
+.system-settings-page .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Error State */
+.system-settings-page .error-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.system-settings-page .error-state p {
+  color: #ef4444;
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .system-settings-page {
+    padding: 1rem;
+  }
+
+  .system-settings-page .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .system-settings-page .page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .system-settings-page .settings-section h2 {
+    font-size: 1.125rem;
+  }
+
+  .system-settings-page .checkbox-group {
+    gap: 1rem;
+  }
+
+  .system-settings-page .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .system-settings-page .form-actions button {
+    width: 100%;
+  }
+}
+
+/* Loading State */
+.system-settings-page .loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+/* Hover Effects */
+.system-settings-page .form-group input[type="checkbox"]:hover {
+  border-color: #3b82f6;
+}
+
+.system-settings-page .checkbox-group label:hover {
+  color: #1f2937;
+}
+
+/* Disabled State */
+.system-settings-page input:disabled,
+.system-settings-page textarea:disabled {
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+}
+
+/* Print Styles */
+@media print {
+  .system-settings-page .form-actions {
+    display: none;
+  }
+
+  .system-settings-page input,
+  .system-settings-page textarea {
+    border: none;
+    padding: 0;
+    background: none;
+  }
+
+  .system-settings-page .checkbox-group input[type="checkbox"] {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
