@@ -1,0 +1,327 @@
+/* frontend/src/pages/admin/settings/FeatureTogglePage.css */
+
+.feature-toggle-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Page Header */
+.feature-toggle-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 2rem;
+}
+
+.feature-toggle-page .header-content h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.feature-toggle-page .header-content p {
+  color: #6b7280;
+}
+
+.feature-toggle-page .header-stats {
+  flex-shrink: 0;
+}
+
+/* Controls Section */
+.feature-toggle-page .controls-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.feature-toggle-page .filters {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.feature-toggle-page .actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Features Container */
+.feature-toggle-page .features-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Category Section */
+.feature-toggle-page .category-section {
+  padding: 1.5rem;
+}
+
+.feature-toggle-page .category-section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Features List */
+.feature-toggle-page .features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Feature Item */
+.feature-toggle-page .feature-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.feature-toggle-page .feature-item:hover {
+  background-color: #f3f4f6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.feature-toggle-page .feature-content {
+  flex: 1;
+  padding-right: 2rem;
+}
+
+.feature-toggle-page .feature-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.feature-toggle-page .feature-header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.feature-toggle-page .feature-description {
+  color: #4b5563;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+/* Dependencies */
+.feature-toggle-page .feature-dependencies {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.feature-toggle-page .deps-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Metadata */
+.feature-toggle-page .feature-metadata {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Toggle Switch */
+.feature-toggle-page .toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 32px;
+}
+
+.feature-toggle-page .toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.feature-toggle-page .toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  transition: .3s;
+  border-radius: 34px;
+}
+
+.feature-toggle-page .toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 24px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.feature-toggle-page .toggle-switch input:checked + .toggle-slider {
+  background-color: #3b82f6;
+}
+
+.feature-toggle-page .toggle-switch input:focus + .toggle-slider {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.feature-toggle-page .toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(28px);
+}
+
+.feature-toggle-page .toggle-switch input:disabled + .toggle-slider {
+  background-color: #e5e7eb;
+  cursor: not-allowed;
+}
+
+/* Sync Info */
+.feature-toggle-page .sync-info {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.feature-toggle-page .sync-info p {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+/* Error State */
+.feature-toggle-page .error-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.feature-toggle-page .error-state p {
+  color: #ef4444;
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .feature-toggle-page {
+    padding: 1rem;
+  }
+
+  .feature-toggle-page .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .feature-toggle-page .controls-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .feature-toggle-page .filters {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .feature-toggle-page .actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .feature-toggle-page .actions button {
+    flex: 1;
+  }
+
+  .feature-toggle-page .feature-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .feature-toggle-page .feature-content {
+    padding-right: 0;
+  }
+
+  .feature-toggle-page .feature-toggle {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .feature-toggle-page .feature-dependencies {
+    flex-wrap: wrap;
+  }
+}
+
+/* Loading State */
+.feature-toggle-page .loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+/* Hover Effects */
+.feature-toggle-page .toggle-switch:hover .toggle-slider {
+  background-color: #94a3b8;
+}
+
+.feature-toggle-page .toggle-switch input:checked:hover + .toggle-slider {
+  background-color: #2563eb;
+}
+
+/* Print Styles */
+@media print {
+  .feature-toggle-page .controls-section,
+  .feature-toggle-page .actions {
+    display: none;
+  }
+
+  .feature-toggle-page .toggle-switch {
+    pointer-events: none;
+  }
+
+  .feature-toggle-page .feature-item {
+    break-inside: avoid;
+  }
+}
+
+/* Animation for toggle */
+@keyframes toggle-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+.feature-toggle-page .toggle-switch input:checked + .toggle-slider {
+  animation: toggle-pulse 0.5s;
+}
