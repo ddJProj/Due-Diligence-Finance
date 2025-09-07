@@ -1,0 +1,344 @@
+/* frontend/src/pages/admin/settings/ConfigurationPage.css */
+
+.configuration-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Page Header */
+.configuration-page .page-header {
+  margin-bottom: 2rem;
+}
+
+.configuration-page .page-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.configuration-page .page-header p {
+  color: #6b7280;
+}
+
+/* Controls Section */
+.configuration-page .controls-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.configuration-page .filters {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.configuration-page .checkbox-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.configuration-page .checkbox-filter input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.configuration-page .actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Category Sections */
+.configuration-page .category-section {
+  margin-bottom: 2rem;
+}
+
+.configuration-page .category-section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Table View */
+.configuration-page .config-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.configuration-page .config-table th {
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 2px solid #e5e7eb;
+  font-weight: 600;
+  color: #374151;
+}
+
+.configuration-page .config-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.configuration-page .config-key {
+  font-family: 'Courier New', monospace;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.configuration-page .config-value {
+  font-family: 'Courier New', monospace;
+  color: #4b5563;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.configuration-page .config-description {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.configuration-page .config-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.configuration-page .critical-badge {
+  margin-left: 0.5rem;
+}
+
+/* Card View */
+.configuration-page .config-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.configuration-page .config-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.configuration-page .config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.configuration-page .config-header h3 {
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  word-break: break-all;
+}
+
+.configuration-page .config-card p {
+  margin: 0;
+}
+
+.configuration-page .config-card .config-value {
+  word-break: break-all;
+  white-space: normal;
+  max-width: none;
+}
+
+.configuration-page .config-metadata {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.configuration-page .card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+/* Modal Styles */
+.configuration-page .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.configuration-page .form-group label {
+  display: block;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.configuration-page .form-group input,
+.configuration-page .form-group select,
+.configuration-page .form-group textarea {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.configuration-page .form-group input:focus,
+.configuration-page .form-group select:focus,
+.configuration-page .form-group textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.configuration-page .form-group input.error {
+  border-color: #ef4444;
+}
+
+.configuration-page .form-group input.disabled {
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+}
+
+.configuration-page .form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.configuration-page .error-message {
+  display: block;
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.configuration-page .warning-message {
+  background-color: #fef3c7;
+  border: 1px solid #fbbf24;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.configuration-page .warning-message p {
+  color: #92400e;
+  margin: 0;
+}
+
+.configuration-page .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Error State */
+.configuration-page .error-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.configuration-page .error-state p {
+  color: #ef4444;
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .configuration-page .controls-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .configuration-page .filters,
+  .configuration-page .actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .configuration-page {
+    padding: 1rem;
+  }
+
+  .configuration-page .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .configuration-page .actions {
+    flex-wrap: wrap;
+  }
+
+  .configuration-page .config-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .configuration-page .config-table {
+    font-size: 0.875rem;
+  }
+
+  .configuration-page .config-table th,
+  .configuration-page .config-table td {
+    padding: 0.5rem;
+  }
+
+  .configuration-page .config-value {
+    max-width: 150px;
+  }
+
+  .configuration-page .config-actions {
+    flex-direction: column;
+  }
+
+  .configuration-page .modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .configuration-page .modal-actions button {
+    width: 100%;
+  }
+}
+
+/* Loading State */
+.configuration-page .loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+/* Hover Effects */
+.configuration-page .config-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.configuration-page .config-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Print Styles */
+@media print {
+  .configuration-page .controls-section,
+  .configuration-page .config-actions,
+  .configuration-page .card-actions {
+    display: none;
+  }
+
+  .configuration-page .config-table {
+    font-size: 0.75rem;
+  }
+}
