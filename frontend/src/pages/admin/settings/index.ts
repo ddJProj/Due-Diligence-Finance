@@ -2,4 +2,4 @@
 
 export { SystemSettingsPage } from './SystemSettingsPage';
 export { ConfigurationPage } from './ConfigurationPage';
-
+export { FeatureTogglePage } from './FeatureTogglePage';
