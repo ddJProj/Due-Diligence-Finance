@@ -1,0 +1,234 @@
+/* frontend/src/pages/admin/users/EditUserPage.css */
+
+.edit-user-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Page Header */
+.edit-user-page .page-header {
+  margin-bottom: 2rem;
+}
+
+.edit-user-page .page-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.edit-user-page .page-header p {
+  color: #6b7280;
+}
+
+/* Form Cards */
+.edit-user-page .user-form-card,
+.edit-user-page .password-reset-card {
+  margin-bottom: 2rem;
+}
+
+/* Form Sections */
+.edit-user-page .form-section {
+  margin-bottom: 2rem;
+}
+
+.edit-user-page .form-section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Form Layout */
+.edit-user-page .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.edit-user-page .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-user-page .form-group label {
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.edit-user-page .form-group input,
+.edit-user-page .form-group select {
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.edit-user-page .form-group input:focus,
+.edit-user-page .form-group select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.edit-user-page .form-group input.error {
+  border-color: #ef4444;
+}
+
+.edit-user-page .form-group input.error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.edit-user-page .error-message {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Checkbox Group */
+.edit-user-page .checkbox-group {
+  justify-content: center;
+}
+
+.edit-user-page .checkbox-group label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.edit-user-page .checkbox-group input[type="checkbox"] {
+  margin-right: 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+}
+
+/* Form Actions */
+.edit-user-page .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Password Reset Section */
+.edit-user-page .password-reset-section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.edit-user-page .password-reset-section p {
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.edit-user-page .password-form {
+  margin-top: 1.5rem;
+}
+
+.edit-user-page .password-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.edit-user-page .password-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* Password Strength Indicator */
+.edit-user-page .password-strength {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+.edit-user-page .password-strength.strength-weak {
+  color: #ef4444;
+}
+
+.edit-user-page .password-strength.strength-medium {
+  color: #f59e0b;
+}
+
+.edit-user-page .password-strength.strength-strong {
+  color: #10b981;
+}
+
+/* Error State */
+.edit-user-page .error-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.edit-user-page .error-state p {
+  color: #ef4444;
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .edit-user-page {
+    padding: 1rem;
+  }
+
+  .edit-user-page .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .edit-user-page .page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .edit-user-page .form-section h2,
+  .edit-user-page .password-reset-section h2 {
+    font-size: 1.125rem;
+  }
+
+  .edit-user-page .form-actions,
+  .edit-user-page .password-actions {
+    flex-direction: column-reverse;
+  }
+
+  .edit-user-page .form-actions button,
+  .edit-user-page .password-actions button {
+    width: 100%;
+  }
+}
+
+/* Loading State */
+.edit-user-page .loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+/* Print Styles */
+@media print {
+  .edit-user-page .form-actions,
+  .edit-user-page .password-reset-card,
+  .edit-user-page .password-actions {
+    display: none;
+  }
+
+  .edit-user-page input,
+  .edit-user-page select {
+    border: none;
+    padding: 0;
+    font-weight: 600;
+  }
+}
