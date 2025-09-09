@@ -5,4 +5,6 @@ export { default as MessagesPage } from './MessagesPage';
 export { default as MessageThreadPage } from './MessageThreadPage';
 export { default as ComposeMessagePage } from './ComposeMessagePage';
 
+// Profile
+export { default as ProfilePage } from './ProfilePage';
 
