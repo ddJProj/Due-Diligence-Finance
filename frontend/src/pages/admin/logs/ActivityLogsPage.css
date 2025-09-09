@@ -1,0 +1,308 @@
+/* frontend/src/pages/admin/logs/ActivityLogsPage.css */
+
+.activity-logs-page {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Page Header */
+.activity-logs-page .page-header {
+  margin-bottom: 2rem;
+}
+
+.activity-logs-page .page-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.activity-logs-page .page-header p {
+  color: #6b7280;
+}
+
+/* Filters Section */
+.activity-logs-page .filters-section {
+  background-color: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e5e7eb;
+}
+
+.activity-logs-page .filters-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.activity-logs-page .filters-row:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.activity-logs-page .date-range {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.activity-logs-page .date-range label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.activity-logs-page .date-range input[type="date"] {
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.activity-logs-page .date-range input[type="date"]:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.activity-logs-page .filter-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+/* Logs Container */
+.activity-logs-page .logs-container {
+  overflow-x: auto;
+}
+
+/* Logs Table */
+.activity-logs-page .logs-table {
+  width: 100%;
+}
+
+.activity-logs-page .logs-table table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.activity-logs-page .logs-table th {
+  text-align: left;
+  padding: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+  font-weight: 600;
+  color: #374151;
+  background-color: #f9fafb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.activity-logs-page .logs-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Table Cells */
+.activity-logs-page .time-cell {
+  white-space: nowrap;
+  min-width: 150px;
+}
+
+.activity-logs-page .time-display {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.activity-logs-page .user-cell {
+  font-weight: 500;
+  color: #1f2937;
+  min-width: 200px;
+}
+
+.activity-logs-page .activity-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.activity-logs-page .resource-cell {
+  min-width: 150px;
+}
+
+.activity-logs-page .resource-cell > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.activity-logs-page .no-resource {
+  color: #9ca3af;
+}
+
+.activity-logs-page .status-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.activity-logs-page .error-message {
+  font-size: 0.875rem;
+  color: #ef4444;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activity-logs-page .actions-cell {
+  text-align: right;
+}
+
+/* Critical Logs */
+.activity-logs-page .critical-log {
+  background-color: #fef2f2;
+}
+
+.activity-logs-page .critical-badge {
+  margin-left: 0.25rem;
+}
+
+/* Expanded Details */
+.activity-logs-page .expanded-row {
+  background-color: #f9fafb;
+}
+
+.activity-logs-page .expanded-row td {
+  padding: 0;
+}
+
+.activity-logs-page .expanded-details {
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.activity-logs-page .detail-item {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.activity-logs-page .detail-item strong {
+  color: #374151;
+  font-weight: 600;
+  min-width: 100px;
+}
+
+.activity-logs-page .detail-item:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+/* Empty State */
+.activity-logs-page .empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.activity-logs-page .empty-state p {
+  color: #6b7280;
+  font-size: 1.125rem;
+}
+
+/* Error State */
+.activity-logs-page .error-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.activity-logs-page .error-state p {
+  color: #ef4444;
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .activity-logs-page {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .activity-logs-page {
+    padding: 1rem;
+  }
+
+  .activity-logs-page .filters-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .activity-logs-page .filter-actions {
+    margin-left: 0;
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  .activity-logs-page .filter-actions button {
+    flex: 1;
+  }
+
+  .activity-logs-page .logs-container {
+    margin: 0 -1rem;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .activity-logs-page .logs-table th,
+  .activity-logs-page .logs-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .activity-logs-page .expanded-details {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+}
+
+/* Loading State */
+.activity-logs-page .loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+/* Hover Effects */
+.activity-logs-page .logs-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.activity-logs-page .critical-log:hover {
+  background-color: #fee2e2;
+}
+
+/* Print Styles */
+@media print {
+  .activity-logs-page .filters-section,
+  .activity-logs-page .filter-actions,
+  .activity-logs-page .actions-cell,
+  .activity-logs-page .pagination {
+    display: none;
+  }
+
+  .activity-logs-page .logs-table {
+    font-size: 0.75rem;
+  }
+
+  .activity-logs-page .expanded-row {
+    display: table-row !important;
+  }
+}
