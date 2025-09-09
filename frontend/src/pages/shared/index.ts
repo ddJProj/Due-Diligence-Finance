@@ -7,4 +7,5 @@ export { default as ComposeMessagePage } from './ComposeMessagePage';
 
 // Profile
 export { default as ProfilePage } from './ProfilePage';
+export { default as EditProfilePage } from './EditProfilePage';
 
