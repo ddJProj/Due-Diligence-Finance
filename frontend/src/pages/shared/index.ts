@@ -11,3 +11,4 @@ export { default as EditProfilePage } from './EditProfilePage';
 
 // Settings
 export { default as SettingsPage } from './SettingsPage';
+export { default as NotificationSettingsPage } from './NotificationSettingsPage';
