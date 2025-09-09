@@ -1,0 +1,354 @@
+/* frontend/src/pages/shared/MessageThreadPage.css */
+
+.message-thread-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-background);
+}
+
+/* Header */
+.thread-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.thread-info {
+  flex: 1;
+}
+
+.thread-info h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 0.25rem 0;
+}
+
+.participant-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.thread-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Messages Container */
+.messages-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Messages List */
+.messages-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Date Separator */
+.date-separator {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.date-separator::before,
+.date-separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-border);
+}
+
+.date-separator span {
+  padding: 0 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+/* Message */
+.message {
+  max-width: 70%;
+  animation: messageSlideIn 0.2s ease-out;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message.own {
+  align-self: flex-end;
+}
+
+.message.other {
+  align-self: flex-start;
+}
+
+.message-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.sender-name {
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.message.own .sender-name {
+  color: var(--color-primary);
+}
+
+.message-time {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.message-content {
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.message.own .message-content {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.message.other .message-content {
+  background-color: var(--color-background-alt);
+}
+
+/* Attachments */
+.message-attachments {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.attachment {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.attachment:hover {
+  background-color: var(--color-background-hover);
+}
+
+.attachment-icon {
+  font-size: 1rem;
+}
+
+.attachment-name {
+  flex: 1;
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.attachment-size {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+/* Reply Section */
+.reply-section {
+  padding: 1.5rem 2rem;
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.reply-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 80px;
+  max-height: 200px;
+  transition: border-color 0.2s;
+}
+
+.reply-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.reply-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.reply-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.draft-status {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* Scrollbar Styling */
+.messages-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messages-list::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+.messages-list::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+.messages-list::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* Tablet and Mobile */
+@media (max-width: 768px) {
+  .thread-header {
+    padding: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .thread-info h1 {
+    font-size: 1.25rem;
+  }
+
+  .thread-actions {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .thread-actions button {
+    flex: 1;
+    font-size: 0.875rem;
+  }
+
+  .messages-list {
+    padding: 1rem;
+  }
+
+  .message {
+    max-width: 85%;
+  }
+
+  .message-content {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9375rem;
+  }
+
+  .reply-section {
+    padding: 1rem;
+  }
+
+  .reply-input {
+    font-size: 0.9375rem;
+    min-height: 60px;
+  }
+
+  .attachment {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.5rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .thread-header {
+    gap: 0.5rem;
+  }
+
+  .message {
+    max-width: 90%;
+  }
+
+  .message-header {
+    flex-wrap: wrap;
+  }
+
+  .date-separator {
+    font-size: 0.6875rem;
+    margin: 0.75rem 0;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .message-thread-page {
+    --color-background-alt: #2a2a2a;
+    --color-background-hover: #333333;
+  }
+
+  .message.own .message-content {
+    background-color: #5b4ecf;
+  }
+
+  .message.other .message-content {
+    background-color: #2a2a2a;
+  }
+
+  .attachment {
+    background-color: #1a1a1a;
+  }
+
+  .attachment:hover {
+    background-color: #2a2a2a;
+  }
+
+  .reply-input {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+  }
+}
