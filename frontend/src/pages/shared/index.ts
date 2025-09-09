@@ -9,3 +9,5 @@ export { default as ComposeMessagePage } from './ComposeMessagePage';
 export { default as ProfilePage } from './ProfilePage';
 export { default as EditProfilePage } from './EditProfilePage';
 
+// Settings
+export { default as SettingsPage } from './SettingsPage';
