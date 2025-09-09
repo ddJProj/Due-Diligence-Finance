@@ -1,0 +1,428 @@
+/* frontend/src/pages/admin/backup/BackupRestorePage.css */
+
+.backup-restore-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Page Header */
+.backup-restore-page .page-header {
+  margin-bottom: 2rem;
+}
+
+.backup-restore-page .page-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.backup-restore-page .page-header p {
+  color: #6b7280;
+}
+
+/* Storage Info */
+.backup-restore-page .storage-info {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+}
+
+.backup-restore-page .storage-info h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.backup-restore-page .storage-bar {
+  height: 20px;
+  background-color: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.backup-restore-page .storage-fill {
+  height: 100%;
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  transition: width 0.3s ease;
+}
+
+.backup-restore-page .storage-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Tabs */
+.backup-restore-page .tabs {
+  display: flex;
+  gap: 0.25rem;
+  background-color: #f3f4f6;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.backup-restore-page .tab {
+  padding: 0.625rem 1.25rem;
+  background: transparent;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.backup-restore-page .tab:hover {
+  color: #1f2937;
+}
+
+.backup-restore-page .tab.active {
+  background-color: white;
+  color: #1f2937;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Backups Section */
+.backup-restore-page .backups-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.backup-restore-page .backups-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Backup Item */
+.backup-restore-page .backup-item {
+  padding: 1.5rem;
+}
+
+.backup-restore-page .backup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.backup-restore-page .backup-header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.backup-restore-page .backup-description {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.backup-restore-page .backup-badges {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.backup-restore-page .backup-details {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.backup-restore-page .backup-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Settings Section */
+.backup-restore-page .settings-section {
+  padding: 2rem;
+}
+
+.backup-restore-page .settings-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 2rem;
+}
+
+.backup-restore-page .settings-form {
+  max-width: 800px;
+}
+
+.backup-restore-page .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.backup-restore-page .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.backup-restore-page .form-group label {
+  display: block;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.backup-restore-page .form-group input[type="text"],
+.backup-restore-page .form-group input[type="number"],
+.backup-restore-page .form-group input[type="time"],
+.backup-restore-page .form-group select {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.backup-restore-page .form-group input[type="checkbox"] {
+  margin-right: 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+}
+
+.backup-restore-page .form-group label {
+  cursor: pointer;
+}
+
+.backup-restore-page .backup-options {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.backup-restore-page .backup-options h3,
+.backup-restore-page .backup-options h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.backup-restore-page .backup-options label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  font-weight: 400;
+}
+
+.backup-restore-page .form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Upload Section */
+.backup-restore-page .upload-section {
+  padding: 2rem;
+}
+
+.backup-restore-page .upload-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.backup-restore-page .upload-section > p {
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+.backup-restore-page .upload-form {
+  max-width: 600px;
+}
+
+.backup-restore-page .file-info {
+  font-size: 0.875rem;
+  color: #10b981;
+  margin-top: 0.5rem;
+}
+
+.backup-restore-page input[type="file"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px dashed #d1d5db;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+.backup-restore-page input[type="file"]:hover {
+  border-color: #9ca3af;
+}
+
+/* Warning Message */
+.backup-restore-page .warning-message {
+  background-color: #fef3c7;
+  border: 1px solid #fbbf24;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  color: #92400e;
+}
+
+.backup-restore-page .warning-message strong {
+  font-weight: 600;
+}
+
+/* Modal Styles */
+.backup-restore-page .backup-create-form,
+.backup-restore-page .restore-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.backup-restore-page .radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.backup-restore-page .radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.backup-restore-page textarea {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.backup-restore-page .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Empty State */
+.backup-restore-page .empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.backup-restore-page .empty-state p {
+  color: #6b7280;
+  font-size: 1.125rem;
+}
+
+/* Error State */
+.backup-restore-page .error-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.backup-restore-page .error-state p {
+  color: #ef4444;
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .backup-restore-page {
+    padding: 1rem;
+  }
+
+  .backup-restore-page .backups-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .backup-restore-page .backup-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .backup-restore-page .backup-details {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .backup-restore-page .backup-actions {
+    flex-wrap: wrap;
+  }
+
+  .backup-restore-page .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .backup-restore-page .form-actions {
+    flex-direction: column-reverse;
+    gap: 1rem;
+  }
+
+  .backup-restore-page .form-actions button {
+    width: 100%;
+  }
+}
+
+/* Loading State */
+.backup-restore-page .loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+/* Progress Bar */
+.backup-restore-page .progress-bar {
+  display: inline-block;
+  width: 100px;
+  height: 6px;
+  background-color: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-left: 0.5rem;
+}
+
+.backup-restore-page .progress-fill {
+  height: 100%;
+  background-color: #f59e0b;
+  transition: width 0.3s ease;
+}
+
+/* Print Styles */
+@media print {
+  .backup-restore-page .tabs,
+  .backup-restore-page .backups-controls,
+  .backup-restore-page .backup-actions,
+  .backup-restore-page .form-actions,
+  .backup-restore-page .modal {
+    display: none;
+  }
+
+  .backup-restore-page .backup-item {
+    break-inside: avoid;
+  }
+}
