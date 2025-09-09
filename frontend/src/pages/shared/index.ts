@@ -3,3 +3,6 @@
 // Messages
 export { default as MessagesPage } from './MessagesPage';
 export { default as MessageThreadPage } from './MessageThreadPage';
+export { default as ComposeMessagePage } from './ComposeMessagePage';
+
+
