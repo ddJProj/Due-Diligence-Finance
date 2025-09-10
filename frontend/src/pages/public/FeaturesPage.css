@@ -1,0 +1,595 @@
+/* frontend/src/pages/public/FeaturesPage.css */
+
+.features-page {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  padding: 1rem 0;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.breadcrumb-link {
+  color: #6366f1;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumb-link:hover {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+.breadcrumb-separator {
+  margin: 0 0.5rem;
+  color: #9ca3af;
+}
+
+.breadcrumb-current {
+  color: #6b7280;
+}
+
+/* Features Header */
+.features-header {
+  padding: 3rem 0;
+  text-align: center;
+  background-color: #f9fafb;
+}
+
+.features-header h1 {
+  font-size: 2.5rem;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.lead {
+  font-size: 1.125rem;
+  color: #4b5563;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Core Features Section */
+.core-features-section {
+  padding: 4rem 0;
+  background-color: white;
+}
+
+.core-features-section h2,
+.capabilities-section h2,
+.comparison-section h2,
+.integrations-section h2,
+.demo-section h2,
+.benefits-section h2 {
+  text-align: center;
+  color: #1f2937;
+  font-size: 2rem;
+  margin-bottom: 3rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 12px;
+  background-color: #f9fafb;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.feature-card p {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* Platform Capabilities */
+.capabilities-section {
+  padding: 4rem 0;
+  background-color: #f9fafb;
+}
+
+.capabilities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.capability-card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.capability-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.capability-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.capability-card h3 {
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.capability-card p {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+/* Feature Comparison */
+.comparison-section {
+  padding: 4rem 0;
+  background-color: white;
+}
+
+.comparison-wrapper {
+  overflow-x: auto;
+}
+
+.comparison-table {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.comparison-table th,
+.comparison-table td {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.comparison-table th {
+  background-color: #4f46e5;
+  color: white;
+  font-weight: 600;
+}
+
+.comparison-table th:first-child {
+  text-align: left;
+}
+
+.feature-name {
+  text-align: left;
+  font-weight: 500;
+  color: #374151;
+}
+
+.plan-cell {
+  font-size: 1.25rem;
+}
+
+.check {
+  color: #10b981;
+  font-weight: bold;
+}
+
+.cross {
+  color: #ef4444;
+  opacity: 0.5;
+}
+
+/* Integrations */
+.integrations-section {
+  padding: 4rem 0;
+  background-color: #f9fafb;
+}
+
+.section-description {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 3rem;
+  margin-top: -1.5rem;
+}
+
+.integrations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.integration-card {
+  background-color: white;
+  padding: 2rem 1rem;
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.integration-card:hover {
+  transform: scale(1.05);
+}
+
+.integration-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.integration-card p {
+  color: #374151;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Demo Section */
+.demo-section {
+  padding: 4rem 0;
+  background-color: white;
+}
+
+.screenshot-carousel {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.carousel-button {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  flex-shrink: 0;
+}
+
+.carousel-button:hover {
+  background-color: #4338ca;
+}
+
+.screenshots-wrapper {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  height: 400px;
+}
+
+.screenshot-item {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  text-align: center;
+}
+
+.screenshot-item.active {
+  opacity: 1;
+}
+
+.screenshot-image {
+  background-color: #e5e7eb;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.screenshot-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.screenshot-item h3 {
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.screenshot-item p {
+  color: #6b7280;
+}
+
+/* Benefits Section */
+.benefits-section {
+  padding: 4rem 0;
+  background-color: #f9fafb;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.benefit-card {
+  text-align: center;
+  padding: 2rem;
+}
+
+.benefit-stat {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #4f46e5;
+  margin-bottom: 1rem;
+}
+
+.benefit-card h3 {
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.benefit-card p {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+/* CTA Section */
+.features-cta {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-align: center;
+}
+
+.features-cta h2 {
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.features-cta p {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Button Styles */
+.btn {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: white;
+  color: #4f46e5;
+}
+
+.btn-primary:hover {
+  background-color: #f3f4f6;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-secondary:hover {
+  background-color: white;
+  color: #764ba2;
+}
+
+.btn-lg {
+  padding: 1rem 2.5rem;
+  font-size: 1.125rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .features-header h1 {
+    font-size: 2rem;
+  }
+
+  .core-features-section h2,
+  .capabilities-section h2,
+  .comparison-section h2,
+  .integrations-section h2,
+  .demo-section h2,
+  .benefits-section h2 {
+    font-size: 1.75rem;
+  }
+
+  .features-grid,
+  .capabilities-grid,
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .integrations-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .comparison-table {
+    font-size: 0.875rem;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    padding: 0.5rem;
+  }
+
+  .screenshot-carousel {
+    flex-direction: column;
+  }
+
+  .carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+
+  .carousel-button.prev {
+    left: 10px;
+  }
+
+  .carousel-button.next {
+    right: 10px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* Tablet Responsive */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .capabilities-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .benefits-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .features-page {
+    background-color: #0f0f0f;
+  }
+
+  .breadcrumb,
+  .features-header {
+    background-color: #1a1a1a;
+    border-bottom-color: #333;
+  }
+
+  .breadcrumb-current {
+    color: #a0a0a0;
+  }
+
+  .features-header h1,
+  .core-features-section h2,
+  .capabilities-section h2,
+  .comparison-section h2,
+  .integrations-section h2,
+  .demo-section h2,
+  .benefits-section h2,
+  .feature-card h3,
+  .capability-card h3,
+  .screenshot-item h3,
+  .benefit-card h3 {
+    color: #f5f5f5;
+  }
+
+  .lead,
+  .section-description,
+  .feature-card p,
+  .capability-card p,
+  .screenshot-item p,
+  .benefit-card p {
+    color: #e5e5e5;
+  }
+
+  .core-features-section,
+  .comparison-section,
+  .demo-section {
+    background-color: #0f0f0f;
+  }
+
+  .capabilities-section,
+  .integrations-section,
+  .benefits-section {
+    background-color: #1a1a1a;
+  }
+
+  .feature-card {
+    background-color: #252525;
+  }
+
+  .capability-card,
+  .integration-card {
+    background-color: #252525;
+  }
+
+  .comparison-table {
+    background-color: #252525;
+  }
+
+  .comparison-table th {
+    background-color: #4338ca;
+  }
+
+  .comparison-table td {
+    border-bottom-color: #404040;
+  }
+
+  .feature-name {
+    color: #f5f5f5;
+  }
+
+  .screenshot-image {
+    background-color: #404040;
+  }
+
+  .benefit-stat {
+    color: #6366f1;
+  }
+}
