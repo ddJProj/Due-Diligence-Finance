@@ -1,0 +1,521 @@
+/* frontend/src/pages/public/AboutPage.css */
+
+.about-page {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  padding: 1rem 0;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.breadcrumb .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.breadcrumb-link {
+  color: #6366f1;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumb-link:hover {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+.breadcrumb-separator {
+  margin: 0 0.5rem;
+  color: #9ca3af;
+}
+
+.breadcrumb-current {
+  color: #6b7280;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Overview Section */
+.overview-section {
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.overview-section h1 {
+  font-size: 2.5rem;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+}
+
+.lead {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: #4b5563;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+}
+
+.company-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #4f46e5;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Mission Section */
+.mission-section {
+  padding: 4rem 0;
+  background-color: #f9fafb;
+}
+
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.mission-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mission-card h2 {
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.mission-card p {
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.values-section h2 {
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 2rem;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.value-card {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.value-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.value-card h3 {
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.value-card p {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+/* Team Section */
+.team-section {
+  padding: 4rem 0;
+  background-color: white;
+}
+
+.team-section h2 {
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 3rem;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.team-member-card {
+  text-align: center;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background-color: #f9fafb;
+  transition: transform 0.3s;
+}
+
+.team-member-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.member-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  background-color: #e5e7eb;
+}
+
+.team-member-card h3 {
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.member-position {
+  color: #6366f1;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.member-bio {
+  color: #4b5563;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Timeline Section */
+.timeline-section {
+  padding: 4rem 0;
+  background-color: #f9fafb;
+}
+
+.timeline-section h2 {
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 3rem;
+}
+
+.timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  background-color: #e5e7eb;
+}
+
+.timeline-item {
+  position: relative;
+  padding: 2rem 0;
+}
+
+.timeline-item:nth-child(odd) .timeline-content {
+  margin-right: 50%;
+  padding-right: 3rem;
+  text-align: right;
+}
+
+.timeline-item:nth-child(even) .timeline-content {
+  margin-left: 50%;
+  padding-left: 3rem;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #4f46e5;
+  border: 4px solid white;
+  box-shadow: 0 0 0 2px #e5e7eb;
+}
+
+.timeline-content h3 {
+  color: #4f46e5;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-content h4 {
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-content p {
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Awards Section */
+.awards-section {
+  padding: 4rem 0;
+  background-color: white;
+}
+
+.awards-section h2 {
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 3rem;
+}
+
+.awards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.award-card {
+  text-align: center;
+  padding: 2rem;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  transition: transform 0.3s;
+}
+
+.award-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.award-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.award-card p {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+/* CTA Section */
+.about-cta {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-align: center;
+}
+
+.about-cta h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.about-cta p {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Button Styles */
+.btn {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: white;
+  color: #4f46e5;
+}
+
+.btn-primary:hover {
+  background-color: #f3f4f6;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-secondary:hover {
+  background-color: white;
+  color: #764ba2;
+}
+
+.btn-lg {
+  padding: 1rem 2.5rem;
+  font-size: 1.125rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .overview-section h1 {
+    font-size: 2rem;
+  }
+
+  .lead {
+    font-size: 1.125rem;
+  }
+
+  .company-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-value {
+    font-size: 2rem;
+  }
+
+  .mission-grid,
+  .values-grid,
+  .team-grid,
+  .awards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Timeline mobile adjustment */
+  .timeline::before {
+    left: 20px;
+  }
+
+  .timeline-marker {
+    left: 20px;
+  }
+
+  .timeline-item:nth-child(odd) .timeline-content,
+  .timeline-item:nth-child(even) .timeline-content {
+    margin-left: 60px;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: left;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* Tablet Responsive */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .awards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .about-page {
+    background-color: #0f0f0f;
+  }
+
+  .breadcrumb {
+    background-color: #1a1a1a;
+    border-bottom-color: #333;
+  }
+
+  .breadcrumb-current {
+    color: #a0a0a0;
+  }
+
+  .overview-section h1,
+  .mission-section h2,
+  .team-section h2,
+  .timeline-section h2,
+  .awards-section h2,
+  .value-card h3,
+  .team-member-card h3,
+  .timeline-content h4,
+  .award-card p {
+    color: #f5f5f5;
+  }
+
+  .lead,
+  .mission-card p,
+  .value-card p,
+  .member-bio,
+  .timeline-content p {
+    color: #e5e5e5;
+  }
+
+  .stat-label,
+  .member-position {
+    color: #a0a0a0;
+  }
+
+  .mission-section,
+  .timeline-section {
+    background-color: #1a1a1a;
+  }
+
+  .mission-card,
+  .team-member-card,
+  .award-card {
+    background-color: #252525;
+  }
+
+  .member-photo {
+    background-color: #404040;
+  }
+
+  .timeline::before {
+    background-color: #404040;
+  }
+
+  .awards-section,
+  .team-section {
+    background-color: #0f0f0f;
+  }
+}
