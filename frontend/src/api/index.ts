@@ -14,6 +14,7 @@ export { clientService, ClientService } from './ClientService';
 export { employeeService, EmployeeService } from './EmployeeService';
 export { adminService, AdminService } from './AdminService';
 export { guestService, GuestService } from './GuestService';
+export { messageService, MessageService } from './MessageService';
 
 // Re-export types for convenience
 export type {
